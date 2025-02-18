@@ -2,6 +2,7 @@ import gradio as gr
 import itertools
 import json
 import math
+import os
 from datetime import datetime, timedelta, timezone
 from modules import script_callbacks
 from modules.ui_components import ToolButton
@@ -182,7 +183,9 @@ class Components():
                     grBtnFolder = gr.Button(value="\N{Open file folder}", interactive=True, elem_classes="civsfz-small-buttons")  # 📂
                     grTxtSaveFolder = gr.Textbox(label="Save folder", interactive=True, value="", lines=1)
                     grMrkdwnFileMessage = gr.HTML(value="<span style='color:Aquamarine;'>You have</span>", elem_classes ="civsfz-msg", visible=False)
-                    grtxtSaveFilename = gr.Textbox(label="Save file name", interactive=True, value=None)
+                    with gr.Column():
+                        grTxtSaveFilename = gr.Textbox(label="Save file name", interactive=True, value=None)
+                        grTxtLoraPrompt = gr.Textbox(label="Prompt to activate the model", interactive=False, value=None)
                 with gr.Row():
                     grTxtDlUrl = gr.Textbox(label="Download Url", interactive=False, value=None)
                     grTxtEarlyAccess = gr.Textbox(label='Early Access', interactive=False, value=None, visible=False)
@@ -216,6 +219,34 @@ class Components():
             #    outputs=[grTxtApiKey],
             #    )
 
+
+            
+            def updateLoraPrompt(grTxtSaveFilename):
+                if self.Civitai.modelIndex is None:
+                    return gr.Textbox.update(value="", visible=False)
+                modelType = self.Civitai.getSelectedModelType()
+                filename = grTxtSaveFilename
+                vInfo = self.Civitai.getModelVersionInfo()
+                trrigerWords = vInfo['trainedWords']
+                if trrigerWords:
+                    trrigerWords = vInfo['trainedWords'][0]
+                else:
+                    trrigerWords = ""
+                prompt = ""
+                visible = True
+                if modelType in ["LORA", "LoCon", "DoRA"]:
+                    prompt = f"<lora:{os.path.splitext(filename)[0]}:{opts.extra_networks_default_multiplier}> {trrigerWords}"
+                elif modelType == "TextualInversion":
+                    prompt = f"{trrigerWords}"
+                else:
+                    visible = False
+                return gr.Textbox.update(value=prompt, visible=visible)
+            
+            grTxtSaveFilename.change(
+                fn=updateLoraPrompt,
+                inputs=[grTxtSaveFilename],
+                outputs=[grTxtLoraPrompt],
+            )
             def updateUserManageButton(grTxtCreator):
                 if grTxtCreator == "":
                     blFav = False
@@ -232,7 +263,6 @@ class Components():
                     gr.Button.update(interactive=blBan),
                     gr.Button.update(interactive=blClr),
                 )
-
             grTxtCreator.change(
                 fn=updateUserManageButton,
                 inputs=[grTxtCreator],
@@ -278,11 +308,11 @@ class Components():
                 fn=updateSearchTermChoices, inputs=[], outputs=[grDropdownSearchTerm]
             )
 
-            def save_image_files(grTxtSaveFolder, grtxtSaveFilename, grTxtTrainedWords, grHtmlModelInfo):
-                res1 = save_text_file(grTxtSaveFolder, grtxtSaveFilename, grTxtTrainedWords)
+            def save_image_files(grTxtSaveFolder, grTxtSaveFilename, grTxtTrainedWords, grHtmlModelInfo):
+                res1 = save_text_file(grTxtSaveFolder, grTxtSaveFilename, grTxtTrainedWords)
                 res2 = saveImageFiles(
                     grTxtSaveFolder,
-                    grtxtSaveFilename,
+                    grTxtSaveFilename,
                     grHtmlModelInfo,
                     self.Civitai.getSelectedModelType(),
                     self.Civitai.getModelVersionInfo(),
@@ -293,7 +323,7 @@ class Components():
                 fn=save_image_files,
                 inputs=[
                     grTxtSaveFolder,
-                    grtxtSaveFilename,
+                    grTxtSaveFilename,
                     grTxtTrainedWords,
                     grHtmlModelInfo,
                 ],
@@ -303,7 +333,7 @@ class Components():
                 fn=Components.downloader.add,
                 inputs=[
                     grTxtSaveFolder,
-                    grtxtSaveFilename,
+                    grTxtSaveFilename,
                     grTxtDlUrl,
                     grTxtHash,
                     grTxtApiKey,
@@ -567,7 +597,7 @@ class Components():
                     modelInfo = self.Civitai.makeModelInfo2(nsfwLevel=sum(grChkbxgrpLevel))
                     if modelInfo["modelVersions"][0]["files"] == []:
                         drpdwn =  gr.Dropdown.update(choices=[], value="")
-                        grtxtSaveFilename = gr.Textbox.update(value="")
+                        grTxtSaveFilename = gr.Textbox.update(value="")
                     else:
                         filename = modelInfo["modelVersions"][0]["files"][0]["name"]
                         for f in modelInfo["modelVersions"][0]["files"]:
@@ -582,7 +612,7 @@ class Components():
                             ],
                             value=filename,
                         )
-                        grtxtSaveFilename = gr.Textbox.update(value=filename)
+                        grTxtSaveFilename = gr.Textbox.update(value=filename)
                         txtEarlyAccess = self.Civitai.getSelectedVersionEarlyAccessDeadline()
                         grHtmlModelName = gr.HTML.update(
                             value=self.Civitai.modelNameTitleHtml(
@@ -601,7 +631,7 @@ class Components():
                         gr.Textbox.update(value=modelInfo["baseModel"]),
                         gr.Textbox.update(value=path),
                         gr.Textbox.update(value=txtEarlyAccess),
-                        grtxtSaveFilename,
+                        grTxtSaveFilename,
                         grHtmlModelName,
                         gr.Textbox.update(value=self.Civitai.getUserName()),
                     )
@@ -626,7 +656,7 @@ class Components():
                     grTxtBaseModel,
                     grTxtSaveFolder,
                     grTxtEarlyAccess,
-                    grtxtSaveFilename,
+                    grTxtSaveFilename,
                     grHtmlModelName,
                 ],
             )
@@ -691,7 +721,7 @@ class Components():
                     grBtnSaveImages,
                     grBtnDownloadModel,
                     grTextProgress,
-                    grtxtSaveFilename,
+                    grTxtSaveFilename,
                 ],
             ).then(
                 fn=checkEarlyAccess, inputs=[grTxtEarlyAccess], outputs=[grTextProgress]
@@ -854,7 +884,7 @@ class Components():
                             grTxtBaseModel,
                             grTxtSaveFolder,
                             grTxtEarlyAccess,
-                            grtxtSaveFilename,
+                            grTxtSaveFilename,
                             grHtmlModelName,
                             grTxtCreator,
                         ) = update_model_info(grRadioVersions["value"], grChkbxgrpLevel)
@@ -873,7 +903,7 @@ class Components():
                             grDrpdwnSelectFile,
                             grTxtBaseModel,
                             grTxtSaveFolder,
-                            grtxtSaveFilename,
+                            grTxtSaveFilename,
                             grTxtCreator,
                             grTxtVersionInfo,
                         )
@@ -921,7 +951,7 @@ class Components():
                     grDrpdwnSelectFile,
                     grTxtBaseModel,
                     grTxtSaveFolder,
-                    grtxtSaveFilename,
+                    grTxtSaveFilename,
                     grTxtCreator,
                     grTxtVersionInfo,
                 ],
@@ -947,16 +977,9 @@ def on_ui_tabs():
         with gr.Accordion(label="Update information", open=False):
             gr.HTML(
                 value=(
-                    "<h3>Changes " + "v2.5" + "</h3>"
+                    "<h3>Changes " + "in v2.6" + "</h3>"
                     "<ul>"
-                    "<li>Select the display of banned users using Browsing Level</li>"
-                    "<li>Add User Management feature</li>"
-                    "<li>Add favorite creator feature</li>"
-                    "<li>Display ⭐️ on cards by creator name</li>"
-                    "<li>Add ban creators feature</li>"
-                    "<li>Hide cards by creator name</li>"
-                    "<li>Add favorite creators in search term</li>"
-                    "<li>Command line option `--civsfz_api_key` is deprecated. Instead, use Settings.</li>"
+                    "<li>Displays a prompt to activate the model</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )
