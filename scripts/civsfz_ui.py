@@ -984,6 +984,7 @@ def on_ui_tabs():
                     "<ul>"
                     "<li>Displays a prompt to activate the model</li>"
                     "<li>The second and subsequent trigger words are treated as wildcards</li>"
+                    "<li>Supports Detection type</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )
