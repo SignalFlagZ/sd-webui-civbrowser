@@ -228,14 +228,17 @@ class Components():
                 filename = grTxtSaveFilename
                 vInfo = self.Civitai.getModelVersionInfo()
                 trrigerWords = vInfo['trainedWords']
+                wildcard = ""
                 if trrigerWords:
                     trrigerWords = vInfo['trainedWords'][0]
+                    if len(vInfo['trainedWords']) > 1:
+                        wildcard = f", {{ {' | '.join(vInfo['trainedWords'][1:])}}}"
                 else:
                     trrigerWords = ""
                 prompt = ""
                 visible = True
                 if modelType in ["LORA", "LoCon", "DoRA"]:
-                    prompt = f"<lora:{os.path.splitext(filename)[0]}:{opts.extra_networks_default_multiplier}> {trrigerWords}"
+                    prompt = f"<lora:{os.path.splitext(filename)[0]}:{opts.extra_networks_default_multiplier}> {trrigerWords} {wildcard}"
                 elif modelType == "TextualInversion":
                     prompt = f"{trrigerWords}"
                 else:
@@ -980,6 +983,7 @@ def on_ui_tabs():
                     "<h3>Changes " + "in v2.6" + "</h3>"
                     "<ul>"
                     "<li>Displays a prompt to activate the model</li>"
+                    "<li>The second and subsequent trigger words are treated as wildcards</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )

@@ -236,22 +236,23 @@ class APIInformation():
         except:
             print_ly(f'ERROR: Get types')
             types = [
-                                    "Checkpoint",
-                                    "TextualInversion",
-                                    "Hypernetwork",
-                                    "AestheticGradient",
-                                    "LORA",
-                                    "LoCon",
-                                    "DoRA",
-                                    "Controlnet",
-                                    "Upscaler",
-                                    "MotionModule",
-                                    "VAE",
-                                    "Poses",
-                                    "Wildcards",
-                                    "Workflows",
-                                    "Other"
-                                ]
+                  "Checkpoint",
+                  "TextualInversion",
+                  "Hypernetwork",
+                  "AestheticGradient",
+                  "LORA",
+                  "LoCon",
+                  "DoRA",
+                  "Controlnet",
+                  "Upscaler",
+                  "MotionModule",
+                  "VAE",
+                  "Poses",
+                  "Wildcards",
+                  "Workflows",
+                  "Detection",
+                  "Other"
+                ]
         else:
             # print_lc(f'Set types')
             pass
@@ -309,10 +310,13 @@ class APIInformation():
                 "PixArt a",
                 "PixArt E",
                 "Hunyuan 1",
+                "Hunyuan Video",
                 "Lumina",
                 "Kolors",
                 "Illustrious",
                 "Mochi",
+                "LTXV",
+                "CogVideoX",
                 "Other",
             ]
         else:
