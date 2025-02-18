@@ -127,6 +127,8 @@ def type_path(type: str) -> Path:
         folder = "OtherModels/Wildcards"
     elif type == "Workflows":
         folder = "OtherModels/Workflows"
+    elif type == "Detection":
+        folder = "OtherModels/Detection"
     elif type == "Other":
         folder = "OtherModels/Other"
 
