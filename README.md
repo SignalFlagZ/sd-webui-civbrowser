@@ -31,6 +31,8 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
 - Favorite creators feature (Highlight the model with ⭐️)
 
 ## Versions
+### v2.6
+- Displays a prompt to activate the model
 ### v2.5
 - Works on reForge (Experimental. Is there demand?)
 - Select the display of banned users using Browsing Level
