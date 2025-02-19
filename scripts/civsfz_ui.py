@@ -183,9 +183,7 @@ class Components():
                     grBtnFolder = gr.Button(value="\N{Open file folder}", interactive=True, elem_classes="civsfz-small-buttons")  # 📂
                     grTxtSaveFolder = gr.Textbox(label="Save folder", interactive=True, value="", lines=1)
                     grMrkdwnFileMessage = gr.HTML(value="<span style='color:Aquamarine;'>You have</span>", elem_classes ="civsfz-msg", visible=False)
-                    with gr.Column():
-                        grTxtSaveFilename = gr.Textbox(label="Save file name", interactive=True, value=None)
-                        grTxtLoraPrompt = gr.Textbox(label="Prompt to activate the model", interactive=False, value=None)
+                    grTxtSaveFilename = gr.Textbox(label="Save file name", interactive=True, value=None)
                 with gr.Row():
                     grTxtDlUrl = gr.Textbox(label="Download Url", interactive=False, value=None)
                     grTxtEarlyAccess = gr.Textbox(label='Early Access', interactive=False, value=None, visible=False)
@@ -196,6 +194,10 @@ class Components():
                         type="password",
                         lines=1,
                     )
+                with gr.Row():
+                    grBtnCopyWords = gr.Button(value="📋", interactive=True, elem_classes="civsfz-small-buttons", visible=False)
+                    grBtnSendWords = gr.Button(value="📝", interactive=True, elem_classes="civsfz-small-buttons", visible=False)
+                    grTxtLoraPrompt = gr.Textbox(label="Prompt to activate the model", interactive=False, value=None, visible=False)
                 with gr.Row():
                     grTxtVersionInfo = gr.Textbox(label="Version base model",value="",visible=False)
                     grHtmlModelInfo = gr.HTML(elem_id=f"civsfz_model-info{self.id}")
@@ -223,7 +225,7 @@ class Components():
             
             def updateLoraPrompt(grTxtSaveFilename):
                 if self.Civitai.modelIndex is None:
-                    return gr.Textbox.update(value="", visible=False)
+                    return (gr.Textbox.update(value="", visible=False),gr.Button.update(visible=False), gr.Button.update(visible=False))
                 modelType = self.Civitai.getSelectedModelType()
                 filename = grTxtSaveFilename
                 vInfo = self.Civitai.getModelVersionInfo()
@@ -243,13 +245,30 @@ class Components():
                     prompt = f"{trrigerWords}"
                 else:
                     visible = False
-                return gr.Textbox.update(value=prompt, visible=visible)
+                return (gr.Textbox.update(value=prompt, visible=visible),
+                        gr.Button.update(visible=visible),
+                        gr.Button.update(visible=visible)
+                        )
             
             grTxtSaveFilename.change(
                 fn=updateLoraPrompt,
                 inputs=[grTxtSaveFilename],
-                outputs=[grTxtLoraPrompt],
+                outputs=[grTxtLoraPrompt, grBtnSendWords, grBtnCopyWords],
             )
+
+            grBtnSendWords.click(
+                fn = None,
+                _js=f'(x) => {{civsfz_send2txt2img(x);}}',
+                inputs=[grTxtLoraPrompt],
+                outputs=[],
+            )
+            grBtnCopyWords.click(
+                fn = None,
+                _js=f'(x) => {{civsfz_send2txt2img(x, send=false);}}',
+                inputs=[grTxtLoraPrompt],
+                outputs=[],
+            )
+            
             def updateUserManageButton(grTxtCreator):
                 if grTxtCreator == "":
                     blFav = False
@@ -985,6 +1004,7 @@ def on_ui_tabs():
                     "<li>Displays a prompt to activate the model</li>"
                     "<li>The second and subsequent trigger words are treated as wildcards</li>"
                     "<li>Supports Detection type</li>"
+                    "<li>Add Send to txt2img and Copy buttons</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )
