@@ -197,7 +197,13 @@ def generate_model_save_path2(type, modelName: str = "", baseModel: str = "", ns
         "/".join(newTreeList))
     return modelPath
 
+def filename_normalization(filename) -> str:
+    if filename:
+        filename = re.sub(r"__+", "_", filename)
+    return filename
+
 def save_text_file(folder, filename, trained_words):
+    filename = filename_normalization(filename)
     makedirs(folder)
     filepath = os.path.join(folder, filename.replace(".ckpt",".txt")\
                                         .replace(".safetensors",".txt")\
@@ -217,6 +223,7 @@ def makedirs(folder):
         print_lc(f'Make folder: {folder}')
 
 def isExistFile(folder, file):
+    file = filename_normalization(file)
     isExist = False
     if folder != "" and folder is not None:
         path = os.path.join(folder, file)
@@ -229,6 +236,7 @@ def saveImageFiles(folder, versionName, html, content_type, versionInfo):
     makedirs(folder)
     img_urls = re.findall(r'src=[\'"]?([^\'" >]+)', html)
     basename = os.path.splitext(versionName)[0]  # remove extension
+    basename = filename_normalization(basename)
     preview_url = versionInfo["modelVersions"][0]["images"][0]["url"]
     preview_url = urllib.parse.quote(preview_url,  safe=':/=')
     if 'images' in versionInfo:

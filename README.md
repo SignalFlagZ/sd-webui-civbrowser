@@ -32,6 +32,8 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
 
 ## Versions
 ### v2.6
+- Replace "__" in the file name with "_" to avoid conflicts when calling with wildcards
+  - The presence of some already acquired models cannot be detected
 - Displays a prompt to activate the model
   - The second and subsequent trigger words are treated as wildcards
   - Add Send to txt2img and Copy buttons

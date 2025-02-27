@@ -1001,6 +1001,7 @@ def on_ui_tabs():
                 value=(
                     "<h3>Changes " + "in v2.6" + "</h3>"
                     "<ul>"
+                    "<li>Replace '__' in the file name with '_' to avoid conflicts when calling with wildcards</li>"
                     "<li>Displays a prompt to activate the model</li>"
                     "<li>The second and subsequent trigger words are treated as wildcards</li>"
                     "<li>Supports Detection type</li>"
