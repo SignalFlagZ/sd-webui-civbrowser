@@ -7,7 +7,13 @@ from pathlib import Path
 import requests
 # from requests_cache import CachedSession
 from colorama import Fore, Back, Style
-from scripts.civsfz_filemanage import generate_model_save_path2, extensionFolder, FavoriteCreators, BanCreators
+from scripts.civsfz_filemanage import (
+    generate_model_save_path2,
+    extensionFolder,
+    FavoriteCreators,
+    BanCreators,
+    isExistFile,
+)
 from scripts.civsfz_color import dictBasemodelColors
 from scripts.civsfz_shared import opts
 from jinja2 import Environment, FileSystemLoader
@@ -619,9 +625,10 @@ class CivitaiModels(APIInformation):
                 file_name = file['name']
                 path_file = folder / Path(file_name)
                 # print(f"{path_file}")
-                if path_file.exists():
-                    have = True
-                    break
+                have = isExistFile(folder, file_name)
+                #if path_file.exists():
+                #    have = True
+                #    break
             hasVersions.append(have)
         return hasVersions
 

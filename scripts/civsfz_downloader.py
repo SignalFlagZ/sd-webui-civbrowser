@@ -12,7 +12,13 @@ from threading import Thread, local
 from time import sleep
 from tqdm import tqdm
 from scripts.civsfz_shared import opts, calculate_sha256
-from scripts.civsfz_filemanage import makedirs, removeFile, extensionFolder, open_folder
+from scripts.civsfz_filemanage import (
+    makedirs,
+    removeFile,
+    extensionFolder,
+    open_folder,
+    filename_normalization,
+)
 
 def print_ly(x): return print(Fore.LIGHTYELLOW_EX +
                               "CivBrowser: " + x + Style.RESET_ALL)
@@ -39,6 +45,7 @@ class Downloader:
         return Downloader._thread_local.session
 
     def add(self, folder, filename,  url, hash, api_key, early_access):
+        filename = filename_normalization(filename)
         if Downloader._threadNum == 0:
             # Clear queue because garbage may remain due to errors that cannot be caught
             Downloader._threadQ.clear()
