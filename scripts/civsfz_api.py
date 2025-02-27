@@ -625,10 +625,9 @@ class CivitaiModels(APIInformation):
                 file_name = file['name']
                 path_file = folder / Path(file_name)
                 # print(f"{path_file}")
-                have = isExistFile(folder, file_name)
-                #if path_file.exists():
-                #    have = True
-                #    break
+                if isExistFile(folder, file_name):
+                    have = True
+                    break
             hasVersions.append(have)
         return hasVersions
 

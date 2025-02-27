@@ -1,4 +1,4 @@
-VERSION = "v2.6.4"
+VERSION = "v2.6.5"
 
 platform = "A1111"
 forge_version = None
