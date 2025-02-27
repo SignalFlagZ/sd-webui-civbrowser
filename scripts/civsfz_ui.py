@@ -15,6 +15,7 @@ from scripts.civsfz_filemanage import (
     HistoryC,
     FavoriteCreators,
     BanCreators,
+    filename_normalization,
 )
 from scripts.civsfz_downloader import Downloader
 from scripts.civsfz_color import dictBasemodelColors
@@ -221,13 +222,11 @@ class Components():
             #    outputs=[grTxtApiKey],
             #    )
 
-
-            
             def updateLoraPrompt(grTxtSaveFilename):
                 if self.Civitai.modelIndex is None:
                     return (gr.Textbox.update(value="", visible=False),gr.Button.update(visible=False), gr.Button.update(visible=False))
                 modelType = self.Civitai.getSelectedModelType()
-                filename = grTxtSaveFilename
+                filename = filename_normalization(grTxtSaveFilename)
                 vInfo = self.Civitai.getModelVersionInfo()
                 trrigerWords = vInfo['trainedWords']
                 wildcard = ""
@@ -249,7 +248,7 @@ class Components():
                         gr.Button.update(visible=visible),
                         gr.Button.update(visible=visible)
                         )
-            
+
             grTxtSaveFilename.change(
                 fn=updateLoraPrompt,
                 inputs=[grTxtSaveFilename],
@@ -268,7 +267,7 @@ class Components():
                 inputs=[grTxtLoraPrompt],
                 outputs=[],
             )
-            
+
             def updateUserManageButton(grTxtCreator):
                 if grTxtCreator == "":
                     blFav = False
