@@ -46,6 +46,7 @@ familyColor: dict = {
         "value": [
             "Illustrious",
             "Pony",
+            "NoobAI",
             "SDXL 1.0",
             "SDXL 0.9",
             "SDXL 1.0 LCM",

@@ -32,6 +32,7 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
 
 ## Versions
 ### v2.6
+- Add NoobAI to the SDXL family in default settings
 - Replace "__" in the file name with "_" to avoid conflicts when calling with wildcards
   - The presence of some already acquired models cannot be detected
 - Displays a prompt to activate the model

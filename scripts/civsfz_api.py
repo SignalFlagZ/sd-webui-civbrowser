@@ -323,6 +323,8 @@ class APIInformation():
                 "Mochi",
                 "LTXV",
                 "CogVideoX",
+                "NoobAI",
+                "Wan Video",
                 "Other",
             ]
         else:
