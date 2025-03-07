@@ -46,6 +46,7 @@ familyColor: dict = {
         "value": [
             "Illustrious",
             "Pony",
+            "NoobAI",
             "SDXL 1.0",
             "SDXL 0.9",
             "SDXL 1.0 LCM",
@@ -71,7 +72,15 @@ familyColor: dict = {
         "color": hex_color_hsl_to_rgb(330, 90, 45),
     },
     "family6": {
-        "value": [""],
+        "value": [
+            "Wan Video",
+            "Hunyuan Video",
+            "Mochi",
+            "SVD",
+            "SVD XT",
+            "LTXV",
+            "CogVideoX",
+        ],
         "color": hex_color_hsl_to_rgb(300, 90, 45),
     },
     "non_family": {

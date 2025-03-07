@@ -32,6 +32,9 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
 
 ## Versions
 ### v2.6
+- Configured video model family in default settings
+- Add NoobAI to the SDXL family in default settings
+  - To reflect this setting, delete civsfz_color_family* line in the config.json file.
 - Replace "__" in the file name with "_" to avoid conflicts when calling with wildcards
   - The presence of some already acquired models cannot be detected
 - Displays a prompt to activate the model
