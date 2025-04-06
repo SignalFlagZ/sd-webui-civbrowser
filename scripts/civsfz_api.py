@@ -760,7 +760,7 @@ class CivitaiModels(APIInformation):
             for i, img in enumerate(modelInfo["modelVersions"][0]["images"]):
                 if 'id' not in img:
                     # Extract image ID from url
-                    id = re.findall(r'/(\d+)\.j', img['url'])
+                    id = re.findall(r'/(\d+)\.\w+$', img['url'])
                     # print_lc(f'{img["url"]}   {id=}')
                     if 'id' not in img:
                         img['id'] = int(id[0])

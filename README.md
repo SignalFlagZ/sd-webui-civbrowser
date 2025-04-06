@@ -32,6 +32,7 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
 
 ## Versions
 ### v2.6
+- Fix error that would occur if there was a sample image in video format during ID search.
 - Configured video model family in default settings
 - Add NoobAI to the SDXL family in default settings
   - To reflect this setting, delete civsfz_color_family* line in the config.json file.
