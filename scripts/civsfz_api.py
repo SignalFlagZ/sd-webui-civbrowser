@@ -325,6 +325,7 @@ class APIInformation():
                 "CogVideoX",
                 "NoobAI",
                 "Wan Video",
+                "HiDream",
                 "Other",
             ]
         else:
@@ -337,16 +338,15 @@ class APIInformation():
         except:
             print_ly(f'ERROR: Get sorts')
             APIInformation.sortOptions = [
-                    "Highest Rated",
-                    "Most Downloaded",
-                    "Most Liked",
-                    "Most Buzz",
-                    "Most Discussed",
-                    "Most Collected",
-                    "Most Images",
-                    "Newest",
-                    "Oldest"
-                ]
+                "Highest Rated",
+                "Most Downloaded",
+                "Most Liked",
+                "Most Discussed",
+                "Most Collected",
+                "Most Images",
+                "Newest",
+                "Oldest",
+            ]
         else:
             # print_lc(f'Set sorts')
             pass
