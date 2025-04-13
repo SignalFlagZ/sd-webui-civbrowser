@@ -35,14 +35,20 @@ def hls_from_hex(hexrgb):
 # Initial values
 familyColor: dict = {
     "family1": {
-        "value": ["SD 1.5", "SD 1.5 LCM", "SD 1.5 Hyper", "SD 1.4"],
+        "value": [
+            "SD 1.5",
+            "SD 1.5 LCM",
+            "SD 1.5 Hyper",
+            "SD 1.4",
+            "SD 2.1",
+            "SD 2.1 768",
+            "SD 2.0",
+            "SD 2.0 768",
+            "SD 2.1 Unclip",
+        ],
         "color": hex_color_hsl_to_rgb(100, 100, 40),
     },
     "family2": {
-        "value": ["SD 2.1", "SD 2.1 768", "SD 2.0", "SD 2.0 768", "SD 2.1 Unclip"],
-        "color": hex_color_hsl_to_rgb(75, 70, 45),
-    },
-    "family3": {
         "value": [
             "Illustrious",
             "Pony",
@@ -57,8 +63,10 @@ familyColor: dict = {
         ],
         "color": hex_color_hsl_to_rgb(15, 100, 45),
     },
-    "family4": {
+    "family3": {
         "value": [
+            "Flux.1 D",
+            "Flux.1 S",
             "SD 3.5",
             "SD 3.5 Large",
             "SD 3.5 Medium",
@@ -67,11 +75,7 @@ familyColor: dict = {
         ],
         "color": hex_color_hsl_to_rgb(130, 90, 30),
     },
-    "family5": {
-        "value": ["Flux.1 D", "Flux.1 S"],
-        "color": hex_color_hsl_to_rgb(330, 90, 45),
-    },
-    "family6": {
+    "family4": {
         "value": [
             "Wan Video",
             "Hunyuan Video",
@@ -80,8 +84,17 @@ familyColor: dict = {
             "SVD XT",
             "LTXV",
             "CogVideoX",
+            "HiDream",
         ],
         "color": hex_color_hsl_to_rgb(300, 90, 45),
+    },
+    "family5": {
+        "value": [],
+        "color": hex_color_hsl_to_rgb(330, 90, 45),
+    },
+    "family6": {
+        "value": [],
+        "color": hex_color_hsl_to_rgb(75, 70, 45),
     },
     "non_family": {
         "value": [""],
