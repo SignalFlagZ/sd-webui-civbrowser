@@ -1,6 +1,6 @@
 "use strict";
 
-onUiLoaded(civbrowser_start_it_up)
+onUiLoaded(civbrowser_start_it_up);
 function civbrowser_start_it_up() {
 	//make tab sticky
 	let elem = gradioApp().querySelector('#civsfz_tab-element').firstChild;

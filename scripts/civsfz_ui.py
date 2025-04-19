@@ -4,8 +4,7 @@ import json
 import math
 import os
 from datetime import datetime, timedelta, timezone
-from modules import script_callbacks
-from modules.ui_components import ToolButton
+from modules import script_callbacks, ui_components
 from colorama import Fore, Back, Style
 from scripts.civsfz_shared import VERSION, GR_V440, cmd_opts, opts
 from scripts.civsfz_api import CivitaiModels
@@ -73,9 +72,11 @@ class Components():
                         ), value=None, type="value", multiselect=True)
                     with gr.Row():
                         grDrpdwnCHistory = gr.Dropdown(
+                            elem_id=f"civsfz_conditions_history{self.id}",
                             label="Conditions History",
                             choices=HistoryC.getAsChoices(),
                             type="value",
+                            tooltip="You can choose search conditions from your history",
                         )
 
             with gr.Row():
@@ -83,19 +84,35 @@ class Components():
                 grDropdownSearchTerm = gr.Dropdown(
                     scale=1,
                     label="Search Term",
+                    elem_id=f"civsfz_search_term{self.id}",
                     choices=HistoryS.getAsChoices(),
                     type="value",
                     interactive=True,
                     allow_custom_value=True,
+                    tooltip="Enter your search term or choose from your history and favorites",
                 )
             with gr.Column(elem_id=f"civsfz_model-navigation{self.id}"):
                 with gr.Row(elem_id=f"civsfz_apicontrol{self.id}", elem_classes="civsfz-navigation-buttons civsfz-sticky-element"):
                     with gr.Column(scale=3):
-                        grBtnGetListAPI = gr.Button(value="GET cards")
+                        grBtnGetListAPI = gr.Button(
+                            value="GET cards",
+                            elem_id=f"civsfz_get_cards{self.id}",
+                            tooltip="Get model list and display as model cards",
+                        )
                     with gr.Column(scale=2,min_width=80):
-                        grBtnPrevPage = gr.Button(value="PREV", interactive=False)
+                        grBtnPrevPage = gr.Button(
+                            value="PREV",
+                            elem_id=f"civsfz_previous_page{self.id}",
+                            tooltip="Previous page",
+                            interactive=False,
+                        )
                     with gr.Column(scale=2,min_width=80):
-                        grBtnNextPage = gr.Button(value="NEXT", interactive=False)
+                        grBtnNextPage = gr.Button(
+                            value="NEXT",
+                            elem_id=f"civsfz_next_page{self.id}",
+                            tooltip="Next page",
+                            interactive=False,
+                        )
                     with gr.Column(scale=1,min_width=80):
                         grTxtPages = gr.Textbox(label='Pages',show_label=False)
                 with gr.Row():
@@ -105,7 +122,13 @@ class Components():
                     with gr.Column(scale=3):
                         grSldrPage = gr.Slider(label="Page", minimum=1, maximum=10,value = 1, step=1, interactive=False, scale=3)
                     with gr.Column(scale=1,min_width=80):
-                        grBtnGoPage = gr.Button(value="JUMP", interactive=False, scale=1)
+                        grBtnGoPage = gr.Button(
+                            value="JUMP",
+                            elem_id=f"civsfz_jump_page{self.id}",
+                            interactive=False,
+                            scale=1,
+                            tooltip="Jump to the specified page. Can also be used to reload.",
+                        )
                     with gr.Accordion(label="Browsing Level", open=False):
                         with gr.Column(min_width=80):
                             grChkbxgrpLevel = gr.CheckboxGroup(label='Browsing Level', choices=list(self.Civitai.nsfwLevel.items()) ,value=opts.civsfz_browsing_level, interactive=True, show_label=False)
@@ -123,13 +146,16 @@ class Components():
                             # grBtnSaveText = gr.Button(value="Save trained tags",interactive=False, min_width=80)
                             grBtnSaveImages = gr.Button(
                                 value="Save model infos",
+                                elem_id=f"civsfz_save_images{self.id}",
+                                tooltip="Save model information. Model file is not saved.",
                                 interactive=False,
                                 min_width=80,
                             )
                             grBtnDownloadModel = gr.Button(
                                 value="Download model",
-                                interactive=False,
                                 elem_id=f"civsfz_downloadbutton{self.id}",
+                                tooltip="Save model file",
+                                interactive=False,
                                 min_width=80,
                             )
                     with gr.Column(scale=1):
@@ -139,25 +165,33 @@ class Components():
                             )
                             # deprecated grBtnCancel = gr.Button(value="Cancel",interactive=False, variant='stop', min_width=80)
                 with gr.Row():
-                    with gr.Accordion(label="User Management", open=False):
+                    with gr.Accordion(
+                        label="User Management",
+                        open=False,
+                    ):
                         with gr.Row():
                             grTxtCreator = gr.Textbox(
                                 label="Creator name",
                                 value="",
                                 visible=True,
                             )
-                            grBtnAddFavorite = ToolButton(
+                            grBtnAddFavorite = ui_components.ToolButton(
                                 "⭐️",
+                                elem_id=f"civsfz_user_manager_favorite{self.id}",
                                 interactive=False,
-                                tooltip="Add as favorite",
+                                tooltip="Add creator to favorites",
                             )
-                            grBtnAddBan = ToolButton(
+                            grBtnAddBan = ui_components.ToolButton(
                                 "🚷",
+                                elem_id=f"civsfz_user_manager_ban{self.id}",
                                 interactive=False,
+                                tooltip="Add creator to ban",
                             )
-                            grBtnClearUser = ToolButton(
+                            grBtnClearUser = ui_components.ToolButton(
                                 "↻",
+                                elem_id=f"civsfz_user_manager_clear{self.id}",
                                 interactive=False,
+                                tooltip="Remove creator status",
                             )
                     grTxtJsEvent = gr.Textbox(
                         label="Event text",
@@ -181,24 +215,61 @@ class Components():
                     grTxtBaseModel = gr.Textbox(scale=1, label='Base Model', value='', interactive=True, lines=1, visible=False)
                     grDrpdwnSelectFile = gr.Dropdown(scale=3, label="File select", choices=[], interactive=True, value=None)
                 with gr.Row(equal_height=False):
-                    grBtnFolder = gr.Button(value="\N{Open file folder}", interactive=True, elem_classes="civsfz-small-buttons")  # 📂
-                    grTxtSaveFolder = gr.Textbox(label="Save folder", interactive=True, value="", lines=1)
+                    # grBtnFolder = gr.Button(value="\N{Open file folder}", interactive=True, elem_classes="civsfz-small-buttons")  # 📂
+                    grBtnFolder = ui_components.ToolButton(value="\N{Open file folder}",elem_id=f"civsfz_open_save_folder{self.id}", tooltip="Open save folder")  # 📂
+                    grTxtSaveFolder = gr.Textbox(
+                        label="Save folder",
+                        elem_id=f"civsfz_save_folder{self.id}",
+                        tooltip="Folder path to save the model. Editable.",
+                        interactive=True,
+                        value="",
+                        lines=1,
+                    )
                     grMrkdwnFileMessage = gr.HTML(value="<span style='color:Aquamarine;'>You have</span>", elem_classes ="civsfz-msg", visible=False)
-                    grTxtSaveFilename = gr.Textbox(label="Save file name", interactive=True, value=None)
+                    grTxtSaveFilename = gr.Textbox(
+                        label="Save file name",
+                        elem_id=f"civsfz_save_file_name{self.id}",
+                        tooltip="File name of model file to save. Editable.",
+                        interactive=True,
+                        value=None,
+                    )
                 with gr.Row():
                     grTxtDlUrl = gr.Textbox(label="Download Url", interactive=False, value=None)
                     grTxtEarlyAccess = gr.Textbox(label='Early Access', interactive=False, value=None, visible=False)
                     grTxtHash = gr.Textbox(label="File hash", interactive=False, value="", visible=False)
                     grTxtApiKey = gr.Textbox(
                         label="API Key",
+                        elem_id=f"civsfz_api_key{self.id}",
+                        tooltip="Enter API key obtained from CivitAI. You can also enter it in Settings.",
                         value=lambda: self.APIKey,
                         type="password",
                         lines=1,
                     )
                 with gr.Row():
-                    grBtnCopyWords = gr.Button(value="📋", interactive=True, elem_classes="civsfz-small-buttons", visible=False)
-                    grBtnSendWords = gr.Button(value="📝", interactive=True, elem_classes="civsfz-small-buttons", visible=False)
-                    grTxtLoraPrompt = gr.Textbox(label="Prompt to activate the model", interactive=False, value=None, visible=False)
+                    # grBtnCopyWords = gr.Button(value="📋", interactive=True, elem_classes="civsfz-small-buttons", visible=False)
+                    grBtnCopyWords = ui_components.ToolButton(
+                        value="📋",
+                        interactive=True,
+                        visible=False,
+                        elem_id=f"civsfz_copy_triggerwords{self.id}",
+                        tooltip="Copy trigger words",
+                        )
+                    # grBtnSendWords = gr.Button(value="📝", interactive=True, elem_classes="civsfz-small-buttons", visible=False)
+                    grBtnSendWords = ui_components.ToolButton(
+                        value="📝",
+                        interactive=True,
+                        visible=False,
+                        elem_id=f"civsfz_send_triggerwords{self.id}",
+                        tooltip="Send trigger words to txt2img",
+                        )
+                    grTxtLoraPrompt = gr.Textbox(
+                        label="Prompt to activate the model",
+                        elem_id=f"civsfz_lora_prompt{self.id}",
+                        tooltip="A prompt to call a model configured from Trained Tags",
+                        interactive=True,
+                        value=None,
+                        visible=False,
+                    )
                 with gr.Row():
                     grTxtVersionInfo = gr.Textbox(label="Version base model",value="",visible=False)
                     grHtmlModelInfo = gr.HTML(elem_id=f"civsfz_model-info{self.id}")
@@ -998,13 +1069,9 @@ def on_ui_tabs():
         with gr.Accordion(label="Update information", open=False):
             gr.HTML(
                 value=(
-                    "<h3>Changes " + "in v2.6" + "</h3>"
+                    "<h3>Changes " + "in v2.7" + "</h3>"
                     "<ul>"
-                    "<li>Replace '__' in the file name with '_' to avoid conflicts when calling with wildcards</li>"
-                    "<li>Displays a prompt to activate the model</li>"
-                    "<li>The second and subsequent trigger words are treated as wildcards</li>"
-                    "<li>Supports Detection type</li>"
-                    "<li>Add Send to txt2img and Copy buttons</li>"
+                    "<li>Add tooltips</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )
