@@ -1069,13 +1069,9 @@ def on_ui_tabs():
         with gr.Accordion(label="Update information", open=False):
             gr.HTML(
                 value=(
-                    "<h3>Changes " + "in v2.6" + "</h3>"
+                    "<h3>Changes " + "in v2.7" + "</h3>"
                     "<ul>"
-                    "<li>Replace '__' in the file name with '_' to avoid conflicts when calling with wildcards</li>"
-                    "<li>Displays a prompt to activate the model</li>"
-                    "<li>The second and subsequent trigger words are treated as wildcards</li>"
-                    "<li>Supports Detection type</li>"
-                    "<li>Add Send to txt2img and Copy buttons</li>"
+                    "<li>Add tooltips</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )
