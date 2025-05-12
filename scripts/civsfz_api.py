@@ -326,6 +326,7 @@ class APIInformation():
                 "NoobAI",
                 "Wan Video",
                 "HiDream",
+                "OpenAI",
                 "Other",
             ]
         else:

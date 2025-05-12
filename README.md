@@ -32,6 +32,7 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
 
 ## Versions
 ### v2.7
+- Add "OpenAI" to base models
 - Add tooltips
 ### v2.6
 - Fix error that would occur if there was a sample image in video format during ID search.
