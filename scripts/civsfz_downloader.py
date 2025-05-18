@@ -11,7 +11,7 @@ from pathlib import Path
 from threading import Thread, local
 from time import sleep
 from tqdm import tqdm
-from scripts.civsfz_shared import opts, calculate_sha256
+from scripts.civsfz_shared import opts, calculate_sha256, timeout
 from scripts.civsfz_filemanage import (
     makedirs,
     removeFile,
@@ -188,7 +188,9 @@ class Downloader:
                 # Send a GET request to the URL and save the response to the local file
                 try:
                     # Get the total size of the file
-                    with session.get(url, headers=headers, stream=True, timeout=(10, 10)) as response:
+                    with session.get(
+                        url, headers=headers, stream=True, timeout=timeout
+                    ) as response:
                         response.raise_for_status()
                         # print_lc(f"{response.headers=}")
                         if 'Content-Length' in response.headers:

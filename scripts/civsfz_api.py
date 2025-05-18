@@ -15,7 +15,7 @@ from scripts.civsfz_filemanage import (
     isExistFile,
 )
 from scripts.civsfz_color import dictBasemodelColors
-from scripts.civsfz_shared import opts
+from scripts.civsfz_shared import opts, timeout
 from jinja2 import Environment, FileSystemLoader
 
 print_ly = lambda  x: print(Fore.LIGHTYELLOW_EX + "CivBrowser: " + x + Style.RESET_ALL )
@@ -210,7 +210,7 @@ class APIInformation():
         try:
             # with requests.Session() as request:
             browser = Browser()
-            response = browser.session.get(url, params=query, timeout=(10, 15))
+            response = browser.session.get(url, params=query, timeout=timeout)
             # print_lc(f'Page cache: {response.headers["CF-Cache-Status"]}')
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
@@ -1139,7 +1139,7 @@ class CivitaiModels(APIInformation):
         newURL = parse._replace(query=urllib.parse.urlencode(query,  doseq=True, quote_via=urllib.parse.quote))
         return urllib.parse.urlunparse(newURL)
 
-    def requestApi(self, url=None, query=None, timeout=(10, 15)):
+    def requestApi(self, url=None, query=None, timeout=timeout):
         self.requestError = None
         if url is None:
             url = self.getModelsApiUrl()

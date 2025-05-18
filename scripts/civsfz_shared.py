@@ -1,4 +1,4 @@
-VERSION = "v2.7.0"
+VERSION = "v2.7.1"
 
 platform = "A1111"
 forge_version = None
@@ -34,3 +34,5 @@ try:
     from modules.hashes import calculate_sha256_real as calculate_sha256
 except ImportError:
     from modules.hashes import calculate_sha256 as calculate_sha256
+
+timeout = (15,30)

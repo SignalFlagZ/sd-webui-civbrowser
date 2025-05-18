@@ -6,7 +6,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from modules import script_callbacks, ui_components
 from colorama import Fore, Back, Style
-from scripts.civsfz_shared import VERSION, GR_V440, cmd_opts, opts
+from scripts.civsfz_shared import VERSION, GR_V440, cmd_opts, opts, timeout
 from scripts.civsfz_api import CivitaiModels
 from scripts.civsfz_filemanage import (
     open_folder,
@@ -627,7 +627,7 @@ class Components():
                 hasNext = not self.Civitai.nextPage() is None
                 if hasNext:
                     url = self.Civitai.nextPage()
-                    response = self.Civitai.requestApi(url, timeout=(10,10))
+                    response = self.Civitai.requestApi(url, timeout=timeout)
 
             grBtnGetListAPI.click(
                 fn=update_model_list,
