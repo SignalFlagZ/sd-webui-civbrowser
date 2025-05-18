@@ -85,6 +85,7 @@ familyColor: dict = {
             "LTXV",
             "CogVideoX",
             "HiDream",
+            "OpenAI",
         ],
         "color": hex_color_hsl_to_rgb(300, 90, 45),
     },
