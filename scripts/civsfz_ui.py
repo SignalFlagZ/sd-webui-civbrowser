@@ -6,7 +6,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from modules import script_callbacks, ui_components
 from colorama import Fore, Back, Style
-from scripts.civsfz_shared import VERSION, GR_V440, cmd_opts, opts, timeout
+from scripts.civsfz_shared import VERSION, GR_V440, cmd_opts, opts
 from scripts.civsfz_api import CivitaiModels
 from scripts.civsfz_filemanage import (
     open_folder,
@@ -540,7 +540,7 @@ class Components():
                 if grRadioSearchType == "Version ID":
                     if query != "":
                         url = self.Civitai.getVersionsApiUrl(query)
-                        response = self.Civitai.requestApi(url=url)
+                        response = self.Civitai.requestApi(url=url,timeout=opts.civsfz_request_timeout)
                         if self.Civitai.getRequestError() is None:
                             # Some key is not included in the response
                             vIdAsmId = True
@@ -548,7 +548,9 @@ class Components():
                 if grRadioSearchType == "Hash":
                     if query != "":
                         url = self.Civitai.getVersionsByHashUrl(query)
-                        response = self.Civitai.requestApi(url=url)
+                        response = self.Civitai.requestApi(
+                            url=url, timeout=opts.civsfz_request_timeout
+                        )
                         if self.Civitai.getRequestError() is None:
                             # Some key is not included in the response
                             vIdAsmId = True
@@ -556,7 +558,7 @@ class Components():
                 if grRadioSearchType == "Model ID" or vIdAsmId:
                     if query != "":
                         url = self.Civitai.getModelsApiUrl(query)
-                        response = self.Civitai.requestApi(url=url)
+                        response = self.Civitai.requestApi(url=url,timeout=opts.civsfz_request_timeout)
                         response = {
                             'requestUrl': response['requestUrl'],
                             "items":[response],
@@ -567,7 +569,7 @@ class Components():
                             } if self.Civitai.getRequestError() is None else None
                 elif grRadioSearchType not in ("Version ID", "Hash"):
                     response = self.Civitai.requestApi(
-                        query=query) 
+                        query=query,timeout=opts.civsfz_request_timeout) 
                 err = self.Civitai.getRequestError()
                 if err is not None:
                     gr.Warning(str(err))
@@ -627,7 +629,7 @@ class Components():
                 hasNext = not self.Civitai.nextPage() is None
                 if hasNext:
                     url = self.Civitai.nextPage()
-                    response = self.Civitai.requestApi(url, timeout=timeout)
+                    response = self.Civitai.requestApi(url, timeout=opts.civsfz_request_timeout)
 
             grBtnGetListAPI.click(
                 fn=update_model_list,
@@ -834,7 +836,9 @@ class Components():
 
             def update_next_page(grChkboxShowNsfw, grChkbxgrpLevel, isNext=True):
                 url = self.Civitai.nextPage() if isNext else self.Civitai.prevPage()
-                response = self.Civitai.requestApi(url)
+                response = self.Civitai.requestApi(
+                    url,timeout=opts.civsfz_request_timeout
+                )
                 err = self.Civitai.getRequestError()
                 if err is not None:
                     gr.Warning(str(err))
@@ -908,7 +912,9 @@ class Components():
                 if newURL is None:
                     return None, None,  gr.HTML.update(), None, None, gr.Slider.update(), gr.Textbox.update()
                 # print(f'{newURL}')
-                response = self.Civitai.requestApi(newURL)
+                response = self.Civitai.requestApi(
+                    newURL, timeout=opts.civsfz_request_timeout
+                )
                 err = self.Civitai.getRequestError()
                 if err is not None:
                     gr.Warning(str(err))
@@ -1071,6 +1077,7 @@ def on_ui_tabs():
                 value=(
                     "<h3>Changes " + "in v2.7" + "</h3>"
                     "<ul>"
+                    "<li>Add timeout setting in Settings</li>"
                     "<li>Add tooltips</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"

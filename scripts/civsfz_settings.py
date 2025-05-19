@@ -63,6 +63,12 @@ def on_ui_settings():
             component=gr.Textbox,
             component_args={"type": "password"},
         ).info("Note: API-Key is stored in the `settings.json` file."),
+        "civsfz_request_timeout": shared.OptionInfo(
+            30,
+            label="Request timeout(s)",
+            component=gr.Slider,
+            component_args={"minimum": 10, "maximum": 90, "step": 5},
+        ),
         "civsfz_browsing_level": shared.OptionInfo(
             [1],
             label="Browsing level",
