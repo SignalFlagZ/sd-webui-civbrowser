@@ -34,3 +34,6 @@ try:
     from modules.hashes import calculate_sha256_real as calculate_sha256
 except ImportError:
     from modules.hashes import calculate_sha256 as calculate_sha256
+
+def read_timeout():
+    return 15, getattr(opts, "civsfz_request_timeout", 30)

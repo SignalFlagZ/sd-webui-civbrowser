@@ -10,7 +10,7 @@ import subprocess as sp
 from collections import deque
 from modules import  sd_models
 from colorama import Fore, Back, Style
-from scripts.civsfz_shared import cmd_opts, opts
+from scripts.civsfz_shared import cmd_opts, opts, read_timeout
 from modules import shared
 from modules.paths import models_path
 try:
@@ -275,7 +275,7 @@ def saveImageFiles(folder, versionName, html, content_type, versionInfo):
                 # img_url.replace("https", "http").replace("=","%3D")
                 img_url = urllib.parse.quote(img_url,  safe=':/=')
                 try:
-                    response = session.get(img_url, timeout=opts.civsfz_request_timeout)
+                    response = session.get(img_url, timeout=read_timeout())
                     with open(os.path.join(folder, filename), 'wb') as f:
                         f.write(response.content)
                         if img_url == preview_url:

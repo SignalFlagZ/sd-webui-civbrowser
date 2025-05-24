@@ -15,7 +15,7 @@ from scripts.civsfz_filemanage import (
     isExistFile,
 )
 from scripts.civsfz_color import dictBasemodelColors
-from scripts.civsfz_shared import opts
+from scripts.civsfz_shared import opts, read_timeout
 from jinja2 import Environment, FileSystemLoader
 
 print_ly = lambda  x: print(Fore.LIGHTYELLOW_EX + "CivBrowser: " + x + Style.RESET_ALL )
@@ -211,7 +211,7 @@ class APIInformation():
             # with requests.Session() as request:
             browser = Browser()
             response = browser.session.get(
-                url, params=query, timeout=opts.civsfz_request_timeout
+                url, params=query, timeout=read_timeout()
             )
             # print_lc(f'Page cache: {response.headers["CF-Cache-Status"]}')
             response.raise_for_status()
@@ -1141,7 +1141,7 @@ class CivitaiModels(APIInformation):
         newURL = parse._replace(query=urllib.parse.urlencode(query,  doseq=True, quote_via=urllib.parse.quote))
         return urllib.parse.urlunparse(newURL)
 
-    def requestApi(self, url=None, query=None, timeout=(15, 60)):
+    def requestApi(self, url=None, query=None, timeout=read_timeout()):
         self.requestError = None
         if url is None:
             url = self.getModelsApiUrl()
@@ -1159,7 +1159,7 @@ class CivitaiModels(APIInformation):
             # with CachedSession(cache_name=cachePath.resolve(), expire_after=5*60) as session:
             browse = Browser()
             response = browse.session.get(
-                url, params=query, timeout=opts.civsfz_request_timeout
+                url, params=query, timeout=read_timeout()
             )
             # print_lc(f'{response.url=}')
             # print_lc(f'Page cache: {response.headers["CF-Cache-Status"]}')
@@ -1217,14 +1217,12 @@ class CivitaiModels(APIInformation):
                   'nsfw': 'X'}
         if limit is not None:
             params |= {"limit": limit}
-        return self.requestApi(
-            self.getImagesApiUrl(), params, timeout=opts.civsfz_request_timeout
-        )
+        return self.requestApi(self.getImagesApiUrl(), params, timeout=read_timeout())
     def requestVersionByVersionID(self, versionID=None):
         if versionID == None:
             return None
         url = self.getVersionsApiUrl(versionID)
-        ret = self.requestApi(url, timeout=opts.civsfz_request_timeout)
+        ret = self.requestApi(url, timeout=read_timeout())
         if self.requestError is not None:
             ret = None
         return ret
