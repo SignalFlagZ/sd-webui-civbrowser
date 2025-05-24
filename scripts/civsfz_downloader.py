@@ -11,7 +11,7 @@ from pathlib import Path
 from threading import Thread, local
 from time import sleep
 from tqdm import tqdm
-from scripts.civsfz_shared import opts, calculate_sha256
+from scripts.civsfz_shared import opts, calculate_sha256, read_timeout
 from scripts.civsfz_filemanage import (
     makedirs,
     removeFile,
@@ -192,7 +192,7 @@ class Downloader:
                         url,
                         headers=headers,
                         stream=True,
-                        timeout=opts.civsfz_request_timeout,
+                        timeout=read_timeout(),
                     ) as response:
                         response.raise_for_status()
                         # print_lc(f"{response.headers=}")
