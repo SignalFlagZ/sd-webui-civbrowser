@@ -78,6 +78,10 @@ familyColor: dict = {
     "family4": {
         "value": [
             "Wan Video",
+            "Wan Video 1.3B t2v",
+            "Wan Video 14B t2v",
+            "Wan Video 14B i2v 480p",
+            "Wan Video 14B i2v 720p",
             "Hunyuan Video",
             "Mochi",
             "SVD",
