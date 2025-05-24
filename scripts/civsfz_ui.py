@@ -623,10 +623,12 @@ class Components():
                     gr.Textbox.update(value=""),
                 )
             def preload_nextpage():
+                import threading
                 hasNext = not self.Civitai.nextPage() is None
                 if hasNext:
                     url = self.Civitai.nextPage()
-                    response = self.Civitai.requestApi(url, timeout=read_timeout())
+                    thread = threading.Thread(target=self.Civitai.requestApi, args=(url,), kwargs= {"timeout": read_timeout()}) 
+                    thread.start()
 
             grBtnGetListAPI.click(
                 fn=update_model_list,
