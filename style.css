@@ -114,6 +114,8 @@
 	right: 0px;
 	word-break: break-word;
 	font-size: smaller;
+	max-width: 70%;
+	text-align: right;
 }
 .civsfz-modelcard:hover .civsfz-basemodel {
 	top: -1.5em;
