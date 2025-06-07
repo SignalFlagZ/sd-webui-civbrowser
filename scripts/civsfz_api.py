@@ -1133,6 +1133,9 @@ class CivitaiModels(APIInformation):
                     query |= {'tag': search_term }
                 else:
                     query |= {'query': search_term }
+                    query.pop(
+                        "limit", None
+                    )  # Temporary change for lack of pagination in query response
             if base_models:
                 query |= {'baseModels': base_models }
         return query

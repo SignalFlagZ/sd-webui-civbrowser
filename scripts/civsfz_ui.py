@@ -1070,10 +1070,9 @@ def on_ui_tabs():
         with gr.Accordion(label="Update information", open=False):
             gr.HTML(
                 value=(
-                    "<h3>Changes " + "in v2.7" + "</h3>"
+                    "<h3>Changes " + "in v2.7.4" + "</h3>"
                     "<ul>"
-                    "<li>Add timeout setting in Settings</li>"
-                    "<li>Add tooltips</li>"
+                    "<li>The maximum number of cards per page when searching model names is now 100. There is no second page because the API response does not include pagination. This is a temporary change.</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )
