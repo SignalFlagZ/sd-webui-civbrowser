@@ -32,6 +32,8 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
 
 ## Versions
 ### v2.7
+#### v2.7.5
+- Support for changing search response by model name. Pageneation is back.
 #### v2.7.4
 - The maximum number of cards per page when searching model names is now 100. There is no second page because the API response does not include pagination. This is a temporary change.
 #### <v2.7.4
