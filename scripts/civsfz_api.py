@@ -305,6 +305,7 @@ class APIInformation():
                 "Pony",
                 "Flux.1 S",
                 "Flux.1 D",
+                "Flux.1 Kontext",
                 "AuraFlow",
                 "SDXL 1.0 LCM",
                 "SDXL Distilled",
@@ -333,6 +334,7 @@ class APIInformation():
                 "Wan Video 14B i2v 720p",
                 "HiDream",
                 "OpenAI",
+                "Imagen4",
                 "Other",
             ]
         else:
