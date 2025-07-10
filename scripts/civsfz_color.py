@@ -67,6 +67,7 @@ familyColor: dict = {
         "value": [
             "Flux.1 D",
             "Flux.1 S",
+            "Flux.1 Kontext",
             "SD 3.5",
             "SD 3.5 Large",
             "SD 3.5 Medium",
