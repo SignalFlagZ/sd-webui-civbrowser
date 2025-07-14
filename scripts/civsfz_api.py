@@ -240,7 +240,10 @@ class APIInformation():
         query = { 'types': ""}
         data = self.requestApiOptions(url, query)
         try:
-            types = data['error']['issues'][0]['unionErrors'][0]['issues'][0]['options']
+            # types = data['error']['issues'][0]['unionErrors'][0]['issues'][0]['options']
+            res = json.loads(data['error']['message'])
+            # print_lc(f"{res[0]['errors'][0][0]['values']=}")
+            types = res[0]["errors"][0][0]["values"]
         except:
             print_ly(f'ERROR: Get types')
             types = [
@@ -281,7 +284,10 @@ class APIInformation():
         query = {'baseModels': ""}
         data = self.requestApiOptions(url, query)
         try:
-            APIInformation.basemodelOptions = data['error']['issues'][0]['unionErrors'][0]['issues'][0]['options']
+            # APIInformation.basemodelOptions = data['error']['issues'][0]['unionErrors'][0]['issues'][0]['options']
+            res = json.loads(data['error']['message'])
+            # print_lc(f"{res[0]['errors'][0][0]['values']=}")
+            APIInformation.basemodelOptions = res[0]["errors"][0][0]["values"]
         except:
             print_ly(f'ERROR: Get base models')
             APIInformation.basemodelOptions = [
@@ -343,7 +349,10 @@ class APIInformation():
         query = {'sort': ""}
         data = self.requestApiOptions(url, query)
         try:
-            APIInformation.sortOptions = data['error']['issues'][0]['options']
+            # APIInformation.sortOptions = data['error']['issues'][0]['options']
+            res = json.loads(data['error']['message'])
+            # print_lc(f"{res[0]['values']=}")
+            APIInformation.sortOptions = res[0]["values"]
         except:
             print_ly(f'ERROR: Get sorts')
             APIInformation.sortOptions = [
@@ -362,7 +371,10 @@ class APIInformation():
         query = {'period': ""}
         data = self.requestApiOptions(url, query)
         try:
-            APIInformation.periodOptions = data['error']['issues'][0]['options']
+            # APIInformation.periodOptions = data['error']['issues'][0]['options']
+            res = json.loads(data['error']['message'])
+            # print_lc(f"{res[0]['values']=}")
+            APIInformation.periodOptions = res[0]["values"]
         except:
             print_ly(f'ERROR: Get periods')
             APIInformation.periodOptions = [

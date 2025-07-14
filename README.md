@@ -32,6 +32,7 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
 
 ## Versions
 ### v2.7
+- Update of option acquisitions due to API response change
 #### v2.7.5
 - Support for changing search response by model name. Pageneation is back.
 #### v2.7.4
