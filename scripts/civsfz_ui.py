@@ -1070,9 +1070,9 @@ def on_ui_tabs():
         with gr.Accordion(label="Update information", open=False):
             gr.HTML(
                 value=(
-                    "<h3>Changes " + "in v2.7.5" + "</h3>"
+                    "<h3>Changes " + "in v2.7.6" + "</h3>"
                     "<ul>"
-                    "<li>Support for changing search response by model name</li>"
+                    "<li>Update of option acquisitions due to API response change</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )
