@@ -376,6 +376,38 @@ class History():
             json.dumps(h, ensure_ascii=False) for h in self._history]
         return ret
 
+class KeywordHistory(History):
+
+    def __init__(self, fileName="keyword_history.json"):
+        super().__init__(
+            Path.joinpath(extensionFolder(), Path(f"../{fileName}"))
+        )
+        # self._delimiter = "_._"
+
+    def add(self, type="Keyword", word=None):
+        if type == "No" or word == "" or word == None:
+            return
+        if word in FavoriteCreators.getAsList():
+            return
+        d = {"type": type, "word": word}
+        try:
+            self._history.remove(d)
+        except:
+            pass
+        self._history.appendleft(d)
+        while self.len() > opts.civsfz_length_of_search_history:
+            self._history.pop()
+        self.save()
+
+    def getAsChoices(self, type="Keyword"):
+        # ret = [f'{w["word"]}{self._delimiter}{w["type"]}' for w in self._history]
+        ret = [f'{w["word"]}' for w in self._history if w["type"] == type]
+        # Add favorite users
+        favUsers = []
+        if type == "User name":
+            favUsers = [f"⭐️{s.strip()}" for s in FavoriteCreators.getAsList()]
+        return ret + favUsers
+
 class SearchHistory(History):
     def __init__(self):
         super().__init__(Path.joinpath(
@@ -434,7 +466,8 @@ class ConditionsHistory(History):
         return ret
     def getDelimiter(self) -> str:
         return self._delimiter
-HistoryS = SearchHistory()
+HistoryKwd = KeywordHistory()
+HistoryS = SearchHistory() # deprecated
 HistoryC = ConditionsHistory()
 
 class UserInfo:

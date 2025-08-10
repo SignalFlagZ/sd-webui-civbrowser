@@ -4,6 +4,7 @@ test.py
 search_history.json
 api_cache.sqlite
 conditions_history.json
+keyword_history.json
 standalone.py
 favoriteUsers.txt
 bannedUsers.txt
