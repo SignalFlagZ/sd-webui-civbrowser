@@ -132,7 +132,7 @@ def on_ui_settings():
             5,
             label="Length of search term history",
             component=gr.Slider,
-            component_args={"minimum": 5, "maximum": 15, "step": 1},
+            component_args={"minimum": 5, "maximum": 30, "step": 1},
         ),
     }
 
