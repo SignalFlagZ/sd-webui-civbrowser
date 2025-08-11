@@ -261,66 +261,73 @@ class Components():
                         visible=False,
                     )
                 with gr.Row():
-                    grRadioVersions = gr.Radio(label="Version", choices=[], interactive=True, elem_id=f"civsfz_versionlist{self.id}", value=None)
-                with gr.Row():
-                    grTxtBaseModel = gr.Textbox(scale=1, label='Base Model', value='', interactive=True, lines=1, visible=False)
-                    grDrpdwnSelectFile = gr.Dropdown(scale=3, label="File select", choices=[], interactive=True, value=None)
-                with gr.Row(equal_height=False):
-                    # grBtnFolder = gr.Button(value="\N{Open file folder}", interactive=True, elem_classes="civsfz-small-buttons")  # 📂
-                    grBtnFolder = ui_components.ToolButton(value="\N{Open file folder}",elem_id=f"civsfz_open_save_folder{self.id}", tooltip="Open save folder")  # 📂
-                    grTxtSaveFolder = gr.Textbox(
-                        label="Save folder",
-                        elem_id=f"civsfz_save_folder{self.id}",
-                        tooltip="Folder path to save the model. Editable.",
+                    grRadioVersions = gr.Radio(
+                        label="Version",
+                        choices=[],
                         interactive=True,
-                        value="",
-                        lines=1,
-                    )
-                    grMrkdwnFileMessage = gr.HTML(value="<span style='color:Aquamarine;'>You have</span>", elem_classes ="civsfz-msg", visible=False)
-                    grTxtSaveFilename = gr.Textbox(
-                        label="Save file name",
-                        elem_id=f"civsfz_save_file_name{self.id}",
-                        tooltip="File name of model file to save. Editable.",
-                        interactive=True,
+                        elem_id=f"civsfz_versionlist{self.id}",
                         value=None,
                     )
-                with gr.Row():
-                    grTxtDlUrl = gr.Textbox(label="Download Url", interactive=False, value=None)
-                    grTxtEarlyAccess = gr.Textbox(label='Early Access', interactive=False, value=None, visible=False)
-                    grTxtHash = gr.Textbox(label="File hash", interactive=False, value="", visible=False)
-                    grTxtApiKey = gr.Textbox(
-                        label="API Key",
-                        elem_id=f"civsfz_api_key{self.id}",
-                        tooltip="Enter API key obtained from CivitAI. You can also enter it in Settings.",
-                        value=lambda: self.APIKey,
-                        type="password",
-                        lines=1,
-                    )
-                with gr.Row():
-                    # grBtnCopyWords = gr.Button(value="📋", interactive=True, elem_classes="civsfz-small-buttons", visible=False)
-                    grBtnCopyWords = ui_components.ToolButton(
-                        value="📋",
-                        interactive=True,
-                        visible=False,
-                        elem_id=f"civsfz_copy_triggerwords{self.id}",
-                        tooltip="Copy trigger words",
+                with gr.Accordion(label="Download Settings"):
+                    with gr.Row():
+                        grTxtBaseModel = gr.Textbox(scale=1, label='Base Model', value='', interactive=True, lines=1, visible=False)
+                        grDrpdwnSelectFile = gr.Dropdown(scale=3, label="File select", choices=[], interactive=True, value=None)
+                    with gr.Row(equal_height=False):
+                        # grBtnFolder = gr.Button(value="\N{Open file folder}", interactive=True, elem_classes="civsfz-small-buttons")  # 📂
+                        grBtnFolder = ui_components.ToolButton(value="\N{Open file folder}",elem_id=f"civsfz_open_save_folder{self.id}", tooltip="Open save folder")  # 📂
+                        grTxtSaveFolder = gr.Textbox(
+                            label="Save folder",
+                            elem_id=f"civsfz_save_folder{self.id}",
+                            tooltip="Folder path to save the model. Editable.",
+                            interactive=True,
+                            value="",
+                            lines=1,
                         )
-                    # grBtnSendWords = gr.Button(value="📝", interactive=True, elem_classes="civsfz-small-buttons", visible=False)
-                    grBtnSendWords = ui_components.ToolButton(
-                        value="📝",
-                        interactive=True,
-                        visible=False,
-                        elem_id=f"civsfz_send_triggerwords{self.id}",
-                        tooltip="Send trigger words to txt2img",
+                        grMrkdwnFileMessage = gr.HTML(value="<span style='color:Aquamarine;'>You have</span>", elem_classes ="civsfz-msg", visible=False)
+                        grTxtSaveFilename = gr.Textbox(
+                            label="Save file name",
+                            elem_id=f"civsfz_save_file_name{self.id}",
+                            tooltip="File name of model file to save. Editable.",
+                            interactive=True,
+                            value=None,
                         )
-                    grTxtLoraPrompt = gr.Textbox(
-                        label="Prompt to activate the model",
-                        elem_id=f"civsfz_lora_prompt{self.id}",
-                        tooltip="A prompt to call a model configured from Trained Tags",
-                        interactive=True,
-                        value=None,
-                        visible=False,
-                    )
+                    with gr.Row():
+                        grTxtDlUrl = gr.Textbox(label="Download Url", interactive=False, value=None)
+                        grTxtEarlyAccess = gr.Textbox(label='Early Access', interactive=False, value=None, visible=False)
+                        grTxtHash = gr.Textbox(label="File hash", interactive=False, value="", visible=False)
+                        grTxtApiKey = gr.Textbox(
+                            label="API Key",
+                            elem_id=f"civsfz_api_key{self.id}",
+                            tooltip="Enter API key obtained from CivitAI. You can also enter it in Settings.",
+                            value=lambda: self.APIKey,
+                            type="password",
+                            lines=1,
+                        )
+                    with gr.Row():
+                        # grBtnCopyWords = gr.Button(value="📋", interactive=True, elem_classes="civsfz-small-buttons", visible=False)
+                        grBtnCopyWords = ui_components.ToolButton(
+                            value="📋",
+                            interactive=True,
+                            visible=False,
+                            elem_id=f"civsfz_copy_triggerwords{self.id}",
+                            tooltip="Copy trigger words",
+                            )
+                        # grBtnSendWords = gr.Button(value="📝", interactive=True, elem_classes="civsfz-small-buttons", visible=False)
+                        grBtnSendWords = ui_components.ToolButton(
+                            value="📝",
+                            interactive=True,
+                            visible=False,
+                            elem_id=f"civsfz_send_triggerwords{self.id}",
+                            tooltip="Send trigger words to txt2img",
+                            )
+                        grTxtLoraPrompt = gr.Textbox(
+                            label="Prompt to activate the model",
+                            elem_id=f"civsfz_lora_prompt{self.id}",
+                            tooltip="A prompt to call a model configured from Trained Tags",
+                            interactive=True,
+                            value=None,
+                            visible=False,
+                        )
                 with gr.Row():
                     grTxtVersionInfo = gr.Textbox(label="Version base model",value="",visible=False)
                     grHtmlModelInfo = gr.HTML(elem_id=f"civsfz_model-info{self.id}")
@@ -1240,6 +1247,7 @@ def on_ui_tabs():
                     "<ul>"
                     "<li>You can now search using keywords, usernames, and tags at the same time.</li>"
                     "<li>Searching for Favorites on Civitai.</li>"
+                    "<li>Some model information can now be collapsed and hidden.</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )
