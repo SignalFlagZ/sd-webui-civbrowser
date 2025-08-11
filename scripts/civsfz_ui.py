@@ -715,7 +715,7 @@ class Components():
                     gr.Warning(str(err))
                 if response is None:
                     return (
-                        gr.HTML.update(choices=[], value=None),
+                        gr.HTML.update(value=None),
                         gr.Radio.update(choices=[], value=None),
                         gr.HTML.update(value=None),
                         gr.Button.update(interactive=False),
