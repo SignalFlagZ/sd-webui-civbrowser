@@ -348,6 +348,7 @@ class APIInformation():
                 "HiDream",
                 "OpenAI",
                 "Imagen4",
+                "Veo 3",
                 "Other",
             ]
         else:
