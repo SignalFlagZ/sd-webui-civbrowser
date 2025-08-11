@@ -147,8 +147,15 @@ class APIInformation():
     sortOptions:list = None
     basemodelOptions:list = None
     periodOptions:list = None
-    searchTypes = ["No", "Model name", "User name",
-                                "Tag", "Model ID", "Version ID", "Hash"]
+    searchTypes = [
+        "No",
+        "Keyword",
+        "User name",
+        "Tag",
+        "Model ID",
+        "Version ID",
+        "Hash",
+    ]
     nsfwLevel = {"PG": 1,
                  "PG-13": 2,
                  "R": 4,
@@ -341,6 +348,7 @@ class APIInformation():
                 "HiDream",
                 "OpenAI",
                 "Imagen4",
+                "Veo 3",
                 "Other",
             ]
         else:
@@ -1114,42 +1122,46 @@ class CivitaiModels(APIInformation):
         return content
 
     # REST API
-    def makeRequestQuery(self, content_type, sort_type, period, use_search_term, search_term=None, base_models=None, grChkboxShowNsfw=False):
-        if search_term is not None:
-            search_term = str.strip(search_term)
-        if use_search_term == "Model ID" or use_search_term == "Version ID":
-            if not search_term.isdecimal():
+    def makeRequestQuery(self, content_type, sort_type, period, search_type, base_models=None, grChkboxShowNsfw=False, 
+            grDrpdwnKeyword="",
+            grDrpdwnUserName="",
+            grDrpdwnTag="",
+            grDrpdwnID="",
+            grchkbxfav=""
+        ):
+        if "Model ID" in search_type or "Version ID" in search_type:
+            if not grDrpdwnID.isdecimal():
                 query = ""
-                print_ly(f'"{search_term}" is not a numerical value')
+                print_ly(f'"{grDrpdwnID}" is not a numerical value')
             else:
-                query = str.strip(search_term)
-        elif use_search_term == "Hash":
+                query = str.strip(grDrpdwnID)
+        elif "Hash" in search_type:
             try:
-                int("0x" + search_term, 16)
+                int("0x" + grDrpdwnID, 16)
                 isHex = True
             except ValueError:
                 isHex = False
             if isHex:
-                query = str.strip(search_term)
+                query = str.strip(grDrpdwnID)
             else:
                 query = ""
-                print_ly(f'"{search_term}" is not a hexadecimal value')
+                print_ly(f'"{grDrpdwnID}" is not a hexadecimal value')
         else:
             query = {'types': content_type, 'sort': sort_type,
                      'limit': opts.civsfz_number_of_cards, 'page': 1, 'nsfw': grChkboxShowNsfw}
             if not period == "AllTime":
                 query |= {'period': period}   
-            if use_search_term != "No" and search_term:
-                # search_term = search_term.replace(" ","%20")
-                if use_search_term == "User name":
-                    query |= {'username': search_term }
-                elif use_search_term == "Tag":
-                    query |= {'tag': search_term }
-                else:
-                    query |= {'query': search_term }
-                    query.pop("page", None)  # Cannot use page param with query search
+            if "User name" in search_type:
+                query |= {'username': grDrpdwnUserName }
+            if "Tag" in search_type:
+                query |= {'tag': grDrpdwnTag }
+            if "Keyword" in search_type:
+                query |= {"query": grDrpdwnKeyword}
+                query.pop("page", None)  # Cannot use page param with query search
             if base_models:
                 query |= {'baseModels': base_models }
+            if grchkbxfav:
+                query |= {"favorites": grchkbxfav}
         return query
 
     def updateQuery(self, url:str , addQuery:dict) -> str:
@@ -1162,6 +1174,7 @@ class CivitaiModels(APIInformation):
 
     def requestApi(self, url=None, query=None, timeout=read_timeout()):
         self.requestError = None
+        hasFavorites = "favorites" in query if query else False
         if url is None:
             url = self.getModelsApiUrl()
         if query is not None:
@@ -1177,6 +1190,12 @@ class CivitaiModels(APIInformation):
         try:
             # with CachedSession(cache_name=cachePath.resolve(), expire_after=5*60) as session:
             browse = Browser()
+            if hasFavorites:
+                api_key=getattr(opts,"civsfz_api_key", None)
+                if api_key is None:
+                    print_ly(f"No API Key.")
+                else:
+                    browse.setAPIKey(api_key)
             response = browse.session.get(
                 url, params=query, timeout=read_timeout()
             )

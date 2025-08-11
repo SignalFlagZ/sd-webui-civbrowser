@@ -12,6 +12,7 @@ from scripts.civsfz_filemanage import (
     open_folder,
     HistoryS,
     HistoryC,
+    HistoryKwd,
     FavoriteCreators,
     BanCreators,
     filename_normalization,
@@ -38,6 +39,7 @@ class Components():
         # Set the URL for the API endpoint
         self.Civitai = CivitaiModels()
         self.id = next(Components.newid)
+        self.searchtype:list[str] = ["No"] # Remember previous search type
         contentTypes = self.Civitai.getTypeOptions()
         self.APIKey = ""
         if cmd_opts.civsfz_api_key:
@@ -79,18 +81,67 @@ class Components():
                             tooltip="You can choose search conditions from your history",
                         )
 
+            # with gr.Row():  # deprecated
+            #    grRadioSearchType = gr.Radio(scale=2, label="Search", choices=self.Civitai.getSearchTypes(),value="No")
+            #    grDropdownSearchTerm = gr.Dropdown(
+            #        scale=1,
+            #        label="Search Term",
+            #        elem_id=f"civsfz_search_term{self.id}",
+            #        choices=HistoryS.getAsChoices(),
+            #        type="value",
+            #        interactive=True,
+            #        allow_custom_value=True,
+            #        tooltip="Enter your search term or choose from your history and favorites",
+            #    )
             with gr.Row():
-                grRadioSearchType = gr.Radio(scale=2, label="Search", choices=self.Civitai.getSearchTypes(),value="No")
-                grDropdownSearchTerm = gr.Dropdown(
-                    scale=1,
-                    label="Search Term",
-                    elem_id=f"civsfz_search_term{self.id}",
-                    choices=HistoryS.getAsChoices(),
+                grChkbxgrpSearch = gr.CheckboxGroup(
+                    scale=3,
+                    label="Search",
+                    choices=self.Civitai.getSearchTypes(),
+                    value=self.searchtype,
+                    interactive=True
+                )
+                grchkbxfav = gr.Checkbox(
+                    scale=1, label="Favorites on Civitai", value=False
+                )
+            with gr.Row():
+                grDrpdwnKeyword = gr.Dropdown(
+                    scale=0,
+                    label="Keyword",
+                    choices=HistoryKwd.getAsChoices("Keyword"),
                     type="value",
-                    interactive=True,
+                    visible=False,
                     allow_custom_value=True,
                     tooltip="Enter your search term or choose from your history and favorites",
                 )
+                grDrpdwnUserName = gr.Dropdown(
+                    scale=0,
+                    label="User Name",
+                    choices=HistoryKwd.getAsChoices("User name"),
+                    type="value",
+                    visible=False,
+                    allow_custom_value=True,
+                    tooltip="Enter a user name or choose from your history and favorites",
+                )
+                grDrpdwnTag = gr.Dropdown(
+                    scale=0,
+                    label="Tag",
+                    choices=HistoryKwd.getAsChoices("Tag"),
+                    type="value",
+                    visible=False,
+                    allow_custom_value=True,
+                    tooltip="Enter a tag or choose from your history and favorites",
+                )
+                grDrpdwnID = gr.Dropdown(
+                    scale=0,
+                    label="ID/Hash",
+                    choices=HistoryKwd.getAsChoices("ID"),
+                    type="value",
+                    visible=False,
+                    allow_custom_value=True,
+                    tooltip="Enter the number or choose from your history and favorites",
+                )
+
             with gr.Column(elem_id=f"civsfz_model-navigation{self.id}"):
                 with gr.Row(elem_id=f"civsfz_apicontrol{self.id}", elem_classes="civsfz-navigation-buttons civsfz-sticky-element"):
                     with gr.Column(scale=3):
@@ -210,66 +261,73 @@ class Components():
                         visible=False,
                     )
                 with gr.Row():
-                    grRadioVersions = gr.Radio(label="Version", choices=[], interactive=True, elem_id=f"civsfz_versionlist{self.id}", value=None)
-                with gr.Row():
-                    grTxtBaseModel = gr.Textbox(scale=1, label='Base Model', value='', interactive=True, lines=1, visible=False)
-                    grDrpdwnSelectFile = gr.Dropdown(scale=3, label="File select", choices=[], interactive=True, value=None)
-                with gr.Row(equal_height=False):
-                    # grBtnFolder = gr.Button(value="\N{Open file folder}", interactive=True, elem_classes="civsfz-small-buttons")  # 📂
-                    grBtnFolder = ui_components.ToolButton(value="\N{Open file folder}",elem_id=f"civsfz_open_save_folder{self.id}", tooltip="Open save folder")  # 📂
-                    grTxtSaveFolder = gr.Textbox(
-                        label="Save folder",
-                        elem_id=f"civsfz_save_folder{self.id}",
-                        tooltip="Folder path to save the model. Editable.",
+                    grRadioVersions = gr.Radio(
+                        label="Version",
+                        choices=[],
                         interactive=True,
-                        value="",
-                        lines=1,
-                    )
-                    grMrkdwnFileMessage = gr.HTML(value="<span style='color:Aquamarine;'>You have</span>", elem_classes ="civsfz-msg", visible=False)
-                    grTxtSaveFilename = gr.Textbox(
-                        label="Save file name",
-                        elem_id=f"civsfz_save_file_name{self.id}",
-                        tooltip="File name of model file to save. Editable.",
-                        interactive=True,
+                        elem_id=f"civsfz_versionlist{self.id}",
                         value=None,
                     )
-                with gr.Row():
-                    grTxtDlUrl = gr.Textbox(label="Download Url", interactive=False, value=None)
-                    grTxtEarlyAccess = gr.Textbox(label='Early Access', interactive=False, value=None, visible=False)
-                    grTxtHash = gr.Textbox(label="File hash", interactive=False, value="", visible=False)
-                    grTxtApiKey = gr.Textbox(
-                        label="API Key",
-                        elem_id=f"civsfz_api_key{self.id}",
-                        tooltip="Enter API key obtained from CivitAI. You can also enter it in Settings.",
-                        value=lambda: self.APIKey,
-                        type="password",
-                        lines=1,
-                    )
-                with gr.Row():
-                    # grBtnCopyWords = gr.Button(value="📋", interactive=True, elem_classes="civsfz-small-buttons", visible=False)
-                    grBtnCopyWords = ui_components.ToolButton(
-                        value="📋",
-                        interactive=True,
-                        visible=False,
-                        elem_id=f"civsfz_copy_triggerwords{self.id}",
-                        tooltip="Copy trigger words",
+                with gr.Accordion(label="Download Settings"):
+                    with gr.Row():
+                        grTxtBaseModel = gr.Textbox(scale=1, label='Base Model', value='', interactive=True, lines=1, visible=False)
+                        grDrpdwnSelectFile = gr.Dropdown(scale=3, label="File select", choices=[], interactive=True, value=None)
+                    with gr.Row(equal_height=False):
+                        # grBtnFolder = gr.Button(value="\N{Open file folder}", interactive=True, elem_classes="civsfz-small-buttons")  # 📂
+                        grBtnFolder = ui_components.ToolButton(value="\N{Open file folder}",elem_id=f"civsfz_open_save_folder{self.id}", tooltip="Open save folder")  # 📂
+                        grTxtSaveFolder = gr.Textbox(
+                            label="Save folder",
+                            elem_id=f"civsfz_save_folder{self.id}",
+                            tooltip="Folder path to save the model. Editable.",
+                            interactive=True,
+                            value="",
+                            lines=1,
                         )
-                    # grBtnSendWords = gr.Button(value="📝", interactive=True, elem_classes="civsfz-small-buttons", visible=False)
-                    grBtnSendWords = ui_components.ToolButton(
-                        value="📝",
-                        interactive=True,
-                        visible=False,
-                        elem_id=f"civsfz_send_triggerwords{self.id}",
-                        tooltip="Send trigger words to txt2img",
+                        grMrkdwnFileMessage = gr.HTML(value="<span style='color:Aquamarine;'>You have</span>", elem_classes ="civsfz-msg", visible=False)
+                        grTxtSaveFilename = gr.Textbox(
+                            label="Save file name",
+                            elem_id=f"civsfz_save_file_name{self.id}",
+                            tooltip="File name of model file to save. Editable.",
+                            interactive=True,
+                            value=None,
                         )
-                    grTxtLoraPrompt = gr.Textbox(
-                        label="Prompt to activate the model",
-                        elem_id=f"civsfz_lora_prompt{self.id}",
-                        tooltip="A prompt to call a model configured from Trained Tags",
-                        interactive=True,
-                        value=None,
-                        visible=False,
-                    )
+                    with gr.Row():
+                        grTxtDlUrl = gr.Textbox(label="Download Url", interactive=False, value=None)
+                        grTxtEarlyAccess = gr.Textbox(label='Early Access', interactive=False, value=None, visible=False)
+                        grTxtHash = gr.Textbox(label="File hash", interactive=False, value="", visible=False)
+                        grTxtApiKey = gr.Textbox(
+                            label="API Key",
+                            elem_id=f"civsfz_api_key{self.id}",
+                            tooltip="Enter API key obtained from CivitAI. You can also enter it in Settings.",
+                            value=lambda: self.APIKey,
+                            type="password",
+                            lines=1,
+                        )
+                    with gr.Row():
+                        # grBtnCopyWords = gr.Button(value="📋", interactive=True, elem_classes="civsfz-small-buttons", visible=False)
+                        grBtnCopyWords = ui_components.ToolButton(
+                            value="📋",
+                            interactive=True,
+                            visible=False,
+                            elem_id=f"civsfz_copy_triggerwords{self.id}",
+                            tooltip="Copy trigger words",
+                            )
+                        # grBtnSendWords = gr.Button(value="📝", interactive=True, elem_classes="civsfz-small-buttons", visible=False)
+                        grBtnSendWords = ui_components.ToolButton(
+                            value="📝",
+                            interactive=True,
+                            visible=False,
+                            elem_id=f"civsfz_send_triggerwords{self.id}",
+                            tooltip="Send trigger words to txt2img",
+                            )
+                        grTxtLoraPrompt = gr.Textbox(
+                            label="Prompt to activate the model",
+                            elem_id=f"civsfz_lora_prompt{self.id}",
+                            tooltip="A prompt to call a model configured from Trained Tags",
+                            interactive=True,
+                            value=None,
+                            visible=False,
+                        )
                 with gr.Row():
                     grTxtVersionInfo = gr.Textbox(label="Version base model",value="",visible=False)
                     grHtmlModelInfo = gr.HTML(elem_id=f"civsfz_model-info{self.id}")
@@ -378,14 +436,14 @@ class Components():
                 BanCreators.remove(grTxtCreator)
                 return updateUserManageButton(grTxtCreator)
             def updateSearchTermChoices():
-                return gr.Dropdown.update(choices=HistoryS.getAsChoices())
+                return gr.Dropdown.update(choices=HistoryKwd.getAsChoices("User name"))
 
             grBtnAddFavorite.click(
                 fn=addFavorite,
                 inputs=[grTxtCreator],
                 outputs=[grBtnAddFavorite, grBtnAddBan, grBtnClearUser],
             ).then(
-                fn=updateSearchTermChoices, inputs=[], outputs=[grDropdownSearchTerm]
+                fn=updateSearchTermChoices, inputs=[], outputs=[grDrpdwnUserName]
             )
             grBtnAddBan.click(
                 fn=addBan,
@@ -396,9 +454,7 @@ class Components():
                 fn=clearUser,
                 inputs=[grTxtCreator],
                 outputs=[grBtnAddFavorite, grBtnAddBan, grBtnClearUser],
-            ).then(
-                fn=updateSearchTermChoices, inputs=[], outputs=[grDropdownSearchTerm]
-            )
+            ).then(fn=updateSearchTermChoices, inputs=[], outputs=[grDrpdwnUserName])
 
             def save_image_files(grTxtSaveFolder, grTxtSaveFilename, grTxtTrainedWords, grHtmlModelInfo):
                 res1 = save_text_file(grTxtSaveFolder, grTxtSaveFilename, grTxtTrainedWords)
@@ -434,34 +490,43 @@ class Components():
                 outputs=[grTextProgress]
                 )
 
-            def selectSHistory(grDropdownSearchTerm):
-                if grDropdownSearchTerm == None:
-                    return (gr.Dropdown.update(),
-                            gr.Radio.update())
-                """
-                m = re.match(rf'(.+){HistoryS.getDelimiter()}(.+)$', grDropdownSearchTerm)
-                if m is None:
-                    return (gr.Dropdown.update(),
-                            gr.Radio.update())
-                if len(m.groups()) < 2:
-                    return ( gr.Dropdown.update(),
-                        gr.Radio.update())
-                return (gr.Dropdown.update(value=m.group(1)),
-                        gr.Radio.update(value=m.group(2)))
-                """
-                term = grDropdownSearchTerm.split(HistoryS.getDelimiter())
-                if term[0] == "":
-                    return (gr.Dropdown.update(), gr.Radio.update())
-                return (
-                    gr.Dropdown.update(value=term[0]),
-                    gr.Radio.update(value=term[1]),
-                )
+            # def selectSHistory(grDropdownSearchTerm):
+            #    if grDropdownSearchTerm == None:
+            #        return (gr.Dropdown.update(),
+            #                gr.Radio.update())
+            #    """
+            #    m = re.match(rf'(.+){HistoryS.getDelimiter()}(.+)$', grDropdownSearchTerm)
+            #    if m is None:
+            #        return (gr.Dropdown.update(),
+            #                gr.Radio.update())
+            #    if len(m.groups()) < 2:
+            #        return ( gr.Dropdown.update(),
+            #            gr.Radio.update())
+            #    return (gr.Dropdown.update(value=m.group(1)),
+            #            gr.Radio.update(value=m.group(2)))
+            #    """
+            #    term = grDropdownSearchTerm.split(HistoryS.getDelimiter())
+            #    if term[0] == "":
+            #        return (gr.Dropdown.update(), gr.Radio.update())
+            #    return (
+            #        gr.Dropdown.update(value=term[0]),
+            #        gr.Radio.update(value=term[1]),
+            #    )
+            # grDropdownSearchTerm.select(
+            #    fn=selectSHistory,
+            #    inputs=[grDropdownSearchTerm],
+            #    outputs=[grDropdownSearchTerm,
+            #            grRadioSearchType]
+            # )
 
-            grDropdownSearchTerm.select(
-                fn=selectSHistory,
-                inputs=[grDropdownSearchTerm],
-                outputs=[grDropdownSearchTerm,
-                        grRadioSearchType]
+            def selectUserHistory(grDrpdwnUserName):
+                term = grDrpdwnUserName.removeprefix('⭐️')
+                return gr.CheckboxGroup.update(value=term)
+
+            grDrpdwnUserName.select(
+                fn=selectUserHistory,
+                inputs=[grDrpdwnUserName],
+                outputs=[grDrpdwnUserName],
             )
 
             def selectCHistory(grDrpdwnHistory):
@@ -493,7 +558,6 @@ class Components():
                                 inputs=[],
                                 outputs=[grDrpdwnCHistory]
                             )
-
             def updatePropertiesText():
                 basemodelColor = dictBasemodelColors(
                     self.Civitai.getBasemodelOptions()
@@ -529,15 +593,93 @@ class Components():
             #    outputs=[]
             #    )
 
-            def update_model_list(grChkbxGrpContentType, grDrpdwnSortType, grRadioSearchType, grDropdownSearchTerm, grChkboxShowNsfw, grDrpdwnPeriod, grDrpdwnBasemodels, grChkbxgrpLevel:list):
+            def newSearchTypeChose(grChkbxgrpSearch,evt):
+                addChoice=list((set(self.searchtype)^set(grChkbxgrpSearch))-set(self.searchtype) )
+                delChoice=list((set(self.searchtype)^set(grChkbxgrpSearch))-set(grChkbxgrpSearch) )
+                # print_lc(f"{addChoice=} / {delChoice=}")
+                if len(addChoice) + len(delChoice) == 0:
+                    return (
+                        gr.CheckboxGroup.update(),
+                        gr.Textbox(),
+                        gr.Textbox(),
+                        gr.Textbox(),
+                        gr.Textbox(),
+                    )
+                if "No" in addChoice or len(grChkbxgrpSearch) == 0:
+                    self.searchtype = ["No"]
+                elif "Keyword" in addChoice:
+                    self.searchtype = list(set(grChkbxgrpSearch)-set(["No", "Model ID", "Version ID", "Hash"]))
+                elif "User name" in addChoice:
+                    self.searchtype = list(set(grChkbxgrpSearch) - set(["No", "Model ID", "Version ID", "Hash"]))
+                elif "Tag" in addChoice:
+                    self.searchtype = list(set(grChkbxgrpSearch) - set(["No", "Model ID", "Version ID", "Hash"]))
+                elif len(addChoice) > 0:
+                    self.searchtype = addChoice
+                else:
+                    self.searchtype = grChkbxgrpSearch
+
+                return (
+                    gr.CheckboxGroup.update(value=self.searchtype),
+                    gr.Textbox(visible="Keyword" in self.searchtype),
+                    gr.Textbox(visible="User name" in self.searchtype),
+                    gr.Textbox(visible="Tag" in self.searchtype),
+                    gr.Textbox(
+                        visible=len(
+                            set(self.searchtype)
+                            & set(["Model ID", "Version ID", "Hash"])
+                        )
+                        > 0
+                    ),
+                )
+
+            grChkbxgrpSearch.input(
+                fn=newSearchTypeChose,
+                inputs=[grChkbxgrpSearch],
+                outputs=[
+                    grChkbxgrpSearch,
+                    grDrpdwnKeyword,
+                    grDrpdwnUserName,
+                    grDrpdwnTag,
+                    grDrpdwnID,
+                ],
+            )
+
+            def update_model_list(
+                grChkbxGrpContentType,
+                grDrpdwnSortType,
+                grChkbxgrpSearch,
+                # grDropdownSearchTerm,
+                grChkboxShowNsfw,
+                grDrpdwnPeriod,
+                grDrpdwnBasemodels,
+                grChkbxgrpLevel: list,
+                grDrpdwnKeyword,
+                grDrpdwnUserName,
+                grDrpdwnTag,
+                grDrpdwnID,
+                grchkbxfav,
+            ):
                 response = None
                 self.Civitai.clearRequestError()
                 query = self.Civitai.makeRequestQuery(
-                    grChkbxGrpContentType, grDrpdwnSortType, grDrpdwnPeriod, grRadioSearchType, grDropdownSearchTerm, grDrpdwnBasemodels, grChkboxShowNsfw)
+                    grChkbxGrpContentType,
+                    grDrpdwnSortType,
+                    grDrpdwnPeriod,
+                    grChkbxgrpSearch,
+                    # grDropdownSearchTerm,
+                    grDrpdwnBasemodels,
+                    grChkboxShowNsfw,
+                    grDrpdwnKeyword,
+                    grDrpdwnUserName,
+                    grDrpdwnTag,
+                    grDrpdwnID,
+                    grchkbxfav,
+                )
+                # print_lc(f"{query=}")
                 if query == "":
                     gr.Warning(f'Enter a number')
                 vIdAsmId = False # 
-                if grRadioSearchType == "Version ID":
+                if "Version ID" in grChkbxgrpSearch:
                     if query != "":
                         url = self.Civitai.getVersionsApiUrl(query)
                         response = self.Civitai.requestApi(url=url, timeout=read_timeout())
@@ -545,7 +687,7 @@ class Components():
                             # Some key is not included in the response
                             vIdAsmId = True
                             query = str(response["modelId"])
-                if grRadioSearchType == "Hash":
+                if "Hash" in grChkbxgrpSearch:
                     if query != "":
                         url = self.Civitai.getVersionsByHashUrl(query)
                         response = self.Civitai.requestApi(url=url, timeout=read_timeout())
@@ -553,7 +695,7 @@ class Components():
                             # Some key is not included in the response
                             vIdAsmId = True
                             query = str(response["modelId"])
-                if grRadioSearchType == "Model ID" or vIdAsmId:
+                if "Model ID" in grChkbxgrpSearch or vIdAsmId:
                     if query != "":
                         url = self.Civitai.getModelsApiUrl(query)
                         response = self.Civitai.requestApi(url=url, timeout=read_timeout())
@@ -565,24 +707,42 @@ class Components():
                                 'pageSize': "1",
                                 }
                             } if self.Civitai.getRequestError() is None else None
-                elif grRadioSearchType not in ("Version ID", "Hash"):
+                        vIdAsmId = True
+                if not vIdAsmId:
                     response = self.Civitai.requestApi(query=query, timeout=read_timeout())
                 err = self.Civitai.getRequestError()
                 if err is not None:
                     gr.Warning(str(err))
                 if response is None:
-                    return gr.HTML.update(choices=[], value=None),\
-                        gr.Radio.update(choices=[], value=None),\
-                        gr.HTML.update(value=None),\
-                        gr.Button.update(interactive=False),\
-                        gr.Button.update(interactive=False),\
-                        gr.Button.update(interactive=False),\
-                        gr.Slider.update(interactive=False),\
-                        gr.Textbox.update(value=None),\
-                        gr.Dropdown.update(),\
-                        gr.Dropdown.update(),\
+                    return (
+                        gr.HTML.update(value=None),
+                        gr.Radio.update(choices=[], value=None),
+                        gr.HTML.update(value=None),
+                        gr.Button.update(interactive=False),
+                        gr.Button.update(interactive=False),
+                        gr.Button.update(interactive=False),
+                        gr.Slider.update(interactive=False),
+                        gr.Textbox.update(value=None),
+                        gr.Dropdown.update(),
                         gr.Textbox.update(),
-                HistoryS.add(grRadioSearchType, grDropdownSearchTerm)
+                        gr.Dropdown.update(),
+                        gr.Dropdown.update(),
+                        gr.Dropdown.update(),
+                        gr.Dropdown.update(),
+                    )  # HistoryS.add(grRadioSearchType, grDropdownSearchTerm)
+                if "Keyword" in grChkbxgrpSearch:
+                    HistoryKwd.add("Keyword", grDrpdwnKeyword)
+                if "User name" in grChkbxgrpSearch:
+                    HistoryKwd.add("User name", grDrpdwnUserName)
+                if "Tag" in grChkbxgrpSearch:
+                    HistoryKwd.add("Tag", grDrpdwnTag)
+                if "Model ID" in grChkbxgrpSearch:
+                    HistoryKwd.add("ID", grDrpdwnID)
+                if "Version ID" in grChkbxgrpSearch:
+                    HistoryKwd.add("ID", grDrpdwnID)
+                if "Hash" in grChkbxgrpSearch:
+                    HistoryKwd.add("ID", grDrpdwnID)
+
                 HistoryC.add(
                     grDrpdwnSortType,
                     grDrpdwnPeriod,
@@ -591,8 +751,8 @@ class Components():
                 )
                 self.Civitai.updateJsonData(response) #, grRadioContentType)
                 if err is None:
-                    self.Civitai.addFirstPage(response, grChkbxGrpContentType, grDrpdwnSortType, grRadioSearchType,
-                                              grDropdownSearchTerm, grChkboxShowNsfw, grDrpdwnPeriod, grDrpdwnBasemodels)
+                    self.Civitai.addFirstPage(response, grChkbxGrpContentType, grDrpdwnSortType, grChkbxgrpSearch,
+                                              "search", grChkboxShowNsfw, grDrpdwnPeriod, grDrpdwnBasemodels)
                 self.Civitai.setShowNsfw(grChkboxShowNsfw)
                 grTxtPages = self.Civitai.getPages()
                 hasPrev = not self.Civitai.prevPage() is None
@@ -615,13 +775,17 @@ class Components():
                         maximum=int(self.Civitai.getTotalPages()),
                     ),
                     gr.Textbox.update(value=grTxtPages),
-                    gr.Dropdown.update(choices=HistoryS.getAsChoices()),
                     gr.Dropdown.update(
                         choices=HistoryC.getAsChoices(),
                         value=HistoryC.getAsChoices()[0],
                     ),
                     gr.Textbox.update(value=""),
+                    gr.Dropdown.update(choices=HistoryKwd.getAsChoices("Keyword")),
+                    gr.Dropdown.update(choices=HistoryKwd.getAsChoices("User name")),
+                    gr.Dropdown.update(choices=HistoryKwd.getAsChoices("Tag")),
+                    gr.Dropdown.update(choices=HistoryKwd.getAsChoices("ID")),
                 )
+
             def preload_nextpage():
                 import threading
                 hasNext = not self.Civitai.nextPage() is None
@@ -635,12 +799,17 @@ class Components():
                 inputs=[
                     grChkbxGrpContentType,
                     grDrpdwnSortType,
-                    grRadioSearchType,
-                    grDropdownSearchTerm,
+                    grChkbxgrpSearch,
+                    # grDropdownSearchTerm,
                     grChkboxShowNsfw,
                     grDrpdwnPeriod,
                     grDrpdwnBasemodels,
                     grChkbxgrpLevel,
+                    grDrpdwnKeyword,
+                    grDrpdwnUserName,
+                    grDrpdwnTag,
+                    grDrpdwnID,
+                    grchkbxfav,
                 ],
                 outputs=[
                     grHtmlModelName,
@@ -651,9 +820,13 @@ class Components():
                     grBtnGoPage,
                     grSldrPage,
                     grTxtPages,
-                    grDropdownSearchTerm,
+                    # grDropdownSearchTerm,
                     grDrpdwnCHistory,
                     grTxtCreator,
+                    grDrpdwnKeyword,
+                    grDrpdwnUserName,
+                    grDrpdwnTag,
+                    grDrpdwnID,
                 ],
             ).then(  # for custum settings
                 fn=updatePropertiesText, inputs=[], outputs=[grTxtProperties]
@@ -1070,9 +1243,11 @@ def on_ui_tabs():
         with gr.Accordion(label="Update information", open=False):
             gr.HTML(
                 value=(
-                    "<h3>Changes " + "in v2.7.6" + "</h3>"
+                    "<h3>Changes " + "in v2.8" + "</h3>"
                     "<ul>"
-                    "<li>Update of option acquisitions due to API response change</li>"
+                    "<li>You can now search using keywords, usernames, and tags at the same time.</li>"
+                    "<li>Searching for Favorites on Civitai.</li>"
+                    "<li>Some model information can now be collapsed and hidden.</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )

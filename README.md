@@ -31,8 +31,12 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
 - Favorite creators feature (Highlight the model with ⭐️)
 
 ## Versions
+### v2.8
+- You can now search using keywords, usernames, and tags at the same time.
+- Searching for Favorites on Civitai.
+- Some model information can now be collapsed and hidden. Works in modern browsers.
 ### v2.7
-- Update of option acquisitions due to API response change
+- Update of option acquisitions due to API response change.
 #### v2.7.5
 - Support for changing search response by model name. Pageneation is back.
 #### v2.7.4

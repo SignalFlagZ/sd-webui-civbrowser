@@ -10,32 +10,37 @@
 		{%- endif %}
 		{{ modelInfo["name"]|e }}
 	</h1>
-
-	<div style="float:right;width:35%;margin:-16px 0 1em 1em;">
-		<h2>Permissions</h2>
-		{{ permissions }}
-		<p>{{ modelInfo["allow"]|e }}</p>
-	</div>
-	<div class="civsfz-modelInformation" style="overflow-wrap: anywhere;">
-		{{- basicInfo }}
-		<a href="{{ modelInfo['downloadUrl'] }}">Download here</a>
-	</div>
-	<div>
-		<h2>Model description</h2>
-		<p>{{ modelInfo["description"] }}</p>
-	</div>
-	{%- if modelInfo["versionDescription"] %}
+	<details open="true">
+		<summary>Model Details</summary>
+		<div style="float:right;width:35%;margin:-16px 0 1em 1em;">
+			<h2>Permissions</h2>
+			{{ permissions }}
+			<p>{{ modelInfo["allow"]|e }}</p>
+		</div>
+		<div class="civsfz-modelInformation" style="overflow-wrap: anywhere;">
+			{{- basicInfo }}
+			<a href="{{ modelInfo['downloadUrl'] }}">Download here</a>
+		</div>
 		<div>
-			<h2>Version description</h2>
-			<p>{{ modelInfo["versionDescription"] }}</p>
+			<h2>Model description</h2>
+			<p>{{ modelInfo["description"] }}</p>
 		</div>
-	{%- endif %}
+		{%- if modelInfo["versionDescription"] %}
+			<div>
+				<h2>Version description</h2>
+				<p>{{ modelInfo["versionDescription"] }}</p>
+			</div>
+		{%- endif %}
+	</details>
 	<div style="clear:both;">
-		<h2>Images</h2>
-		<p>Clicking on the image sends infotext to txt2img. If local, copy to clipboard</p>
-		<div class="sampleimgs">
-			{{- samples }}
-		</div>
+	<h2>Images</h2>
+		<details open="true">
+			<summary>Sample Images</summary>
+			<p>Clicking on the image sends infotext to txt2img. If local, copy to clipboard</p>
+			<div class="sampleimgs">
+				{{- samples }}
+			</div>
+		</details>
 	</div>
 </div>
 
