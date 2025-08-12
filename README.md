@@ -1,21 +1,23 @@
 # sd-civitai-browser (CivBrowser)
+
 An extension to help download models from CivitAi without leaving WebUI
 
-# Modifications
+## Modifications
 
-https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-40a9-b826-30ff20bf7bb3
+<https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-40a9-b826-30ff20bf7bb3>
 
 ***If you fork, please replace prefix `civsfz` in file names, function names, css class names, etc. with your own prefix to avoid conflicts.***
 
 ## Features
+
 - Works with ***A1111***, ***Forge***, ***SD.Next*** （above v2.3.5）
-  - SD.Next is far away from A1111, so it may stop working eventually 
+  - SD.Next is far away from A1111, so it may stop working eventually
 - Search Civitai models in ***multiple tabs***
 - Download ***queue*** and ***multithreaded*** downloads
 - List models as ***card image***
 - Safe display in ***sfw*** search
 - Highlight models ***you have***
-- Highlight models that ***can be updated*** 
+- Highlight models that ***can be updated***
 - Searchable by specifying ***Base Models*** (experimental)
 - Show ***Base Model*** on a model card
 - Display/***save*** model information ***in HTML***
@@ -31,22 +33,34 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
 - Favorite creators feature (Highlight the model with ⭐️)
 
 ## Versions
+
 ### v2.8
+
 - You can now search using keywords, usernames, and tags at the same time.
 - Searching for Favorites on Civitai.
 - Some model information can now be collapsed and hidden. Works in modern browsers.
+
 ### v2.7
+
 - Update of option acquisitions due to API response change.
+
 #### v2.7.5
+
 - Support for changing search response by model name. Pageneation is back.
+
 #### v2.7.4
+
 - The maximum number of cards per page when searching model names is now 100. There is no second page because the API response does not include pagination. This is a temporary change.
+
 #### <v2.7.4
+
 - Add timeout setting in Settings
 - Set timeout to 30 seconds
 - Add "OpenAI" to base models
 - Add tooltips
+
 ### v2.6
+
 - Fix error that would occur if there was a sample image in video format during ID search.
 - Configured video model family in default settings
 - Add NoobAI to the SDXL family in default settings
@@ -57,28 +71,34 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
   - The second and subsequent trigger words are treated as wildcards
   - Add Send to txt2img and Copy buttons
 - Supports Detection type
+
 ### v2.5
+
 - Works on reForge (Experimental. Is there demand?)
 - Select the display of banned users using Browsing Level
 - Indicates the base model of a model version by color
 - Indicates the version you have already obtained by color
 - Add User Management feature
-  - Favorite creators are saved in file `favoriteUsers.txt` 
+  - Favorite creators are saved in file `favoriteUsers.txt`
   - Banned creators are saved in file `bannedUsers.txt`
 - Add favorite creators in search term
 - Add favorite creator feature
   - Display ⭐️ on card by creator name
 - Add ban creators feature
   - Hide cards by creator name
-- Fix not detected previous models 
+- Fix not detected previous models
+
 ### v2.4
+
 - Preview family colors in Settings
 - The base model color settings have changed
   - You can set the color for each color family
   - You can register the base model to the family
   - Colors within a family will automatically change based on the family color
   - The color changes gradually according to the hls color wheel
+
 ### v2.3
+
 - Add setting whether to delete file with different hash value
 - Works on SD.Next (Hard to maintain)
 - Command line option `--civsfz_api_key` is deprecated. Instead, use Settings.
@@ -90,7 +110,9 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
   - If you have changed the background color, you will need to reconfigure it
 - Change the layout of save buttons to reduce mouse movement
 - Model name and base model are displayed in large size
+
 ### v2.2
+
 - Add background color for Illustrious
 - Add background color for SD3 and SD3.5
 - Change the position of Back-to-Top button to reduce mouse movement
@@ -101,7 +123,9 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
   - ~~Hash mismatch occurs because calculate_sha256 has changed in Forge~~
 - Support Early Access status key that changed to `availability` instead of `earlyAccessDeadline`
 - Fix to support arrays of `Trained Tags` and display multiple `Trained Tags`
+
 ### v2.1
+
 - Avoid filename length issues on Linux
   - The maximum length of a file/folder name is now 246 bytes (Number of bytes in UTF-8)
   - Previous model files with long names cannot be recognized as existing
@@ -117,14 +141,19 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
       - Max filename length: 256 bytes (NOT CHARACTERS)
 
 ### v2.0
+
 - Add background color to model information base model
 - The background color of the Pony model can be specified
+
 ### v2.0β
+
 - Add cancel download button to cue list
 - Add open download folder button to cue list
 - Removed the cancel button that was in the model information
 - Removed `Save trained tagas` button and included it in `Save model info`
+
 ### v1.19β
+
 - Sorted infotext to make it easier to read
 - Display download results for a while
 - Downloading with queue and multithreading
@@ -132,7 +161,9 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
   - Download can be canceled
   - Show download queue
   - Show download progress
+
 ### v1.18
+
 - Support hash value search
 - DoRA models are saved in `models\Lora\_DoRA` (default)
 - Fix permmissions
@@ -146,9 +177,13 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
 - Suppots Browsing Level (Experimental)
 - Temporarily avoid errors due to rating level changes
   - ~~Rating filters will be implemented in the future~~
+
 ### v1.17
+
 - Supports API changes
+
 ### v1.17α
+
 - Get cards using Session
 - Stop using requests_cache
 - ~~Use requests_cache for API request~~
@@ -162,11 +197,17 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
   - ~~ID search is not possible~~
   - Creation and update times are gone
   - Support for changed time notation for publishedAt
+
 ### v1.16
+
 - Support for removing `earlyAccessTimeFrame` from Civitai API response and replacing it with `earlyAccessDeadline`.
+
 ### v1.15
-- Subfolders under the type folder can now be set in Settings \([How to set it up](https://github.com/SignalFlagZ/sd-webui-civbrowser/wiki/How-to-set-up-subfolders-for-model-storage-%5Bv1.15.0-and-above%5D)\) 
+
+- Subfolders under the type folder can now be set in Settings \([How to set it up](https://github.com/SignalFlagZ/sd-webui-civbrowser/wiki/How-to-set-up-subfolders-for-model-storage-%5Bv1.15.0-and-above%5D)\)
+
 ### v1.14
+
 - Support search term history
   - Term history length is changeable in Settings
   - Term history is saved in `search_history.json` file
@@ -174,21 +215,29 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
 - Fix to use model-versions API to get meta data
 - Add color frames to cards that can be updated
 - Use jinja template engine
+
 ### v1.13
+
 - Fix an issue where API responses changed and permissions could not be displayed correctly. #33
 - Fix an issue where the version could not be selected correctly with multiple versions with the same name.
 - Change info file format
 - Change info file extension to json
 - Change design of model information
+
 ### v1.12
+
 - Check the match between image and infotext using image ID
 - The meta key was missing from the API response, so retrieve it from the images API (Experimental)
   - Hide the infotext because it was displaying infotext different from the image (v1.12.1)
+
 ### v1.11
+
 - Add search by model ID
 - Change the default setting so that `/` is not treated as a folder separator.
 - Get search choices from Civitai after launch and keep them up to date
+
 ### v1.10
+
 - Cut file name length to 254 characters
 - Show Early Access on card
   - The background color changes during and outside the period
@@ -196,7 +245,9 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
 - Add model creation date/time, publication date/time, update date/time in HTML
 - Add save folder setting \([How to set it up](https://github.com/SignalFlagZ/sd-webui-civbrowser/wiki/How-to-set-save-folders-by-type-%5Bv1.10.0-and-above%5D)\)
   - Specify path for each model type in JSON string
+
 ### v1.9
+
 - Search for multiple model types at the same time
 - Show model type on a card
 - Changed model card design to display base model
@@ -213,7 +264,9 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
   - Why do python file conflicts occur? For example, api.py is used by many people and no problems occur.
 - Add prefix `civsfz` to javascript function names to make them unique
 - If you fork, please replace `civsfz` in file names, function names, css class names, etc. with your own prefix to avoid conflicts.
+
 ### v1.8
+
 - Add sort types
 - The model download timeout was set to 4 seconds because it was forcibly disconnected after about 5 seconds
 - Support API Key
@@ -221,8 +274,10 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
   - Models that fail to download may require an API key, but are indistinguishable from those that truly fail
   - API key is not saved for security reasons
   - Apply the API key using the command line option `--civsfz-api-key` or type directly into the text box
-  - If there is no Content-Length in the request response, an API Key may be required. 
+  - If there is no Content-Length in the request response, an API Key may be required.
+
 ### v1.7
+
 - Add open folder button
 - Make tab bar sticky
 - Add content types `Upscaler`,`MotionModule`,`Wildcards`,`Workflows`,`Other` (experimental)
@@ -233,7 +288,7 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
 - Show save buttons and back-to-top button sticky
 - Add back-to-top button
 - Rename elements class/id
-- Change to unique name 
+- Change to unique name
 - If the first image is of type `X`, treat the model as nsfw
   - Note that the save folder will change
 - Move the file that failed to download to the trash
@@ -244,43 +299,61 @@ https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-
   - Settings will take effect on the next cards rendering
   - To return to default, search for `civsfz` from config.json and delete that line
 - Stop using tkinter. It was causing a crash
+
 ### v1.7 beta3
+
 - Fix a mistake when there are models with the same name
 - Change model html styles
+
 ### v1.7 beta2
+
 - The number of tabs can be changed in Settings
 - The number of cards per page can now be changed
 - Add Civitai Browser to Settings
 - If there is no tkinter module, continue with limited functionality (experimental)
 - Clicking on the image sends infotext to txt2img. If local, copy to clipboard
 - Separately searchable in multiple tabs
+
 ### v1.7 beta
+
 - Two tabs for separate searches (experimental)
   - Probably cannot download at the same time
+
 ### v1.6
+
 - Support video type images (Temporarily because the video format is unknown)
 - Display image meta data in Infotext-compatible format (can be expanded by pasting into a prompt)
 - Click image to copy infotext
+
 ### v1.5
+
 - Show download progress
 - Add download cancel button
 - Show Civitai response error
 - File exists, overwrite and continue can be selected.
+
 ### v1.4
+
 - Add page slider and jump button
 - Rename tab `CivitAi` to `CivitAi Browser`
+
 ### v1.3
+
 - Changed to index based model selection
 - Add save folder textbox
 - Add dropdown list of search period
 - Highlighted if you already have the file
+
 ### v1.2.0
+
 - NSFW models are saved in `.nsfw`
 - Show permmisions in HTML -> [reference](https://github.com/civitai/civitai/blob/main/src/components/PermissionIndicator/PermissionIndicator.tsx#L15)
 - Avoid collision when there are same model names
 - Deprecate new folder checkbox and its function
 - Change version selection from dropdown to radio button
+
 ### v1.1.0 and before
+
 - Apply changes made by [thetrebor](https://github.com/thetrebor/sd-civitai-browser)
 - Support LoRA
 - Set folders from cmd_opts
