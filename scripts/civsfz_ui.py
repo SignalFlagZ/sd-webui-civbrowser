@@ -593,17 +593,17 @@ class Components():
             #    outputs=[]
             #    )
 
-            def newSearchTypeChose(grChkbxgrpSearch,evt):
+            def newSearchTypeChose(grChkbxgrpSearch):
                 addChoice=list((set(self.searchtype)^set(grChkbxgrpSearch))-set(self.searchtype) )
                 delChoice=list((set(self.searchtype)^set(grChkbxgrpSearch))-set(grChkbxgrpSearch) )
                 # print_lc(f"{addChoice=} / {delChoice=}")
                 if len(addChoice) + len(delChoice) == 0:
                     return (
                         gr.CheckboxGroup.update(),
-                        gr.Textbox(),
-                        gr.Textbox(),
-                        gr.Textbox(),
-                        gr.Textbox(),
+                        gr.Textbox.update(),
+                        gr.Textbox.update(),
+                        gr.Textbox.update(),
+                        gr.Textbox.update(),
                     )
                 if "No" in addChoice or len(grChkbxgrpSearch) == 0:
                     self.searchtype = ["No"]
@@ -617,13 +617,12 @@ class Components():
                     self.searchtype = addChoice
                 else:
                     self.searchtype = grChkbxgrpSearch
-
                 return (
                     gr.CheckboxGroup.update(value=self.searchtype),
-                    gr.Textbox(visible="Keyword" in self.searchtype),
-                    gr.Textbox(visible="User name" in self.searchtype),
-                    gr.Textbox(visible="Tag" in self.searchtype),
-                    gr.Textbox(
+                    gr.Textbox.update(visible="Keyword" in self.searchtype),
+                    gr.Textbox.update(visible="User name" in self.searchtype),
+                    gr.Textbox.update(visible="Tag" in self.searchtype),
+                    gr.Textbox.update(
                         visible=len(
                             set(self.searchtype)
                             & set(["Model ID", "Version ID", "Hash"])
