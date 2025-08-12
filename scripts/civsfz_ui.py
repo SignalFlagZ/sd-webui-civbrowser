@@ -252,14 +252,14 @@ class Components():
                         interactive=True,
                         lines=1,
                     )
-                    txt_list = ""
-                    grTxtTrainedWords = gr.Textbox(
-                        label="Trained Tags (if any)",
-                        value=f"{txt_list}",
-                        interactive=False,
-                        lines=1,
-                        visible=False,
-                    )
+                    #txt_list = ""
+                    #grTxtTrainedWords = gr.Textbox(
+                    #    label="Trained Tags (if any)",
+                    #    value=f"{txt_list}",
+                    #    interactive=False,
+                    #    lines=1,
+                    #    visible=False,
+                    #)
                 with gr.Row():
                     grRadioVersions = gr.Radio(
                         label="Version",
@@ -456,8 +456,8 @@ class Components():
                 outputs=[grBtnAddFavorite, grBtnAddBan, grBtnClearUser],
             ).then(fn=updateSearchTermChoices, inputs=[], outputs=[grDrpdwnUserName])
 
-            def save_image_files(grTxtSaveFolder, grTxtSaveFilename, grTxtTrainedWords, grHtmlModelInfo):
-                res1 = save_text_file(grTxtSaveFolder, grTxtSaveFilename, grTxtTrainedWords)
+            def save_image_files(grTxtSaveFolder, grTxtSaveFilename, grTxtLoraPrompt, grHtmlModelInfo):
+                res1 = save_text_file(grTxtSaveFolder, grTxtSaveFilename, grTxtLoraPrompt)
                 res2 = saveImageFiles(
                     grTxtSaveFolder,
                     grTxtSaveFilename,
@@ -472,7 +472,7 @@ class Components():
                 inputs=[
                     grTxtSaveFolder,
                     grTxtSaveFilename,
-                    grTxtTrainedWords,
+                    grTxtLoraPrompt, # grTxtTrainedWords,
                     grHtmlModelInfo,
                 ],
                 outputs=[grTextProgress],
@@ -892,7 +892,7 @@ class Components():
 
                     return (
                         gr.HTML.update(value=modelInfo["html"]),
-                        gr.Textbox.update(value=", ".join(modelInfo["trainedWords"])),
+                        #gr.Textbox.update(value=", ".join(modelInfo["trainedWords"])),
                         drpdwn,
                         gr.Textbox.update(value=modelInfo["baseModel"]),
                         gr.Textbox.update(value=path),
@@ -904,7 +904,7 @@ class Components():
                 else:
                     return (
                         gr.HTML.update(value=None),
-                        gr.Textbox.update(value=None),
+                        #gr.Textbox.update(value=None),
                         gr.Dropdown.update(choices=[], value=None),
                         gr.Textbox.update(value=None),
                         gr.Textbox.update(value=None),
@@ -917,7 +917,7 @@ class Components():
                 inputs=[grRadioVersions, grChkbxgrpLevel],
                 outputs=[
                     grHtmlModelInfo,
-                    grTxtTrainedWords,
+                    #grTxtTrainedWords,
                     grDrpdwnSelectFile,
                     grTxtBaseModel,
                     grTxtSaveFolder,
@@ -1145,7 +1145,7 @@ class Components():
                         grRadioVersions = updateVersionsByModelID(self.Civitai.getSelectedModelID())
                         (
                             grHtmlModelInfo,
-                            grTxtTrainedWords,
+                            #grTxtTrainedWords,
                             grDrpdwnSelectFile,
                             grTxtBaseModel,
                             grTxtSaveFolder,
@@ -1165,7 +1165,7 @@ class Components():
                             grHtmlModelInfo,
                             grTxtEarlyAccess,
                             grTxtHash,
-                            grTxtTrainedWords,
+                            #grTxtTrainedWords,
                             grDrpdwnSelectFile,
                             grTxtBaseModel,
                             grTxtSaveFolder,
@@ -1180,7 +1180,7 @@ class Components():
                             gr.HTML.update(value=None),
                             gr.Textbox.update(value=None),
                             gr.Textbox.update(value=""),
-                            gr.Textbox.update(value=None),
+                            #gr.Textbox.update(value=None),
                             gr.Dropdown.update(value=None),
                             gr.Textbox.update(value=None),
                             gr.Textbox.update(value=None),
@@ -1195,7 +1195,7 @@ class Components():
                         gr.HTML.update(value=None),
                         gr.Textbox.update(value=None),
                         gr.Textbox.update(value=""),
-                        gr.Textbox.update(value=None),
+                        #gr.Textbox.update(value=None),
                         gr.Dropdown.update(value=None),
                         gr.Textbox.update(value=None),
                         gr.Textbox.update(value=None),
@@ -1213,7 +1213,7 @@ class Components():
                     grHtmlModelInfo,
                     grTxtEarlyAccess,
                     grTxtHash,
-                    grTxtTrainedWords,
+                    #grTxtTrainedWords,
                     grDrpdwnSelectFile,
                     grTxtBaseModel,
                     grTxtSaveFolder,
