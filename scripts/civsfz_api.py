@@ -1133,6 +1133,7 @@ class CivitaiModels(APIInformation):
             grDrpdwnID="",
             grchkbxfav=""
         ):
+        grDrpdwnID = str.strip(grDrpdwnID)
         if "Model ID" in search_type or "Version ID" in search_type:
             if not grDrpdwnID.isdecimal():
                 query = ""

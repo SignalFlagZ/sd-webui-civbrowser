@@ -252,14 +252,14 @@ class Components():
                         interactive=True,
                         lines=1,
                     )
-                    #txt_list = ""
-                    #grTxtTrainedWords = gr.Textbox(
+                    # txt_list = ""
+                    # grTxtTrainedWords = gr.Textbox(
                     #    label="Trained Tags (if any)",
                     #    value=f"{txt_list}",
                     #    interactive=False,
                     #    lines=1,
                     #    visible=False,
-                    #)
+                    # )
                 with gr.Row():
                     grRadioVersions = gr.Radio(
                         label="Version",
@@ -658,6 +658,7 @@ class Components():
                 grDrpdwnID,
                 grchkbxfav,
             ):
+                grDrpdwnID = str.strip(grDrpdwnID)  # Remove spaces
                 response = None
                 self.Civitai.clearRequestError()
                 query = self.Civitai.makeRequestQuery(
@@ -706,8 +707,7 @@ class Components():
                                 'pageSize': "1",
                                 }
                             } if self.Civitai.getRequestError() is None else None
-                        vIdAsmId = True
-                if not vIdAsmId:
+                else:
                     response = self.Civitai.requestApi(query=query, timeout=read_timeout())
                 err = self.Civitai.getRequestError()
                 if err is not None:
