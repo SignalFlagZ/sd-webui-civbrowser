@@ -213,7 +213,11 @@ def save_text_file(folder, filename, trained_words):
     #                    )
     filepath = Path(folder) / Path(filename)
     filepath = filepath.with_suffix(".txt")
-    overwrite = False
+    overwrite = opts.civsfz_overwrite_metadata_file
+    if overwrite:
+        print_n(f"Overwrite allowed in settings")
+    else:
+        print_n(f"Overwrite not allowed in settings")
     if not filepath.exists() or overwrite:
         with open(filepath, 'w', encoding='UTF-8') as f:
             f.write(trained_words)

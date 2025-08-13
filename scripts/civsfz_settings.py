@@ -122,6 +122,11 @@ def on_ui_settings():
             label="Discard downloaded model file if the hash value differs",
             component=gr.Checkbox,
         ),
+        "civsfz_overwrite_metadata_file": shared.OptionInfo(
+            False,
+            label="Allow metadata files to be overwritten. (xxx.txt/xxx.json)",
+            component=gr.Checkbox,
+        ),
         "civsfz_length_of_conditions_history": shared.OptionInfo(
             5,
             label="Length of conditions history",
