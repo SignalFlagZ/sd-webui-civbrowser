@@ -205,16 +205,42 @@ def filename_normalization(filename) -> str:
 def save_text_file(folder, filename, trained_words):
     filename = filename_normalization(filename)
     makedirs(folder)
-    filepath = os.path.join(folder, filename.replace(".ckpt",".txt")\
-                                        .replace(".safetensors",".txt")\
-                                        .replace(".pt",".txt")\
-                                        .replace(".yaml",".txt")\
-                                        .replace(".zip",".txt")\
-                        )
-    if not os.path.exists(filepath):
+    # filepath = os.path.join(folder, filename.replace(".ckpt",".txt")\
+    #                                    .replace(".safetensors",".txt")\
+    #                                    .replace(".pt",".txt")\
+    #                                    .replace(".yaml",".txt")\
+    #                                    .replace(".zip",".txt")\
+    #                    )
+    filepath = Path(folder) / Path(filename)
+    filepath = filepath.with_suffix(".txt")
+    overwrite = False
+    if not filepath.exists() or overwrite:
         with open(filepath, 'w', encoding='UTF-8') as f:
             f.write(trained_words)
-    print_n('Save text.')
+        print_n(f"Save {filepath.name}")
+    else:
+        print_n(f"File exists, so dosen't save {filepath.name}")
+
+    # Save trigger words as metadata
+    filepath = filepath.with_suffix(".json")
+    metadata = {}
+    try:
+        if filepath.exists():
+            with open(filepath, "r", encoding="utf8") as f:
+                metadata = json.load(f)
+    except Exception as e:
+        print_ly(f"reading metadata from {filepath}:{e}" )
+    # print_lc(f"{metadata=}")
+    metadata["activation text"] = re.sub(r"<.+?>", "", trained_words) # delete "<lora:xxx>"
+    if not filepath.exists() or overwrite:
+        try:
+            with open(filepath, "w", encoding="UTF-8") as f:
+                json.dump(metadata, f)
+            print_n(f"Save {filepath.name}")
+        except Exception as e:
+            print_ly(f"Writing metadata to {filepath}:{e}")
+    else:
+        print_n(f"File exists, so dosen't save {filepath.name}")
     return "Save text"
 
 def makedirs(folder):
