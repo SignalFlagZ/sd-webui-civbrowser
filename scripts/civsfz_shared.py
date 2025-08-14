@@ -40,16 +40,21 @@ except ImportError:
 def read_timeout():
     return 15, getattr(opts, "civsfz_request_timeout", 30)
 
+
 class HTML2txt(HTMLParser):
     text = ""
     prevEndTag = ""
-    def __init__(self, start_text:str=""):
+
+    def __init__(self, start_text: str = ""):
         super().__init__()
         self.text = start_text
-        self.prevEndTag=""
+        self.prevEndTag = ""
+
     def handle_starttag(self, tag, attrs):
         if tag in ["li"]:
-            self.text += "  "  # indent
+            self.text += "  - "  # indent
+        self.prevEndTag = ""
+
     def handle_endtag(self, tag):
         if tag in [
             "p",
@@ -68,22 +73,27 @@ class HTML2txt(HTMLParser):
             "menu",
             "table",
             "li",
-            "hr",
             "caption",
             "thread",
             "tr",
+            "pre",
         ]:
             if self.prevEndTag in ["p"] and tag in ["li"]:
                 pass
             else:
                 self.text += "\n"
+        elif tag in ["hr"]:
+            self.text += "----------\n"
         else:
             self.text += " "
         self.prevEndTag = tag
+
     def handle_data(self, data):
         self.text += data
+
     def addText(self, addedText=""):
         self.text += addedText
-    def setInnerText(self, text:str=""):
+
+    def setInnerText(self, text: str = ""):
         # for reset
         self.text = text
