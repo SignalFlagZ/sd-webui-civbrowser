@@ -202,7 +202,8 @@ def filename_normalization(filename) -> str:
         filename = re.sub(r"__+", "_", filename)
     return filename
 
-def save_text_file(folder, filename, trained_words):
+
+def save_text_file(folder, filename, trained_words, description:str=""):
     filename = filename_normalization(filename)
     makedirs(folder)
     # filepath = os.path.join(folder, filename.replace(".ckpt",".txt")\
@@ -235,6 +236,7 @@ def save_text_file(folder, filename, trained_words):
     except Exception as e:
         print_ly(f"reading metadata from {filepath}:{e}" )
     # print_lc(f"{metadata=}")
+    metadata["description"] = description
     metadata["activation text"] = re.sub(r"<.+?>", "", trained_words) # delete "<lora:xxx>"
     if not filepath.exists() or overwrite:
         try:
@@ -246,6 +248,7 @@ def save_text_file(folder, filename, trained_words):
     else:
         print_n(f"File exists, so dosen't save {filepath.name}")
     return "Save text"
+
 
 def makedirs(folder):
     if not os.path.exists(folder):

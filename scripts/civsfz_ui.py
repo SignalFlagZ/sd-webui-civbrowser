@@ -3,10 +3,12 @@ import itertools
 import json
 import math
 import os
+import re
+from html.parser import HTMLParser
 from datetime import datetime, timedelta, timezone
 from modules import script_callbacks, ui_components
 from colorama import Fore, Back, Style
-from scripts.civsfz_shared import VERSION, GR_V440, cmd_opts, opts, read_timeout
+from scripts.civsfz_shared import VERSION, GR_V440, cmd_opts, opts, read_timeout, HTML2txt
 from scripts.civsfz_api import CivitaiModels
 from scripts.civsfz_filemanage import (
     open_folder,
@@ -457,13 +459,38 @@ class Components():
             ).then(fn=updateSearchTermChoices, inputs=[], outputs=[grDrpdwnUserName])
 
             def save_image_files(grTxtSaveFolder, grTxtSaveFilename, grTxtLoraPrompt, grHtmlModelInfo):
-                res1 = save_text_file(grTxtSaveFolder, grTxtSaveFilename, grTxtLoraPrompt)
+                modelInfo = self.Civitai.getModelVersionInfo()
+                html = modelInfo["description"]
+                description = ""
+                parser = HTML2txt()
+                parser.addText(f'Model ID:{modelInfo["id"]}  ')
+                parser.addText(f'Version ID:{modelInfo["versionId"]}\n')
+                if html is not None:
+                    parser.feed(html)
+                    parser.close()
+                    description = parser.text
+                    parser.reset()
+                html = modelInfo["versionDescription"]
+                if html is not None:
+                    parser.addText("\nVersion description\n")
+                    parser.feed(html)
+                    parser.close()
+                    description = parser.text
+                    parser.reset()
+                # description = re.sub(r"<p>", "\n", description)
+                # description = re.sub(r"<.+?>", "", description)
+                res1 = save_text_file(
+                    grTxtSaveFolder,
+                    grTxtSaveFilename,
+                    grTxtLoraPrompt,
+                    description,
+                )
                 res2 = saveImageFiles(
                     grTxtSaveFolder,
                     grTxtSaveFilename,
                     grHtmlModelInfo,
                     self.Civitai.getSelectedModelType(),
-                    self.Civitai.getModelVersionInfo(),
+                    modelInfo,
                 )
                 return res1 + " / " + res2
 
