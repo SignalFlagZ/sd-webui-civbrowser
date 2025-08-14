@@ -31,7 +31,7 @@ An extension to help download models from CivitAi without leaving WebUI
 - ~~Show the ***Early Access*** period of models~~
 - Ban creators feature (Hide models by creator names)
 - Favorite creators feature (Highlight the model with ⭐️)
-- Stores metadata used by Forge.
+- Stores metadata.
   - Create description and activation text from model information.
   - If metadata already exists, it will not be overwritten. Can be changed in settings.
 
@@ -39,7 +39,7 @@ An extension to help download models from CivitAi without leaving WebUI
 
 ### v2.8
 
-- Stores metadata used by Forge.
+- Stores metadata.
   - Create description and activation text from model information.
   - If metadata already exists, it will not be overwritten. Can be changed in settings.
 - You can now search using keywords, usernames, and tags at the same time.
