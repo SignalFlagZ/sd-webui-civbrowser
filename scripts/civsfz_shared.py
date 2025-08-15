@@ -53,6 +53,8 @@ class HTML2txt(HTMLParser):
     def handle_starttag(self, tag, attrs):
         if tag in ["li"]:
             self.text += "  - "  # indent
+        elif tag in ["hr"]:
+            self.text += "----------\n"
         self.prevEndTag = ""
 
     def handle_endtag(self, tag):
@@ -82,8 +84,6 @@ class HTML2txt(HTMLParser):
                 pass
             else:
                 self.text += "\n"
-        elif tag in ["hr"]:
-            self.text += "----------\n"
         else:
             self.text += " "
         self.prevEndTag = tag

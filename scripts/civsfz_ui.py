@@ -465,8 +465,12 @@ class Components():
                 html = modelInfo["description"]
                 description = ""
                 parser = HTML2txt()
-                parser.addText(f'Model ID:{modelInfo["id"]}  ')
-                parser.addText(f'Version ID:{modelInfo["versionId"]}\n')
+                parser.addText(f'Base Model:"{modelInfo["baseModel"]}"  ')
+                parser.addText(f'Creator:"{modelInfo.get("creator").get("username")}"  ')
+                parser.addText(f'Model ID:"{modelInfo["id"]}"  ')
+                parser.addText(f'Version ID:"{modelInfo["versionId"]}"\n')
+                parser.addText(f'Tags:"{ ", ".join(modelInfo["tags"])}"\n')
+                parser.feed("<hr>")
                 if html is not None:
                     parser.feed(html)
                     parser.close()
