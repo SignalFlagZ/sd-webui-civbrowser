@@ -359,7 +359,7 @@ class Components():
                 modelType = self.Civitai.getSelectedModelType()
                 filename = filename_normalization(grTxtSaveFilename)
                 vInfo = self.Civitai.getModelVersionInfo()
-                trrigerWords = vInfo['trainedWords']
+                trrigerWords = vInfo.get('trainedWords')
                 wildcard = ""
                 if trrigerWords:
                     trrigerWords = vInfo['trainedWords'][0]
