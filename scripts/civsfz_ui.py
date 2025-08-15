@@ -359,20 +359,22 @@ class Components():
                 modelType = self.Civitai.getSelectedModelType()
                 filename = filename_normalization(grTxtSaveFilename)
                 vInfo = self.Civitai.getModelVersionInfo()
-                trrigerWords = vInfo.get('trainedWords')
+                triggerWords = vInfo.get('trainedWords')
                 wildcard = ""
-                if trrigerWords:
-                    trrigerWords = vInfo['trainedWords'][0]
+                if triggerWords:
+                    triggerWords = vInfo['trainedWords'][0]
                     if len(vInfo['trainedWords']) > 1:
                         wildcard = f", {{ {' | '.join(vInfo['trainedWords'][1:])}}}"
                 else:
-                    trrigerWords = ""
+                    triggerWords = ""
+                triggerWords = re.sub(r"<.+?>", "", triggerWords)  # delete "<lora:xxx>"
+                wildcard = re.sub(r"<.+?>", "", wildcard)
                 prompt = ""
                 visible = True
                 if modelType in ["LORA", "LoCon", "DoRA"]:
-                    prompt = f"<lora:{os.path.splitext(filename)[0]}:{opts.extra_networks_default_multiplier}> {trrigerWords} {wildcard}"
+                    prompt = f"<lora:{os.path.splitext(filename)[0]}:{opts.extra_networks_default_multiplier}> {triggerWords} {wildcard}"
                 elif modelType == "TextualInversion":
-                    prompt = f"{trrigerWords}"
+                    prompt = f"{triggerWords}"
                 else:
                     visible = False
                 return (gr.Textbox.update(value=prompt, visible=visible),
