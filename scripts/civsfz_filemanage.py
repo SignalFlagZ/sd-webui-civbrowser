@@ -282,6 +282,8 @@ def saveImageFiles(folder, versionName, html, content_type, versionInfo):
         HTML = html
         for i, img_url in enumerate(img_urls):
             isVideo = False
+            filename = ""
+            filenamethumb = ""
             for img in versionInfo["modelVersions"][0]["images"]:
                 if img['url'] == img_url:
                     if img['type'] == 'video':
