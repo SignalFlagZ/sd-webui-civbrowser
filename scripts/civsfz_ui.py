@@ -101,10 +101,16 @@ class Components():
                     label="Search",
                     choices=self.Civitai.getSearchTypes(),
                     value=self.searchtype,
-                    interactive=True
+                    interactive=True,
+                    elem_id=f"civsfz_search_type{self.id}",
+                    tooltip="Keyword, username and tag can be searched simultaneously",
                 )
                 grchkbxfav = gr.Checkbox(
-                    scale=1, label="Favorites on Civitai", value=False
+                    scale=1,
+                    label="Liked on Civitai",
+                    value=False,
+                    elem_id=f"civsfz_search_liked{self.id}",
+                    tooltip="Search for models liked on civitai",
                 )
             with gr.Row():
                 grDrpdwnKeyword = gr.Dropdown(
@@ -114,7 +120,8 @@ class Components():
                     type="value",
                     visible=False,
                     allow_custom_value=True,
-                    tooltip="Enter your search term or choose from your history and favorites",
+                    elem_id=f"civsfz_search_keyword{self.id}",
+                    tooltip="Enter a search term or choose from your history",
                 )
                 grDrpdwnUserName = gr.Dropdown(
                     scale=0,
@@ -123,6 +130,7 @@ class Components():
                     type="value",
                     visible=False,
                     allow_custom_value=True,
+                    elem_id=f"civsfz_search_user{self.id}",
                     tooltip="Enter a user name or choose from your history and favorites",
                 )
                 grDrpdwnTag = gr.Dropdown(
@@ -132,7 +140,8 @@ class Components():
                     type="value",
                     visible=False,
                     allow_custom_value=True,
-                    tooltip="Enter a tag or choose from your history and favorites",
+                    elem_id=f"civsfz_search_tag{self.id}",
+                    tooltip="Enter a tag or choose from your history",
                 )
                 grDrpdwnID = gr.Dropdown(
                     scale=0,
@@ -141,7 +150,8 @@ class Components():
                     type="value",
                     visible=False,
                     allow_custom_value=True,
-                    tooltip="Enter the number or choose from your history and favorites",
+                    elem_id=f"civsfz_search_id{self.id}",
+                    tooltip="Enter the number or choose from your history",
                 )
 
             with gr.Column(elem_id=f"civsfz_model-navigation{self.id}"):
@@ -470,7 +480,7 @@ class Components():
                 parser.addText(f'Model ID:"{modelInfo["id"]}"  ')
                 parser.addText(f'Version ID:"{modelInfo["versionId"]}"\n')
                 parser.addText(f'Tags:"{ ", ".join(modelInfo["tags"])}"\n')
-                parser.feed("<hr>")
+                parser.feed("<hr/>")
                 if html is not None:
                     parser.feed(html)
                     parser.close()
