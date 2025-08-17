@@ -396,7 +396,7 @@ class History():
                 ret = json.load(f)
         except:
             ret = []
-        return deque(ret,maxlen=20)
+        return deque(ret,maxlen=30)
     def save(self):
         try:
             with open(self._path, 'w', encoding="utf-8") as f:
@@ -417,12 +417,11 @@ class KeywordHistory(History):
         super().__init__(
             Path.joinpath(extensionFolder(), Path(f"../{fileName}"))
         )
-        # self._delimiter = "_._"
 
     def add(self, type="Keyword", word=None):
         if type == "No" or word == "" or word == None:
             return
-        if word in FavoriteCreators.getAsList():
+        if type == "User name" and word in FavoriteCreators.getAsList():
             return
         d = {"type": type, "word": word}
         try:
@@ -430,8 +429,8 @@ class KeywordHistory(History):
         except:
             pass
         self._history.appendleft(d)
-        while self.len() > opts.civsfz_length_of_search_history:
-            self._history.pop()
+        while self.len(type) > opts.civsfz_length_of_search_history:
+            self.pop(type)
         self.save()
 
     def getAsChoices(self, type="Keyword"):
@@ -442,6 +441,20 @@ class KeywordHistory(History):
         if type == "User name":
             favUsers = [f"⭐️{s.strip()}" for s in FavoriteCreators.getAsList()]
         return ret + favUsers
+
+    def len(self, type="Keyword"):
+        return len([ w for w in self._history if w.get("type") == type])
+
+    def pop(self, type="Keyword"):
+        j = (
+            len(self._history)
+            - next(i for i, v in enumerate(reversed(self._history)) if v.get("type") == type)
+            - 1
+        )
+        l = list(self._history)
+        l.pop(j)
+        self._history = deque(l)
+
 
 class SearchHistory(History):
     def __init__(self):
