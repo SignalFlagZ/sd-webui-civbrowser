@@ -48,7 +48,7 @@ def on_ui_settings():
                 "<h3>API-Key</h3>"
                 "The command line option `<em>--civsfz-api-key</em>` is deprecated. "
                 "We felt that this was a risk because some users might not notice the API-Key being displayed on the console. "
-                "The API-Key here is saved in the `<em>settings.json</em>` file.</br>"
+                "The API-Key here is saved in the `<em>config.json</em>` file.</br>"
                 "If you do not know this, there is a risk of your API-Key being leaked."
             ),
         }
@@ -62,7 +62,7 @@ def on_ui_settings():
             label="API-Key",
             component=gr.Textbox,
             component_args={"type": "password"},
-        ).info("Note: API-Key is stored in the `settings.json` file."),
+        ).info("Note: API-Key is stored in the `config.json` file."),
         "civsfz_request_timeout": shared.OptionInfo(
             30,
             label="Request timeout(s)",
