@@ -35,6 +35,19 @@ An extension to help download models from CivitAi without leaving WebUI
   - Create description and activation text from model information.
   - If metadata already exists, it will not be overwritten. Can be changed in settings.
 
+## Installation
+
+1. Launch SD-webUI.
+2. Open tab `Extensions` on SD-webUI.
+3. Open tab `Available`.
+4. Click `Load from:` button.
+5. Search `civbrowser`.
+6. Click `install` button.
+7. Wait for the installation to complete.
+8. Open tab `Installed`.
+9. Click `Apply and quit` button.
+10. Restart SD-webUI.
+
 ## Versions
 
 ### v2.8
