@@ -246,14 +246,7 @@ class APIInformation():
         url = self.getModelsApiUrl()
         query = { 'types': ""}
         data = self.requestApiOptions(url, query)
-        try:
-            # types = data['error']['issues'][0]['unionErrors'][0]['issues'][0]['options']
-            res = json.loads(data['error']['message'])
-            # print_lc(f"{res[0]['errors'][0][0]['values']=}")
-            types = res[0]["errors"][0][0]["values"]
-        except:
-            print_ly(f'ERROR: Get types')
-            types = [
+        types = [
                   "Checkpoint",
                   "TextualInversion",
                   "Hypernetwork",
@@ -271,6 +264,17 @@ class APIInformation():
                   "Detection",
                   "Other"
                 ]
+        try:
+            # types = data['error']['issues'][0]['unionErrors'][0]['issues'][0]['options']
+            res = json.loads(data['error']['message'])
+            newList = res[0]["errors"][0][0]["values"]
+            # print_lc(f"{res[0]['errors'][0][0]['values']=}")
+            diff = set(types) ^ set(newList)
+            if len(diff) != 0:
+                print_lc(f"Type options have been updated.\n{diff=}")
+            types = newList
+        except:
+            print_ly(f'ERROR: Get types')
         else:
             # print_lc(f'Set types')
             pass
@@ -290,112 +294,126 @@ class APIInformation():
 
         query = {'baseModels': ""}
         data = self.requestApiOptions(url, query)
+        APIInformation.basemodelOptions = [
+            "AuraFlow",
+            "CogVideoX",
+            "Flux.1 S",
+            "Flux.1 D",
+            "Flux.1 Kontext",
+            "HiDream",
+            "Hunyuan 1",
+            "Hunyuan Video",
+            "Illustrious",
+            "Imagen4",
+            "Kolors",
+            "LTXV",
+            "Lumina",
+            "Mochi",
+            "NoobAI",
+            "ODOR",
+            "OpenAI",
+            "Other",
+            "PixArt a",
+            "PixArt E",
+            "Playground v2",
+            "Pony",
+            "Qwen",
+            "Stable Cascade",
+            "SD 1.4",
+            "SD 1.5",
+            "SD 1.5 LCM",
+            "SD 1.5 Hyper",
+            "SD 2.0",
+            "SD 2.0 768",
+            "SD 2.1",
+            "SD 2.1 768",
+            "SD 2.1 Unclip",
+            "SD 3",
+            "SD 3.5",
+            "SD 3.5 Large",
+            "SD 3.5 Large Turbo",
+            "SD 3.5 Medium",
+            "SDXL 0.9",
+            "SDXL 1.0",
+            "SDXL 1.0 LCM",
+            "SDXL Lightning",
+            "SDXL Hyper",
+            "SDXL Turbo",
+            "SDXL Distilled",
+            "SVD",
+            "SVD XT",
+            "Veo 3",
+            "Wan Video",
+            "Wan Video 14B t2v",
+            "Wan Video 1.3B t2v",
+            "Wan Video 14B i2v 480p",
+            "Wan Video 14B i2v 720p",
+            "Wan Video 2.2 TI2V-5B",
+            "Wan Video 2.2 I2V-A14B",
+            "Wan Video 2.2 T2V-A14B",
+        ]
         try:
             # APIInformation.basemodelOptions = data['error']['issues'][0]['unionErrors'][0]['issues'][0]['options']
             res = json.loads(data['error']['message'])
             # print_lc(f"{res[0]['errors'][0][0]['values']=}")
-            APIInformation.basemodelOptions = res[0]["errors"][0][0]["values"]
+            newList = res[0]["errors"][0][0]["values"]
+            diff = set(APIInformation.basemodelOptions) ^ set(newList)
+            if len(diff) != 0:
+                print_lc(f"Base model options have been updated.\n{diff=}")
+            APIInformation.basemodelOptions = newList
         except:
             print_ly(f'ERROR: Get base models')
-            APIInformation.basemodelOptions = [
-                "AuraFlow",
-                "CogVideoX",
-                "Flux.1 S",
-                "Flux.1 D",
-                "Flux.1 Kontext",
-                "HiDream",
-                "Hunyuan 1",
-                "Hunyuan Video",
-                "Illustrious",
-                "Imagen4",
-                "Kolors",
-                "LTXV",
-                "Lumina",
-                "Mochi",
-                "NoobAI",
-                "ODOR",
-                "OpenAI",
-                "Other",
-                "PixArt a",
-                "PixArt E",
-                "Playground v2",
-                "Pony",
-                "Qwen",
-                "Stable Cascade",
-                "SD 1.4",
-                "SD 1.5",
-                "SD 1.5 LCM",
-                "SD 1.5 Hyper",
-                "SD 2.0",
-                "SD 2.0 768",
-                "SD 2.1",
-                "SD 2.1 768",
-                "SD 2.1 Unclip",
-                "SD 3",
-                "SD 3.5",
-                "SD 3.5 Large",
-                "SD 3.5 Large Turbo",
-                "SD 3.5 Medium",
-                "SDXL 0.9",
-                "SDXL 1.0",
-                "SDXL 1.0 LCM",
-                "SDXL Lightning",
-                "SDXL Hyper",
-                "SDXL Turbo",
-                "SDXL Distilled",
-                "SVD",
-                "SVD XT",
-                "Veo 3",
-                "Wan Video",
-                "Wan Video 14B t2v",
-                "Wan Video 1.3B t2v",
-                "Wan Video 14B i2v 480p",
-                "Wan Video 14B i2v 720p",
-                "Wan Video 2.2 TI2V-5B",
-                "Wan Video 2.2 I2V-A14B",
-                "Wan Video 2.2 T2V-A14B",
-            ]
         else:
             # print_lc(f'Set base models')
             pass
+
         query = {'sort': ""}
         data = self.requestApiOptions(url, query)
+        APIInformation.sortOptions = [
+            "Highest Rated",
+            "Most Downloaded",
+            "Most Liked",
+            "Most Discussed",
+            "Most Collected",
+            "Most Images",
+            "Newest",
+            "Oldest",
+        ]
         try:
             # APIInformation.sortOptions = data['error']['issues'][0]['options']
             res = json.loads(data['error']['message'])
             # print_lc(f"{res[0]['values']=}")
-            APIInformation.sortOptions = res[0]["values"]
+            newList = res[0]["values"]
+            diff = set(APIInformation.sortOptions) ^ set(newList)
+            if len(diff) != 0:
+                print_lc(f"Sort options have been updated.\n{diff=}")
+            APIInformation.sortOptions = newList
         except:
             print_ly(f'ERROR: Get sorts')
-            APIInformation.sortOptions = [
-                "Highest Rated",
-                "Most Downloaded",
-                "Most Liked",
-                "Most Discussed",
-                "Most Collected",
-                "Most Images",
-                "Newest",
-                "Oldest",
-            ]
         else:
             # print_lc(f'Set sorts')
             pass
+
         query = {'period': ""}
         data = self.requestApiOptions(url, query)
+        APIInformation.periodOptions = [
+                "Day",
+                "Week",
+                "Month",
+                "Year",
+                "AllTime"
+            ]
         try:
             # APIInformation.periodOptions = data['error']['issues'][0]['options']
             res = json.loads(data['error']['message'])
             # print_lc(f"{res[0]['values']=}")
-            APIInformation.periodOptions = res[0]["values"]
+            newList = res[0]["values"]
+            diff = set(APIInformation.periodOptions) ^ set(newList)
+            if len(diff) != 0:
+                print_lc(f"Period options have been updated.\n{diff=}")
+            APIInformation.periodOptions = newList
         except:
             print_ly(f'ERROR: Get periods')
-            APIInformation.periodOptions = [
-                    "Day",
-                    "Week",
-                    "Month",
-                    "Year",
-                    "AllTime"
-                ]
         else:
             # print_lc(f'Set periods')
             pass
