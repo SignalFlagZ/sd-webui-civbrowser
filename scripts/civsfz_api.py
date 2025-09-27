@@ -320,6 +320,7 @@ class APIInformation():
             "PixArt E",
             "Playground v2",
             "Pony",
+            "Pony V7",
             "Qwen",
             "Stable Cascade",
             "SD 1.4",
@@ -355,6 +356,8 @@ class APIInformation():
             "Wan Video 2.2 TI2V-5B",
             "Wan Video 2.2 I2V-A14B",
             "Wan Video 2.2 T2V-A14B",
+            "Wan Video 2.5 T2V",
+            "Wan Video 2.5 I2V",
         ]
         try:
             # APIInformation.basemodelOptions = data['error']['issues'][0]['unionErrors'][0]['issues'][0]['options']

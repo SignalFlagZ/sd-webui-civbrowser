@@ -52,6 +52,7 @@ familyColor: dict = {
         "value": [
             "Illustrious",
             "Pony",
+            "Pony V7",
             "NoobAI",
             "SDXL 1.0",
             "SDXL 0.9",
@@ -67,6 +68,7 @@ familyColor: dict = {
         "value": [
             "Flux.1 D",
             "Flux.1 S",
+            "Flux.1 Krea",
             "Flux.1 Kontext",
             "SD 3.5",
             "SD 3.5 Large",
@@ -79,13 +81,15 @@ familyColor: dict = {
     "family4": {
         "value": [
             "Wan Video",
-            "Wan Video 14B t2v",
             "Wan Video 1.3B t2v",
+            "Wan Video 14B t2v",
             "Wan Video 14B i2v 480p",
             "Wan Video 14B i2v 720p",
             "Wan Video 2.2 TI2V-5B",
             "Wan Video 2.2 I2V-A14B",
-            "Wan Video 2.2 T2V-A14B"
+            "Wan Video 2.2 T2V-A14B",
+            "Wan Video 2.5 T2V",
+            "Wan Video 2.5 I2V",
         ],
         "color": hex_color_hsl_to_rgb(300, 90, 45),
     },
