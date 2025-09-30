@@ -11,7 +11,6 @@ from collections import deque
 from modules import  sd_models
 from colorama import Fore, Back, Style
 from scripts.civsfz_shared import cmd_opts, opts, read_timeout
-from modules import shared
 from modules.paths import models_path
 try:
     from send2trash import send2trash
@@ -25,7 +24,7 @@ print_lc = lambda  x: print(Fore.LIGHTCYAN_EX + "CivBrowser: " + x + Style.RESET
 print_n = lambda  x: print("CivBrowser: " + x )
 
 isDownloading = False
-ckpt_dir = shared.cmd_opts.ckpt_dir or sd_models.model_path
+ckpt_dir = cmd_opts.ckpt_dir or sd_models.model_path
 pre_opt_folder = None
 
 def extensionFolder() -> Path:

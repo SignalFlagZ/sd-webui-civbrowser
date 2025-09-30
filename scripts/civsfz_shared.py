@@ -10,7 +10,7 @@ import gradio as gr
 GR_V440 = True if "4.40" in gr.__version__ else False
 
 try:
-    from modules_forge import forge_version
+    from modules_forge.forge_version import version as forge_version
 except ImportError:
     from modules.cmd_args import parser
     if parser.description:
@@ -22,14 +22,18 @@ else:
     else:
         platform = "Forge"
 
-# print(f'Working on {platform}')
-
+# print(f"Working on {platform=} {forge_version=}")
 
 from modules.shared import opts as opts
 try:
     # SD web UI >= v1.6.0-RC
     # Forge
     from modules.shared_cmd_options import cmd_opts as cmd_opts
+    if forge_version in ["classic", "neo"]:
+        from modules.sd_models import model_path
+        if getattr(cmd_opts, "ckpt_dir", None) is None:
+            setattr(cmd_opts, "ckpt_dir", model_path)
+            print(f"{cmd_opts=}")
 except ImportError:
     # SD web UI < v1.6.0-RC
     # SD.Next
