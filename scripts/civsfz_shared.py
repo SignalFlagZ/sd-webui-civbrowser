@@ -17,8 +17,11 @@ except ImportError:
         platform = "SD.Next"
     pass
 else:
-    platform = "Forge"
-    forge_version = forge_version
+    if forge_version in ["classic", "neo"]:
+        platform = "Forge Classic"
+    else:
+        platform = "Forge"
+
 # print(f'Working on {platform}')
 
 
