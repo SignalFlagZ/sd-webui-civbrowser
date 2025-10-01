@@ -21,7 +21,6 @@ else:
         platform = "Forge Classic"
     else:
         platform = "Forge"
-
 # print(f"Working on {platform=} {forge_version=}")
 
 from modules.shared import opts as opts
@@ -59,9 +58,9 @@ try:
 except ImportError:
     from modules.hashes import calculate_sha256 as calculate_sha256
 
+
 def read_timeout():
     return 15, getattr(opts, "civsfz_request_timeout", 30)
-
 
 class HTML2txt(HTMLParser):
     text = ""
