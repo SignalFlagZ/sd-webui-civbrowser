@@ -1280,11 +1280,9 @@ def on_ui_tabs():
         with gr.Accordion(label="Update information", open=False):
             gr.HTML(
                 value=(
-                    "<h3>Changes " + "in v2.8" + "</h3>"
+                    "<h3>Changes " + "in v2.9" + "</h3>"
                     "<ul>"
-                    "<li>You can now search using keywords, usernames, and tags at the same time.</li>"
-                    "<li>Searching for Favorites on Civitai.</li>"
-                    "<li>Some model information can now be collapsed and hidden.</li>"
+                    "<li>Add support for Forge Neo (experimental)</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )

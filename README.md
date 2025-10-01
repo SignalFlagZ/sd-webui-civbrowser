@@ -10,7 +10,7 @@ An extension to help download models from CivitAi without leaving WebUI
 
 ## Features
 
-- Works with ***A1111***, ***Forge***, ***SD.Next*** （above v2.3.5）
+- Works with ***A1111***, ***Forge***, ***SD.Next***, ***Forge Neo***(experimental)（above v2.3.5）
   - SD.Next is far away from A1111, so it may stop working eventually
 - Search Civitai models in ***multiple tabs***
 - Download ***queue*** and ***multithreaded*** downloads
@@ -18,7 +18,7 @@ An extension to help download models from CivitAi without leaving WebUI
 - Safe display in ***sfw*** search
 - Highlight models ***you have***
 - Highlight models that ***can be updated***
-- Searchable by specifying ***Base Models*** (experimental)
+- Searchable by specifying ***Base Models***
 - Show ***Base Model*** on a model card
 - Display/***save*** model information ***in HTML***
 - ***Json data*** of model is also ***saved*** in the same folder as the model file
@@ -49,6 +49,13 @@ An extension to help download models from CivitAi without leaving WebUI
 10. Restart SD-webUI.
 
 ## Versions
+
+### v2.9
+
+- Add support for Forge Neo (experimental)
+  - Video models are treated the same as SD models.
+  - The compatibility with ComfyUI, such as unet and diffusion_models folders, is undecided.
+  - Separate folders are required for gguf and safetensors, but this cannot be determined due to insufficient model information.
 
 ### v2.8
 
