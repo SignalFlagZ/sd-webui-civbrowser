@@ -28,12 +28,27 @@ from modules.shared import opts as opts
 try:
     # SD web UI >= v1.6.0-RC
     # Forge
+    # Forge Classic/neo
     from modules.shared_cmd_options import cmd_opts as cmd_opts
     if forge_version in ["classic", "neo"]:
         from modules.sd_models import model_path
         if getattr(cmd_opts, "ckpt_dir", None) is None:
             setattr(cmd_opts, "ckpt_dir", model_path)
-            print(f"{cmd_opts=}")
+        import os
+        from modules import paths
+        if getattr(cmd_opts, "hypernetwork_dir", None) is None:
+            setattr(
+                cmd_opts,
+                "hypernetwork_dir",
+                os.path.abspath(os.path.join(paths.models_path, "hypernetworks")),
+            )
+        if getattr(cmd_opts, "vae_dir", None) is None:
+            setattr(
+                cmd_opts,
+                "vae_dir",
+                os.path.abspath(os.path.join(paths.models_path, "VAE")),
+            )
+        #print(f"{cmd_opts=}")
 except ImportError:
     # SD web UI < v1.6.0-RC
     # SD.Next

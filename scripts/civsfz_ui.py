@@ -44,11 +44,6 @@ class Components():
         self.searchtype:list[str] = ["No"] # Remember previous search type
         contentTypes = self.Civitai.getTypeOptions()
         self.APIKey = ""
-        if cmd_opts.civsfz_api_key:
-            self.APIKey = cmd_opts.civsfz_api_key[0:32]
-            print_ly(
-                "Command line option `--civsfz_api_key` is deprecated. Instead, use Settings."
-            )
         if opts.civsfz_api_key:
             self.APIKey = opts.civsfz_api_key[0:32]
         def defaultContentType():
