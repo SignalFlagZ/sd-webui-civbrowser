@@ -337,6 +337,7 @@ class APIInformation():
             "SD 3.5 Large",
             "SD 3.5 Large Turbo",
             "SD 3.5 Medium",
+            "Sora 2",
             "SDXL 0.9",
             "SDXL 1.0",
             "SDXL 1.0 LCM",
