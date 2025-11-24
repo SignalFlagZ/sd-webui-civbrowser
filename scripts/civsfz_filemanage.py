@@ -318,11 +318,11 @@ def saveImageFiles(folder, versionName, html, content_type, versionInfo):
                         print_n(f"Save {filename}")
                     # with urllib.request.urlretrieve(img_url, os.path.join(model_folder, filename)) as dl:
                 except requests.exceptions.Timeout as e:
-                    print_ly(f'Error: {e.reason}')
+                    print_ly(f'Error: {e}')
                     print_ly(f'URL: {img_url}')
                     # return "Err: Save infos"
                 except requests.exceptions.RequestException as e:
-                    print_ly(f'Error: {e.reason}')
+                    print_ly(f'Error: {e}')
                     print_ly(f'URL: {img_url}')
     filepath = os.path.join(folder, f'{basename}.html')
     with open(filepath, 'wb') as f:
