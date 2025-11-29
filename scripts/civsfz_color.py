@@ -66,6 +66,7 @@ familyColor: dict = {
     },
     "family3": {
         "value": [
+            "Flux.2 D",
             "Flux.1 D",
             "Flux.1 S",
             "Flux.1 Krea",
@@ -95,6 +96,13 @@ familyColor: dict = {
     },
     "family5": {
         "value": [
+            "ZImageTurbo",
+            "Qwen",
+        ],
+        "color": hex_color_hsl_to_rgb(279, 38, 48),
+    },
+    "family6": {
+        "value": [
             "Hunyuan Video",
             "Hunyuan 1",
             "Mochi",
@@ -107,12 +115,8 @@ familyColor: dict = {
         ],
         "color": hex_color_hsl_to_rgb(330, 90, 45),
     },
-    "family6": {
-        "value": [],
-        "color": hex_color_hsl_to_rgb(75, 70, 45),
-    },
     "non_family": {
-        "value": [""],
+        "value": [],
         "color": hex_color_hsl_to_rgb(250, 14, 30),
     },
 }

@@ -302,6 +302,7 @@ class APIInformation():
             "Flux.1 D",
             "Flux.1 Krea",
             "Flux.1 Kontext",
+            "Flux.2 D",
             "HiDream",
             "Hunyuan 1",
             "Hunyuan Video",
@@ -359,6 +360,7 @@ class APIInformation():
             "Wan Video 2.2 T2V-A14B",
             "Wan Video 2.5 T2V",
             "Wan Video 2.5 I2V",
+            "ZImageTurbo",
         ]
         try:
             # APIInformation.basemodelOptions = data['error']['issues'][0]['unionErrors'][0]['issues'][0]['options']
