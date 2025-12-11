@@ -15,7 +15,7 @@ from scripts.civsfz_filemanage import (
     isExistFile,
 )
 from scripts.civsfz_color import dictBasemodelColors
-from scripts.civsfz_shared import opts, read_timeout
+from scripts.civsfz_shared import opts, read_timeout, card_no_preview
 from jinja2 import Environment, FileSystemLoader
 
 print_ly = lambda  x: print(Fore.LIGHTYELLOW_EX + "CivBrowser: " + x + Style.RESET_ALL )
@@ -1017,6 +1017,7 @@ class CivitaiModels(APIInformation):
             forTrigger=forTrigger,
             cards=cards,
             dictBasemodelColor=dictBasemodelColor,
+            cardNoPreview=card_no_preview,
         )
         return content
     def modelNameTitleHtml(self, name:str, vname:str, base:str, upuser:str="", ea:str=""):

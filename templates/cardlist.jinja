@@ -17,7 +17,7 @@
 				<img src={{ card['imgsrc'] }} type="image/gif" />
 			</video>
 		{%- else %}
-			<img src="./file=html/card-no-preview.png" />
+			<img src="{{cardNoPreview}}" />
 		{%- endif %}
 		<figcaption class="civsfz-tooltip">
 			{{ card['name'] }}

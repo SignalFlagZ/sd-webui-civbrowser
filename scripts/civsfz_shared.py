@@ -2,6 +2,7 @@ VERSION = "v2.9.1"
 
 platform = "A1111"
 forge_version = None
+card_no_preview = "./file=html/card-no-preview.png"  # Neo uses jpg
 
 from html.parser import HTMLParser
 
@@ -19,6 +20,7 @@ except ImportError:
 else:
     if forge_version in ["classic", "neo"]:
         platform = "Forge Classic"
+        card_no_preview = "./file=html/card-no-preview.jpg"
     else:
         platform = "Forge"
 # print(f"Working on {platform=} {forge_version=}")
