@@ -199,6 +199,7 @@ def generate_model_save_path2(type, modelName: str = "", baseModel: str = "", ns
 def filename_normalization(filename) -> str:
     if filename:
         filename = re.sub(r"__+", "_", filename)
+        filename = re.sub(r"\s+", "_", filename)
     return filename
 
 
