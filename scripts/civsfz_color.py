@@ -101,6 +101,7 @@ familyColor: dict = {
     "family5": {
         "value": [
             "ZImageTurbo",
+            "ZImageBase",
             "Qwen",
         ],
         "color": hex_color_hsl_to_rgb(279, 38, 48),
@@ -113,6 +114,7 @@ familyColor: dict = {
             "SVD",
             "SVD XT",
             "LTXV",
+            "LTXV2",
             "CogVideoX",
             "HiDream",
             "OpenAI",
@@ -150,84 +152,84 @@ def dictBasemodelColors(listBaseModel: list) -> dict:
     # print(f"{ret}")
     return ret
 
-
-class BaseModelColors:
-    colors = [
-        {
-            "name": "BASE",
-            "label": "Background color for model names",
-            "key": "civsfz_background_color_figcaption",
-            "property": "--civsfz-background-color-figcaption",
-            "color": hex_color_hsl_to_rgb(225, 15, 30),
-        },
-        {
-            "name": "SD 1",
-            "label": "Background color for SD1 models",
-            "key": "civsfz_background_color_sd1",
-            "property": "--civsfz-background-color-sd1",
-            "color": hex_color_hsl_to_rgb(90, 70, 30),
-        },
-        {
-            "name": "SD 2",
-            "label": "Background color for SD2 models",
-            "key": "civsfz_background_color_sd2",
-            "property": "--civsfz-background-color-sd2",
-            "color": hex_color_hsl_to_rgb(90, 60, 40),
-        },
-        {
-            "name": "SD 3",
-            "label": "Background color for SD3 models",
-            "key": "civsfz_background_color_sd3",
-            "property": "--civsfz-background-color-sd3",
-            "color": hex_color_hsl_to_rgb(135, 70, 30),
-        },
-        {
-            "name": "SD 3.",
-            "label": "Background color for SD3.5 models",
-            "key": "civsfz_background_color_sd35",
-            "property": "--civsfz-background-color-sd35",
-            "color": hex_color_hsl_to_rgb(150, 80, 40),
-        },
-        {
-            "name": "SDXL",
-            "label": "Background color for SDXL models",
-            "key": "civsfz_background_color_sdxl",
-            "property": "--civsfz-background-color-sdxl",
-            "color": hex_color_hsl_to_rgb(15, 70, 40),
-        },
-        {
-            "name": "Pony",
-            "label": "Background color for Pony models",
-            "key": "civsfz_background_color_pony",
-            "property": "--civsfz-background-color-pony",
-            "color": hex_color_hsl_to_rgb(15, 90, 40),
-        },
-        {
-            "name": "Illustrious",
-            "label": "Background color for Illustrious models",
-            "key": "civsfz_background_color_illustrious",
-            "property": "--civsfz-background-color-illustrious",
-            "color": hex_color_hsl_to_rgb(15, 95, 50),
-        },
-        {
-            "name": "Flux.1",
-            "label": "Background color for Flux.1 models",
-            "key": "civsfz_background_color_flux1",
-            "property": "--civsfz-background-color-flux1",
-            "color": hex_color_hsl_to_rgb(330, 80, 40),
-        },
-    ]
-
-    def __init__(self) -> None:
-        pass
-
-    # for macros.jinja
-    def name_property_dict(self):
-        ret = {}
-        for d in self.colors:
-            ret[d["name"]] = d["property"]
-        # reverse order for sd3.5
-        return dict(reversed(list(ret.items())))
-
-
+#
+#class BaseModelColors:
+#    colors = [
+#        {
+#            "name": "BASE",
+#            "label": "Background color for model names",
+#            "key": "civsfz_background_color_figcaption",
+#            "property": "--civsfz-background-color-figcaption",
+#            "color": hex_color_hsl_to_rgb(225, 15, 30),
+#        },
+#        {
+#            "name": "SD 1",
+#            "label": "Background color for SD1 models",
+#            "key": "civsfz_background_color_sd1",
+#            "property": "--civsfz-background-color-sd1",
+#            "color": hex_color_hsl_to_rgb(90, 70, 30),
+#        },
+#        {
+#            "name": "SD 2",
+#            "label": "Background color for SD2 models",
+#            "key": "civsfz_background_color_sd2",
+#            "property": "--civsfz-background-color-sd2",
+#            "color": hex_color_hsl_to_rgb(90, 60, 40),
+#        },
+#        {
+#            "name": "SD 3",
+#            "label": "Background color for SD3 models",
+#            "key": "civsfz_background_color_sd3",
+#            "property": "--civsfz-background-color-sd3",
+#            "color": hex_color_hsl_to_rgb(135, 70, 30),
+#        },
+#        {
+#            "name": "SD 3.",
+#            "label": "Background color for SD3.5 models",
+#            "key": "civsfz_background_color_sd35",
+#            "property": "--civsfz-background-color-sd35",
+#            "color": hex_color_hsl_to_rgb(150, 80, 40),
+#        },
+#        {
+#            "name": "SDXL",
+#            "label": "Background color for SDXL models",
+#            "key": "civsfz_background_color_sdxl",
+#            "property": "--civsfz-background-color-sdxl",
+#            "color": hex_color_hsl_to_rgb(15, 70, 40),
+#        },
+#        {
+#            "name": "Pony",
+#            "label": "Background color for Pony models",
+#            "key": "civsfz_background_color_pony",
+#            "property": "--civsfz-background-color-pony",
+#            "color": hex_color_hsl_to_rgb(15, 90, 40),
+#        },
+#        {
+#            "name": "Illustrious",
+#            "label": "Background color for Illustrious models",
+#            "key": "civsfz_background_color_illustrious",
+#            "property": "--civsfz-background-color-illustrious",
+#            "color": hex_color_hsl_to_rgb(15, 95, 50),
+#        },
+#        {
+#            "name": "Flux.1",
+#            "label": "Background color for Flux.1 models",
+#            "key": "civsfz_background_color_flux1",
+#            "property": "--civsfz-background-color-flux1",
+#            "color": hex_color_hsl_to_rgb(330, 80, 40),
+#        },
+#    ]
+#
+#    def __init__(self) -> None:
+#        pass
+#
+#    # for macros.jinja
+#    def name_property_dict(self):
+#        ret = {}
+#        for d in self.colors:
+#            ret[d["name"]] = d["property"]
+#        # reverse order for sd3.5
+#        return dict(reversed(list(ret.items())))
+#
+#
 # print(f"{BaseModelColors().name_property_dict()}")

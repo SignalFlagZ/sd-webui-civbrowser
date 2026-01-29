@@ -255,7 +255,7 @@ def makedirs(folder):
         os.makedirs(folder)
         print_lc(f'Make folder: {folder}')
 
-def isExistFile(folder, file):
+def existence_check(folder, file):
     file = filename_normalization(file)
     isExist = False
     if folder != "" and folder is not None:

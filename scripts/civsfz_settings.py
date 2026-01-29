@@ -1,6 +1,6 @@
 import gradio as gr
 from modules import script_callbacks, shared, ui_components
-from scripts.civsfz_color import BaseModelColors, familyColor
+from scripts.civsfz_color import familyColor
 
 # SD.Next can not import from civsfz_shared.py
 GR_V440 = True if "4.40" in gr.__version__ else False

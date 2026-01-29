@@ -32,7 +32,7 @@ class Components():
     downloader = None
     def __init__(self, downloader:Downloader, tab=None):
         '''id: Event ID for javascrypt'''
-        from scripts.civsfz_filemanage import generate_model_save_path2, isExistFile, \
+        from scripts.civsfz_filemanage import generate_model_save_path2, existence_check, \
             save_text_file, saveImageFiles
         Components.downloader = downloader
         self.gr_version = gr.__version__
@@ -1031,7 +1031,7 @@ class Components():
             )
 
             def file_exist_check(grTxtSaveFolder, grDrpdwnSelectFile):
-                isExist = isExistFile(grTxtSaveFolder, grDrpdwnSelectFile)            
+                isExist = existence_check(grTxtSaveFolder, grDrpdwnSelectFile)            
                 return gr.HTML.update(visible = True if isExist else False)
             grTxtDlUrl.change(
                 fn=file_exist_check,

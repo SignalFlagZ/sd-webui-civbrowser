@@ -12,7 +12,7 @@ from scripts.civsfz_filemanage import (
     extensionFolder,
     FavoriteCreators,
     BanCreators,
-    isExistFile,
+    existence_check,
 )
 from scripts.civsfz_color import dictBasemodelColors
 from scripts.civsfz_shared import opts, read_timeout, card_no_preview
@@ -314,6 +314,7 @@ class APIInformation():
             "Imagen4",
             "Kolors",
             "LTXV",
+            "LTXV2",
             "Lumina",
             "Mochi",
             "Nano Banana",
@@ -365,6 +366,7 @@ class APIInformation():
             "Wan Video 2.5 T2V",
             "Wan Video 2.5 I2V",
             "ZImageTurbo",
+            "ZImageBase",
         ]
         try:
             # APIInformation.basemodelOptions = data['error']['issues'][0]['unionErrors'][0]['issues'][0]['options']
@@ -692,7 +694,7 @@ class CivitaiModels(APIInformation):
                 file_name = file['name']
                 path_file = folder / Path(file_name)
                 # print(f"{path_file}")
-                if isExistFile(folder, file_name):
+                if existence_check(folder, file_name):
                     have = True
                     break
             hasVersions.append(have)
