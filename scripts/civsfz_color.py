@@ -103,6 +103,7 @@ familyColor: dict = {
             "ZImageTurbo",
             "ZImageBase",
             "Qwen",
+            "Anima",
         ],
         "color": hex_color_hsl_to_rgb(279, 38, 48),
     },
@@ -153,7 +154,7 @@ def dictBasemodelColors(listBaseModel: list) -> dict:
     return ret
 
 #
-#class BaseModelColors:
+# class BaseModelColors:
 #    colors = [
 #        {
 #            "name": "BASE",

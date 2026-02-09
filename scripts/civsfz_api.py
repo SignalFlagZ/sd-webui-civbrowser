@@ -295,6 +295,7 @@ class APIInformation():
         query = {'baseModels': ""}
         data = self.requestApiOptions(url, query)
         APIInformation.basemodelOptions = [
+            "Anima",
             "AuraFlow",
             "Chroma",
             "CogVideoX",
