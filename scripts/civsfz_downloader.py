@@ -91,7 +91,7 @@ class Downloader:
         # Discard past results
         expireQ = deque()
         remove = None
-        deadline = 3 * 60
+        deadline = 15 * 60
         for item in Downloader._dlResults:
             tdDiff = now - item['completedAt']
             secDiff = math.ceil(abs(tdDiff / timedelta(seconds=1)))

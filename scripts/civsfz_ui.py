@@ -1287,23 +1287,29 @@ def on_ui_tabs():
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )
             )
-        if GR_V440:
-            grHtmlDlQueue = downloader.uiDlList(gr)
-            # Use the Timer component because there are problems with `every` on HTML component.
-            grTimer = gr.Timer(value=1.5)
-            grTimer.tick(
-                fn=lambda: gr.HTML.update(value=downloader.dlHtml()),
-                inputs=[],
-                outputs=[grHtmlDlQueue],
-            )
-        else:
-            grHtmlDlQueue = downloader.uiDlList(gr, every=1.0)
         with gr.Tabs(elem_id='civsfz_tab-element', elem_classes="civsfz-custom-property"):
             for i,name in enumerate(tabNames):
                 with gr.Tab(label=name, id=f"tab{i}", elem_id=f"civsfz_tab{i}") as tab:
                     Components(downloader, tab)  # (tab)
+            with gr.Tab(
+                label="Download Status",
+                id=f"Download Status",
+                elem_id=f"Download Status",
+            ):
+                gr.HTML(value=f'<h2>Download queue</h2>')
+                if GR_V440:
+                    grHtmlDlQueue = downloader.uiDlList(gr)
+                    # Use the Timer component because there are problems with `every` on HTML component.
+                    grTimer = gr.Timer(value=1.5)
+                    grTimer.tick(
+                        fn=lambda: gr.HTML.update(value=downloader.dlHtml()),
+                        inputs=[],
+                        outputs=[grHtmlDlQueue],
+                    )
+                else:
+                    grHtmlDlQueue = downloader.uiDlList(gr, every=1.0)
         with gr.Row():
-            gr.HTML(value=f'<div style="text-align:center;">{ver}</div>')
+            gr.HTML(value=f'<div style="text-align:center;">CivBrowser {ver}</div>')
             downloader.uiJsEvent(gr)
     return [(civitai_interface, "CivBrowser", "civsfz_interface")]
 
