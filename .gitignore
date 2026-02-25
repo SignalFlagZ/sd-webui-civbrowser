@@ -1,5 +1,7 @@
-__pycache__/
+**/__pycache__/
 .vscode/
+venv/
+.venv/
 test.py
 search_history.json
 api_cache.sqlite
