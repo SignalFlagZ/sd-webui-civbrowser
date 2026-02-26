@@ -904,20 +904,21 @@ class Components():
                         grTxtSaveFilename = gr.Textbox.update(value="")
                         grHtmlModelName = gr.HTML.update(value="")
                     else:
-                        filename = modelInfo["modelVersions"][0]["files"][0]["name"]
+                        first_entry = modelInfo["modelVersions"][0]["files"][0]
+                        file_metadata = "|".join([first_entry["name"]] + [md for md in first_entry["metadata"].values() if md is not None])
                         for f in modelInfo["modelVersions"][0]["files"]:
                             if 'primary' in f:
                                 if f['primary']:
-                                    filename = f["name"]
+                                    file_metadata = "|".join([f["name"]] + [md for md in f["metadata"].values() if md is not None])
                                     break
                         drpdwn = gr.Dropdown.update(
                             choices=[
-                                f["name"]
+                                "|".join([f["name"]] + [md for md in f["metadata"].values() if md is not None])
                                 for f in modelInfo["modelVersions"][0]["files"]
                             ],
-                            value=filename,
+                            value=file_metadata,
                         )
-                        grTxtSaveFilename = gr.Textbox.update(value=filename)
+                        grTxtSaveFilename = gr.Textbox.update(value=file_metadata.split("|", 1)[0])
                         grHtmlModelName = gr.HTML.update(
                             value=self.Civitai.modelNameTitleHtml(
                                 self.Civitai.getSelectedModelName(),
@@ -983,17 +984,18 @@ class Components():
                 outputs=[])
 
             def updateDlUrl(grDrpdwnSelectFile):
+                selection = '' if grDrpdwnSelectFile is None else grDrpdwnSelectFile
                 return (
                     gr.Textbox.update(
-                        value=self.Civitai.getUrlByName(grDrpdwnSelectFile)
+                        value=self.Civitai.getUrlByNameMetadata(selection)
                     ),
                     gr.Textbox.update(
-                        value=self.Civitai.getHashByName(grDrpdwnSelectFile)
+                        value=self.Civitai.getHashByNameMetadata(selection)
                     ),
-                    gr.Button.update(interactive=True if grDrpdwnSelectFile else False),
-                    gr.Button.update(interactive=True if grDrpdwnSelectFile else False),
+                    gr.Button.update(interactive=True if selection else False), # '' is evaluated as False
+                    gr.Button.update(interactive=True if selection else False),
                     gr.Textbox.update(value=""),
-                    gr.Textbox.update(value=grDrpdwnSelectFile),
+                    gr.Textbox.update(value=selection.split("|", 1)[0]),
                 )
 
             def checkEarlyAccess(grTxtEarlyAccess):
@@ -1194,7 +1196,7 @@ class Components():
                             grTxtCreator,
                         ) = update_model_info(grRadioVersions["value"], grChkbxgrpLevel)
                         # grTxtDlUrl = gr.Textbox.update(value=self.Civitai.getUrlByName(grDrpdwnSelectFile['value']))
-                        grTxtHash = gr.Textbox.update(value=self.Civitai.getHashByName(grDrpdwnSelectFile['value']))
+                        grTxtHash = gr.Textbox.update(value=self.Civitai.getHashByNameMetadata(grDrpdwnSelectFile['value']))
                         grTxtVersionInfo = gr.Textbox.update(
                             value=json.dumps(self.Civitai.modelVersionsInfo())
                         )

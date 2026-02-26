@@ -891,7 +891,7 @@ class CivitaiModels(APIInformation):
         self.setModelVersionInfo(modelInfo)
         return modelInfo
 
-    def getUrlByName(self, model_filename=None):
+    def getUrlByNameMetadata(self, model_name_metadata=''):
         if self.modelIndex is None:
             # print(Fore.LIGHTYELLOW_EX + f'getUrlByName: Select model first. {model_filename}' + Style.RESET_ALL )
             return
@@ -903,10 +903,11 @@ class CivitaiModels(APIInformation):
         version = item['modelVersions'][self.versionIndex]
         dl_url = None
         for file in version['files']:
-            if file['name'] == model_filename:
+            name, *metadata = model_name_metadata.split('|')
+            if file['name'] == name and set(file['metadata'].values()).issuperset(set(metadata)):
                 dl_url = file['downloadUrl']
         return dl_url
-    def getHashByName(self, model_filename=None):
+    def getHashByNameMetadata(self, model_name_metadata=''):
         if self.modelIndex is None:
             # print(Fore.LIGHTYELLOW_EX + f'getUrlByName: Select model first. {model_filename}' + Style.RESET_ALL )
             return
@@ -919,7 +920,8 @@ class CivitaiModels(APIInformation):
         sha256 = ""
         for file in version['files']:
             # print_lc(f'{file["hashes"]=}')
-            if file['name'] == model_filename and 'SHA256' in file['hashes']:
+            name, *metadata = model_name_metadata.split('|')
+            if file['name'] == name and set(file['metadata'].values()).issuperset(set(metadata)) and 'SHA256' in file['hashes']:
                 sha256 = file['hashes']['SHA256']
         return sha256
 
