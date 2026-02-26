@@ -898,9 +898,11 @@ class Components():
                                                 self.Civitai.getSelectedVersionName()
                                             )
                     modelInfo = self.Civitai.makeModelInfo2(nsfwLevel=sum(grChkbxgrpLevel))
+                    txtEarlyAccess = self.Civitai.getSelectedVersionEarlyAccessDeadline()
                     if modelInfo["modelVersions"][0]["files"] == []:
                         drpdwn =  gr.Dropdown.update(choices=[], value="")
                         grTxtSaveFilename = gr.Textbox.update(value="")
+                        grHtmlModelName = gr.HTML.update(value="")
                     else:
                         filename = modelInfo["modelVersions"][0]["files"][0]["name"]
                         for f in modelInfo["modelVersions"][0]["files"]:
@@ -916,7 +918,6 @@ class Components():
                             value=filename,
                         )
                         grTxtSaveFilename = gr.Textbox.update(value=filename)
-                        txtEarlyAccess = self.Civitai.getSelectedVersionEarlyAccessDeadline()
                         grHtmlModelName = gr.HTML.update(
                             value=self.Civitai.modelNameTitleHtml(
                                 self.Civitai.getSelectedModelName(),
