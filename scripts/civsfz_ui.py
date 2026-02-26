@@ -932,7 +932,7 @@ class Components():
                         #gr.Textbox.update(value=", ".join(modelInfo["trainedWords"])),
                         drpdwn,
                         gr.Textbox.update(value=modelInfo["baseModel"]),
-                        gr.Textbox.update(value=path),
+                        gr.Textbox.update(value=str(path)),
                         gr.Textbox.update(value=txtEarlyAccess),
                         grTxtSaveFilename,
                         grHtmlModelName,
