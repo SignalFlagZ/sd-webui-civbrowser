@@ -893,12 +893,12 @@ class CivitaiModels(APIInformation):
 
     def getUrlByNameMetadata(self, model_name_metadata=''):
         if self.modelIndex is None:
-            # print(Fore.LIGHTYELLOW_EX + f'getUrlByName: Select model first. {model_filename}' + Style.RESET_ALL )
+            # print(Fore.LIGHTYELLOW_EX + f'getUrlByNameMetadata: Select model first. {model_name_metadata}' + Style.RESET_ALL )
             return
         if self.versionIndex is None:
-            # print(Fore.LIGHTYELLOW_EX + f'getUrlByName: Select version first. {model_filename}' + Style.RESET_ALL )
+            # print(Fore.LIGHTYELLOW_EX + f'getUrlByNameMetadata: Select version first. {model_name_metadata}' + Style.RESET_ALL )
             return
-        # print(Fore.LIGHTYELLOW_EX + f'File name . {model_filename}' + Style.RESET_ALL )
+        # print(Fore.LIGHTYELLOW_EX + f'File name . {model_name_metadata}' + Style.RESET_ALL )
         item = self.jsonData['items'][self.modelIndex]
         version = item['modelVersions'][self.versionIndex]
         dl_url = None
@@ -909,12 +909,12 @@ class CivitaiModels(APIInformation):
         return dl_url
     def getHashByNameMetadata(self, model_name_metadata=''):
         if self.modelIndex is None:
-            # print(Fore.LIGHTYELLOW_EX + f'getUrlByName: Select model first. {model_filename}' + Style.RESET_ALL )
+            # print(Fore.LIGHTYELLOW_EX + f'getHashByNameMetadata: Select model first. {model_name_metadata}' + Style.RESET_ALL )
             return
         if self.versionIndex is None:
-            # print(Fore.LIGHTYELLOW_EX + f'getUrlByName: Select version first. {model_filename}' + Style.RESET_ALL )
+            # print(Fore.LIGHTYELLOW_EX + f'getHashByNameMetadata: Select version first. {model_name_metadata}' + Style.RESET_ALL )
             return
-        # print(Fore.LIGHTYELLOW_EX + f'File name . {model_filename}' + Style.RESET_ALL )
+        # print(Fore.LIGHTYELLOW_EX + f'File name . {model_name_metadata}' + Style.RESET_ALL )
         item = self.jsonData['items'][self.modelIndex]
         version = item['modelVersions'][self.versionIndex]
         sha256 = ""
