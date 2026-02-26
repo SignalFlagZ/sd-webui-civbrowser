@@ -903,7 +903,7 @@ class CivitaiModels(APIInformation):
         version = item['modelVersions'][self.versionIndex]
         dl_url = None
         for file in version['files']:
-            name, *metadata = model_name_metadata.split('|')
+            name, *metadata = model_name_metadata.split("|")
             if file['name'] == name and set(file['metadata'].values()).issuperset(set(metadata)):
                 dl_url = file['downloadUrl']
         return dl_url
@@ -920,7 +920,7 @@ class CivitaiModels(APIInformation):
         sha256 = ""
         for file in version['files']:
             # print_lc(f'{file["hashes"]=}')
-            name, *metadata = model_name_metadata.split('|')
+            name, *metadata = model_name_metadata.split("|")
             if file['name'] == name and set(file['metadata'].values()).issuperset(set(metadata)) and 'SHA256' in file['hashes']:
                 sha256 = file['hashes']['SHA256']
         return sha256
