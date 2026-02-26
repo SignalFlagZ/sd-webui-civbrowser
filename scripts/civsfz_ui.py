@@ -905,20 +905,20 @@ class Components():
                         grHtmlModelName = gr.HTML.update(value="")
                     else:
                         first_entry = modelInfo["modelVersions"][0]["files"][0]
-                        file_metadata = "|".join([first_entry["name"]] + [md for md in first_entry["metadata"].values() if md is not None])
+                        file_metadata = " | ".join([first_entry["name"]] + [md for md in first_entry["metadata"].values() if md is not None])
                         for f in modelInfo["modelVersions"][0]["files"]:
                             if 'primary' in f:
                                 if f['primary']:
-                                    file_metadata = "|".join([f["name"]] + [md for md in f["metadata"].values() if md is not None])
+                                    file_metadata = " | ".join([f["name"]] + [md for md in f["metadata"].values() if md is not None])
                                     break
                         drpdwn = gr.Dropdown.update(
                             choices=[
-                                "|".join([f["name"]] + [md for md in f["metadata"].values() if md is not None])
+                                " | ".join([f["name"]] + [md for md in f["metadata"].values() if md is not None])
                                 for f in modelInfo["modelVersions"][0]["files"]
                             ],
                             value=file_metadata,
                         )
-                        grTxtSaveFilename = gr.Textbox.update(value=file_metadata.split("|", 1)[0])
+                        grTxtSaveFilename = gr.Textbox.update(value=file_metadata.split(" | ", 1)[0])
                         grHtmlModelName = gr.HTML.update(
                             value=self.Civitai.modelNameTitleHtml(
                                 self.Civitai.getSelectedModelName(),
@@ -995,7 +995,7 @@ class Components():
                     gr.Button.update(interactive=True if selection else False), # '' is evaluated as False
                     gr.Button.update(interactive=True if selection else False),
                     gr.Textbox.update(value=""),
-                    gr.Textbox.update(value=selection.split("|", 1)[0]),
+                    gr.Textbox.update(value=selection.split(" | ", 1)[0]),
                 )
 
             def checkEarlyAccess(grTxtEarlyAccess):
