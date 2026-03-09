@@ -9,15 +9,15 @@
 	{%- endif %}	
 	<figure class="civsfz-modelcard {{ nsfw }} {{ alreadyhave }}" onclick="civsfz_select_model('Index{{ card['jsId'] }}:{{ card['index'] }}:{{ card['id'] }}')">
 		{%- if card['imgType'] == 'image' %}
-			<img src={{ card['imgsrc'] }}/>
+			<img src={{ card['imgsrc'] }} loading="lazy" alt="Preview image" />
 		{%- elif card['imgType'] == 'video' %}
 			<video loop autoplay muted poster={{ card['imgsrc'] }}>
 				<source src={{ card['imgsrc'] }} type="video/webm" />
 				<source src={{ card['imgsrc'] }} type="video/mp4" />
-				<img src={{ card['imgsrc'] }} type="image/gif" />
+				<img src={{ card['imgsrc'] }} loading="lazy" alt="Preview image" type="image/gif" />
 			</video>
 		{%- else %}
-			<img src="{{cardNoPreview}}" />
+			<img src="{{cardNoPreview}}" loading="lazy" alt="Preview image" />
 		{%- endif %}
 		<figcaption class="civsfz-tooltip">
 			{{ card['name'] }}

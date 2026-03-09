@@ -10,12 +10,12 @@
 	<div style="display:flex;margin-top: 1em">
 {%- endif %}
 	{%- if pic['type'] == 'image' %}
-		<img loading="lazy" src={{ pic['url'] }} {{ style }} data-infotext="{{- infotext|e -}}"/>
+		<img loading="lazy" alt="Preview image" src={{ pic['url'] }} {{ style }} data-infotext="{{- infotext|e -}}"/>
 	{%- else %}
 		<video loop autoplay muted poster={{ pic['url'] }} {{ style }} data-infotext="{{- infotext|e -}}">
 			<source src={{ pic['url'] }} type="video/webm" />
 			<source src={{ pic['url'] }} type="video/mp4" />
-			<img loading="lazy" src={{ pic['url'] }} type="image/gif" />
+			<img loading="lazy" alt="Preview image" src={{ pic['url'] }} type="image/gif" />
 		</video>
 	{%- endif %}
 	{%- if pic['meta']  %}
