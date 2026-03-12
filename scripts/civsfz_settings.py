@@ -69,6 +69,11 @@ def on_ui_settings():
             component=gr.Slider,
             component_args={"minimum": 10, "maximum": 90, "step": 5},
         ),
+        "civsfz_downloads_as_tab": shared.OptionInfo(
+            True,
+            label='Show the downloads page as a tab instead of in the header.',
+            component=gr.Checkbox,
+        ),
         "civsfz_browsing_level": shared.OptionInfo(
             [1],
             label="Browsing level",

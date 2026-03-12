@@ -1276,6 +1276,7 @@ def on_ui_tabs():
     downloader = Downloader()
     for i in range(1, opts.civsfz_number_of_tabs + 1):
         tabNames.append(f'Browser{i}')
+    
     with gr.Blocks() as civitai_interface:
         with gr.Accordion(label="Update information", open=False):
             gr.HTML(
@@ -1287,27 +1288,42 @@ def on_ui_tabs():
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )
             )
+        
         with gr.Tabs(elem_id='civsfz_tab-element', elem_classes="civsfz-custom-property"):
             for i,name in enumerate(tabNames):
                 with gr.Tab(label=name, id=f"tab{i}", elem_id=f"civsfz_tab{i}") as tab:
                     Components(downloader, tab)  # (tab)
-            with gr.Tab(
-                label="Download Status",
-                id=f"Download Status",
-                elem_id=f"Download Status",
-            ):
-                gr.HTML(value=f'<h2>Download queue</h2>')
-                if GR_V440:
-                    grHtmlDlQueue = downloader.uiDlList(gr)
-                    # Use the Timer component because there are problems with `every` on HTML component.
-                    grTimer = gr.Timer(value=1.5)
-                    grTimer.tick(
-                        fn=lambda: gr.HTML.update(value=downloader.dlHtml()),
-                        inputs=[],
-                        outputs=[grHtmlDlQueue],
-                    )
-                else:
-                    grHtmlDlQueue = downloader.uiDlList(gr, every=1.0)
+
+        def render_downloads():
+            if GR_V440:
+                grHtmlDlQueue = downloader.uiDlList(gr)
+                # Use the Timer component because there are problems with `every` on HTML component.
+                grTimer = gr.Timer(value=1.5)
+                grTimer.tick(
+                    fn=lambda: gr.HTML.update(value=downloader.dlHtml()),
+                    inputs=[],
+                    outputs=[grHtmlDlQueue],
+                )
+            else:
+                grHtmlDlQueue = downloader.uiDlList(gr, every=1.0)
+
+        if not opts.civsfz_downloads_as_tab:
+            render_downloads()
+
+        with gr.Tabs(elem_id='civsfz_tab-element', elem_classes="civsfz-custom-property"):
+            for i,name in enumerate(tabNames):
+                with gr.Tab(label=name, id=f"tab{i}", elem_id=f"civsfz_tab{i}") as tab:
+                    Components(downloader, tab)  # (tab)
+
+            if opts.civsfz_downloads_as_tab:
+                with gr.Tab(
+                    label="Download Status",
+                    id=f"Download Status",
+                    elem_id=f"Download Status",
+                ):
+                    gr.HTML(value=f'<h2>Download queue</h2>')
+                    render_downloads()
+
         with gr.Row():
             gr.HTML(value=f'<div style="text-align:center;">CivBrowser {ver}</div>')
             downloader.uiJsEvent(gr)
