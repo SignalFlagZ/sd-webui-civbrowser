@@ -1280,37 +1280,85 @@ def on_ui_tabs():
         with gr.Accordion(label="Update information", open=False):
             gr.HTML(
                 value=(
-                    "<h3>Changes " + "in v2.10" + "</h3>"
+                    "<h3>Changes " + "in v2.11" + "</h3>"
                     "<ul>"
-                    "<li>Move the download status to an independent tab.</li>"
+                    "<li>Added the ability to save and restore the scroll position of the tab, so switching tabs is now more convenient.</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )
             )
-        with gr.Tabs(elem_id='civsfz_tab-element', elem_classes="civsfz-custom-property"):
+        with gr.Tabs(elem_id='civsfz_tab-element', elem_classes="civsfz-custom-property") as civtabs:
             for i,name in enumerate(tabNames):
-                with gr.Tab(label=name, id=f"tab{i}", elem_id=f"civsfz_tab{i}") as tab:
+                with gr.Tab(
+                    label=name,
+                    id=f"tab{i}",
+                    elem_id=f"civsfz_tab{i}",
+                    elem_classes="civsfz-tab-item",
+                ) as tab:
                     Components(downloader, tab)  # (tab)
             with gr.Tab(
                 label="Download Status",
                 id=f"Download Status",
                 elem_id=f"Download Status",
+                elem_classes="civsfz-tab-item",
             ):
-                gr.HTML(value=f'<h2>Download queue</h2>')
-                if GR_V440:
-                    grHtmlDlQueue = downloader.uiDlList(gr)
-                    # Use the Timer component because there are problems with `every` on HTML component.
-                    grTimer = gr.Timer(value=1.5)
-                    grTimer.tick(
-                        fn=lambda: gr.HTML.update(value=downloader.dlHtml()),
-                        inputs=[],
-                        outputs=[grHtmlDlQueue],
-                    )
-                else:
-                    grHtmlDlQueue = downloader.uiDlList(gr, every=1.0)
+                with gr.Column():
+                    gr.HTML(value=f'<h2>Download queue</h2>')
+                    if GR_V440:
+                        grHtmlDlQueue = downloader.uiDlList(gr)
+                        # Use the Timer component because there are problems with `every` on HTML component.
+                        grTimer = gr.Timer(value=1.5)
+                        grTimer.tick(
+                            fn=lambda: gr.HTML.update(value=downloader.dlHtml()),
+                            inputs=[],
+                            outputs=[grHtmlDlQueue],
+                        )
+                    else:
+                        grHtmlDlQueue = downloader.uiDlList(gr, every=1.0)
         with gr.Row():
-            gr.HTML(value=f'<div style="text-align:center;">CivBrowser {ver}</div>')
+            gr.HTML(value=f'<div style="text-align:center;">CivBrowser <a href="https://github.com/SignalFlagZ/sd-webui-civbrowser">{ver}</a></div>')
             downloader.uiJsEvent(gr)
+        save_scroll_js = """
+            async () => {
+        
+                // restore scroll position
+                const activeTabContent = document.querySelector('.civsfz-tab-item:not([style*="display: none"])');
+                const tab_id = activeTabContent.getAttribute("id");
+                setTimeout(() => {
+                    if (activeTabContent) {
+                        const lastScrollTop = sessionStorage.getItem(tab_id);
+                        if (lastScrollTop) {
+                            //console.log("set:" + tab_id +" to " + lastScrollTop);
+                            window.scroll({ top: lastScrollTop, behavior: 'smooth' });
+                        }
+                    }
+                },200); // Wait for rendering
+
+                // Event to save scroll position
+                const controller = new AbortController();
+                document.addEventListener("scroll", function () {
+                    //console.log(tab_id + ":" + window.scrollY);
+                    sessionStorage.setItem(tab_id, window.scrollY);
+                }, { signal: controller.signal } );
+                
+                // observer to remove scroll event
+                const observer = new MutationObserver((mutationsList) => {
+                    for (const mutation of mutationsList) {
+                        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                            // style has been changed
+                            if (window.getComputedStyle(activeTabContent).display === 'none') {
+                                controller.abort(); // Clear Scroll Event
+                                observer.disconnect();
+                            }
+                        }
+                    }
+                });
+
+                // Observation begins
+                observer.observe(activeTabContent, { attributes: true }); 
+            }
+        """
+        civtabs.select(None, None, None, js=save_scroll_js)
     return [(civitai_interface, "CivBrowser", "civsfz_interface")]
 
 script_callbacks.on_ui_tabs(on_ui_tabs)

@@ -13,6 +13,7 @@ An extension to help download models from CivitAi without leaving WebUI
 - Works with ***A1111***, ***Forge***, ***SD.Next***, ***Forge Neo***(experimental)（above v2.3.5）
   - SD.Next is far away from A1111, so it may stop working eventually
 - Search Civitai models in ***multiple tabs***
+  - The scroll positions of each individual tab will be restored.
 - Download ***queue*** and ***multithreaded*** downloads
 - List models as ***card image***
 - Safe display in ***sfw*** search
@@ -49,6 +50,16 @@ An extension to help download models from CivitAi without leaving WebUI
 10. Restart SD-webUI.
 
 ## Versions
+
+### v2.11
+
+- Added the ability to save and restore the scroll position of the tab, so switching tabs is now more convenient.
+
+Current limitation: The script that saves the scroll position does not work unless you switch tabs and scroll once.
+
+### v2.10
+
+- Show the download status of the model in a separate tab.
 
 ### v2.9
 
