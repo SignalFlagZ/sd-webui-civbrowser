@@ -6,6 +6,12 @@ function civbrowser_start_it_up() {
 	let elem = gradioApp().querySelector('#civsfz_tab-element').firstChild;
 	elem.classList.add("civsfz-sticky-element");
 	elem.classList.add("civsfz-tabbar");
+	// Init scroll positions
+	elem = document.querySelectorAll('.civsfz-tab-item');
+	elem.forEach((tab) => {
+		const id = tab.getAttribute("id");
+		sessionStorage.setItem(id, 0);
+	});
 }
 
 function civsfz_select_model(model_name) {
