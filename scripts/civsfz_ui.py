@@ -1336,10 +1336,11 @@ def on_ui_tabs():
 
                 // Event to save scroll position
                 const controller = new AbortController();
-                document.addEventListener("scroll", function () {
+                const handle_scroll = civsfz_throttle(() => {
                     //console.log(tab_id + ":" + window.scrollY);
                     sessionStorage.setItem(tab_id, window.scrollY);
-                }, { signal: controller.signal } );
+                }, 200);
+                document.addEventListener("scroll", handle_scroll, { signal: controller.signal } );
                 
                 // observer to remove scroll event
                 const observer = new MutationObserver((mutationsList) => {

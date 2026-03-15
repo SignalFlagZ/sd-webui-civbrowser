@@ -242,3 +242,14 @@ function civsfz_version_color(id, l) {
 		}
 	}
 }
+
+function civsfz_throttle(func, delay) {
+	let lastRan = 0;
+	return function (...args) {
+		const now = new Date().getTime();
+		if (now - lastRan >= delay) {
+			lastRan = now;
+			func.apply(this, args);
+		}
+	};
+}
