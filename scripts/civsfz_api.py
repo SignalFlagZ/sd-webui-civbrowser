@@ -13,6 +13,7 @@ from scripts.civsfz_filemanage import (
     FavoriteCreators,
     BanCreators,
     existence_check,
+    filenameAddVID    
 )
 from scripts.civsfz_color import dictBasemodelColors
 from scripts.civsfz_shared import opts, read_timeout, card_no_preview
@@ -700,7 +701,12 @@ class CivitaiModels(APIInformation):
                 file_name = file['name']
                 path_file = folder / Path(file_name)
                 # print(f"{path_file}")
+
                 if existence_check(folder, file_name):
+                    have = True
+                    break
+                # file with version ID
+                if existence_check(folder, filenameAddVID(file_name, ver["id"])):
                     have = True
                     break
             hasVersions.append(have)

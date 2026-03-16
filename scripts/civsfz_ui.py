@@ -18,6 +18,7 @@ from scripts.civsfz_filemanage import (
     FavoriteCreators,
     BanCreators,
     filename_normalization,
+    filenameAddVID,
 )
 from scripts.civsfz_downloader import Downloader
 from scripts.civsfz_color import dictBasemodelColors
@@ -290,7 +291,7 @@ class Components():
                             value="",
                             lines=1,
                         )
-                        grMrkdwnFileMessage = gr.HTML(value="<span style='color:Aquamarine;'>You have</span>", elem_classes ="civsfz-msg", visible=False)
+                        grMrkdwnFileMessage = gr.HTML(value="You have", elem_classes ="civsfz-msg", visible=False)
                         grTxtSaveFilename = gr.Textbox(
                             label="Save file name",
                             elem_id=f"civsfz_save_file_name{self.id}",
@@ -915,6 +916,7 @@ class Components():
                             ],
                             value=filename,
                         )
+                        filename = filenameAddVID(filename, modelInfo["modelVersions"][0]["id"])
                         grTxtSaveFilename = gr.Textbox.update(value=filename)
                         txtEarlyAccess = self.Civitai.getSelectedVersionEarlyAccessDeadline()
                         grHtmlModelName = gr.HTML.update(
@@ -981,6 +983,11 @@ class Components():
                 outputs=[])
 
             def updateDlUrl(grDrpdwnSelectFile):
+                filename = grDrpdwnSelectFile
+                if self.Civitai.versionIndex is not None:
+                    filename = filenameAddVID(
+                        grDrpdwnSelectFile, self.Civitai.getVersionID()
+                    )
                 return (
                     gr.Textbox.update(
                         value=self.Civitai.getUrlByName(grDrpdwnSelectFile)
@@ -991,7 +998,7 @@ class Components():
                     gr.Button.update(interactive=True if grDrpdwnSelectFile else False),
                     gr.Button.update(interactive=True if grDrpdwnSelectFile else False),
                     gr.Textbox.update(value=""),
-                    gr.Textbox.update(value=grDrpdwnSelectFile),
+                    gr.Textbox.update(value=filename),
                 )
 
             def checkEarlyAccess(grTxtEarlyAccess):
@@ -1031,8 +1038,15 @@ class Components():
             )
 
             def file_exist_check(grTxtSaveFolder, grDrpdwnSelectFile):
-                isExist = existence_check(grTxtSaveFolder, grDrpdwnSelectFile)            
-                return gr.HTML.update(visible = True if isExist else False)
+                message = "Have with no ID"
+                isExist = existence_check(grTxtSaveFolder, grDrpdwnSelectFile)
+                if (self.Civitai.versionIndex is not None) and (not isExist):
+                    isExist = existence_check(grTxtSaveFolder, filenameAddVID(
+                        grDrpdwnSelectFile, self.Civitai.getVersionID()                        
+                    ))
+                    if isExist:
+                        message = "You have"
+                return gr.HTML.update(value=message, visible = True if isExist else False)
             grTxtDlUrl.change(
                 fn=file_exist_check,
                 inputs=[grTxtSaveFolder,
@@ -1282,6 +1296,7 @@ def on_ui_tabs():
                 value=(
                     "<h3>Changes " + "in v2.11" + "</h3>"
                     "<ul>"
+                    "<li>Add a version ID to the file name so it becomes a unique file name.</li>"
                     "<li>Added the ability to save and restore the scroll position of the tab, so switching tabs is now more convenient.</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"

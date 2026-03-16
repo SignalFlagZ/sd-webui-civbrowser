@@ -202,6 +202,12 @@ def filename_normalization(filename) -> str:
         filename = re.sub(r"\s+", "_", filename)
     return filename
 
+def filenameAddVID(filename, vid) -> str:
+    if filename:
+        pname = Path(filename)
+        filename = pname.stem + "_" + str(vid) + pname.suffix
+    return filename_normalization(filename)
+
 
 def save_text_file(folder, filename, trained_words, description:str=""):
     filename = filename_normalization(filename)

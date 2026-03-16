@@ -53,6 +53,8 @@ An extension to help download models from CivitAi without leaving WebUI
 
 ### v2.11
 
+- Add a version ID to the file name so it becomes a unique file name.
+  - If a model with a file name lacking a version ID already exists, display “Have with no ID.”
 - Added the ability to save and restore the scroll position of the tab, so switching tabs is now more convenient.
 
 Current limitation: The script that saves the scroll position does not work unless you switch tabs and scroll once.
