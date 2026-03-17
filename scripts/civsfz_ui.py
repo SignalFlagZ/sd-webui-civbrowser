@@ -1355,7 +1355,7 @@ def on_ui_tabs():
                     //console.log(tab_id + ":" + window.scrollY);
                     sessionStorage.setItem(tab_id, window.scrollY);
                 }, 200);
-                document.addEventListener("scroll", handle_scroll, { signal: controller.signal } );
+                document.addEventListener("scroll", handle_scroll, {  passive: true, signal: controller.signal } );
                 
                 // observer to remove scroll event
                 const observer = new MutationObserver((mutationsList) => {
