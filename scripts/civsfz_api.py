@@ -623,15 +623,20 @@ class CivitaiModels(APIInformation):
                 canSellPermissions = {'Sell'}
 
                 item = self.jsonData['items'][self.modelIndex]
-                allowCommercialUse = set(item['allowCommercialUse'])
+                allowCommercialUse = set(
+                    item["allowCommercialUse"]
+                    .replace("{", "")
+                    .replace("}", "")
+                    .split(",")
+                )
                 allowNoCredit = item['allowNoCredit']
                 allowDerivatives = item['allowDerivatives']
                 allowDifferentLicense = item['allowDifferentLicense']
 
-                canSellImages = len(allowCommercialUse & canSellImagesPermissions) > 0 
-                canRentCivit = len(allowCommercialUse & canRentCivitPermissions) > 0
-                canRent = len(allowCommercialUse & canRentPermissions) > 0
-                canSell = len(allowCommercialUse & canSellPermissions) > 0
+                canSellImages = canSellImagesPermissions & allowCommercialUse
+                canRentCivit = canRentCivitPermissions & allowCommercialUse
+                canRent = canRentPermissions & allowCommercialUse
+                canSell = canSellPermissions & allowCommercialUse
 
                 permissions['allowNoCredit'] = allowNoCredit
                 permissions['canSellImages'] = canSellImages
