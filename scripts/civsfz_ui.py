@@ -94,7 +94,7 @@ class Components():
             with gr.Row():
                 grChkbxgrpSearch = gr.CheckboxGroup(
                     scale=3,
-                    label="Search",
+                    label="Search (Keyword:Spaces as OR-search, double‑quotes as a phrase)",
                     choices=self.Civitai.getSearchTypes(),
                     value=self.searchtype,
                     interactive=True,
