@@ -355,8 +355,6 @@ class APIInformation():
             "SDXL Turbo",
             "SDXL Distilled",
             "Seedance",
-            "Seedance 1.5",
-            "Seedance 2.0",
             "Seedream",
             "SVD",
             "SVD XT",

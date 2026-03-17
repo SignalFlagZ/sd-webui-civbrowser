@@ -121,8 +121,6 @@ familyColor: dict = {
             "OpenAI",
             "Seedream",
             "Seedance",
-            "Seedance 1.5",
-            "Seedance 2.0",
             "Kling",
             "Vidu Q1",
         ],
