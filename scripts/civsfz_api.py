@@ -709,8 +709,8 @@ class CivitaiModels(APIInformation):
                     have = True
                     break
                 # modified file name
-                file_name = self.makeSaveFilenameByIndex()
-                if existence_check(folder, filenameAddVID(file_name, ver["id"])):
+                file_name = self.makeSaveFilenameByIndex(j, i, index)
+                if existence_check(folder, file_name):
                     have = True
                     break
             hasVersions.append(have)
@@ -906,12 +906,12 @@ class CivitaiModels(APIInformation):
             return tuple( List of model files, primary model file, primary index number)
         '''
         if versionIndex is None:
+            if versionIndex is None:
+                # print(Fore.LIGHTYELLOW_EX + f'makeFileChoices: Select version first. {fileIndex}' + Style.RESET_ALL )
+                return None
             versionIndex = self.versionIndex
         if self.modelIndex is None:
             # print(Fore.LIGHTYELLOW_EX + f'makeFileChoices: Select model first. {fileIndex}' + Style.RESET_ALL )
-            return None
-        if versionIndex is None:
-            # print(Fore.LIGHTYELLOW_EX + f'makeFileChoices: Select version first. {fileIndex}' + Style.RESET_ALL )
             return None
         item = self.jsonData["items"][self.modelIndex]
         version = item["modelVersions"][versionIndex]
@@ -938,12 +938,12 @@ class CivitaiModels(APIInformation):
 
     def valueSelectedFile(self, fileIndex: int = None, versionIndex: int = None):
         if versionIndex is None:
+            if self.versionIndex is None:
+                # print(Fore.LIGHTYELLOW_EX + f'valueSelectedFile: Select version first. {fileIndex}' + Style.RESET_ALL )
+                return
             versionIndex = self.versionIndex
         if self.modelIndex is None:
             # print(Fore.LIGHTYELLOW_EX + f'valueSelectedFile: Select model first. {fileIndex}' + Style.RESET_ALL )
-            return
-        if versionIndex is None:
-            # print(Fore.LIGHTYELLOW_EX + f'valueSelectedFile: Select version first. {fileIndex}' + Style.RESET_ALL )
             return
         if fileIndex is None:
             # print(Fore.LIGHTYELLOW_EX + f'valueSelectedFile: Require file index.' + Style.RESET_ALL )
@@ -956,12 +956,12 @@ class CivitaiModels(APIInformation):
 
     def getFilenameByIndex(self, fileIndex: int = None, versionIndex: int = None):
         if versionIndex is None:
+            if self.versionIndex is None:
+                # print(Fore.LIGHTYELLOW_EX + f'getFilenameByIndex: Select version first. {fileIndex}' + Style.RESET_ALL )
+                return
             versionIndex = self.versionIndex
         if self.modelIndex is None:
             # print(Fore.LIGHTYELLOW_EX + f'getFilenameByIndex: Select model first. {fileIndex}' + Style.RESET_ALL )
-            return
-        if versionIndex is None:
-            # print(Fore.LIGHTYELLOW_EX + f'getFilenameByIndex: Select version first. {fileIndex}' + Style.RESET_ALL )
             return
         if fileIndex is None:
             # print(Fore.LIGHTYELLOW_EX + f'getFilenameByIndex: Require file index.' + Style.RESET_ALL )
@@ -974,14 +974,14 @@ class CivitaiModels(APIInformation):
         filename = version["files"][fileIndex]["name"]
         return filename
 
-    def getFileQuantization(self, fileIndex: int = None, versionIndex: int = None):
+    def getFilePrecision(self, fileIndex: int = None, versionIndex: int = None):
         if versionIndex is None:
+            if self.versionIndex is None:
+                # print(Fore.LIGHTYELLOW_EX + f'getFileQuantization: Select version first. {fileIndex}' + Style.RESET_ALL )
+                return
             versionIndex = self.versionIndex
         if self.modelIndex is None:
             # print(Fore.LIGHTYELLOW_EX + f'getFileQuantization: Select model first. {fileIndex}' + Style.RESET_ALL )
-            return
-        if versionIndex is None:
-            # print(Fore.LIGHTYELLOW_EX + f'getFileQuantization: Select version first. {fileIndex}' + Style.RESET_ALL )
             return
         if fileIndex is None:
             # print(Fore.LIGHTYELLOW_EX + f'getFileQuantization: Require file index.' + Style.RESET_ALL )
@@ -993,20 +993,22 @@ class CivitaiModels(APIInformation):
         # ret = meta.get("fp")
         return meta
 
-    def makeSaveFilenameByIndex(self, fileIndex: int = None, versionIndex: int = None):
+    def makeSaveFilenameByIndex(self, fileIndex: int = None, versionIndex: int = None, modelIndex:int = None):
         # modify save file name
+        if modelIndex is None:
+            if self.modelIndex is None:
+                # print(Fore.LIGHTYELLOW_EX + f'makeSaveFilenameByIndex: Select model first. {fileIndex}' + Style.RESET_ALL )
+                return
+            modelIndex = self.modelIndex
         if versionIndex is None:
+            if self.versionIndex is None:
+                # print(Fore.LIGHTYELLOW_EX + f'makeSaveFilenameByIndex: Select version first. {fileIndex}' + Style.RESET_ALL )
+                return
             versionIndex = self.versionIndex
-        if self.modelIndex is None:
-            # print(Fore.LIGHTYELLOW_EX + f'makeSaveFilenameByIndex: Select model first. {fileIndex}' + Style.RESET_ALL )
-            return
-        if versionIndex is None:
-            # print(Fore.LIGHTYELLOW_EX + f'makeSaveFilenameByIndex: Select version first. {fileIndex}' + Style.RESET_ALL )
-            return
         if fileIndex is None:
             # print(Fore.LIGHTYELLOW_EX + f'makeSaveFilenameByIndex: Require file index.' + Style.RESET_ALL )
             return None
-        item = self.jsonData["items"][self.modelIndex]
+        item = self.jsonData["items"][modelIndex]
         version = item["modelVersions"][versionIndex]
         if fileIndex < 0 or fileIndex > len(version["files"]):
             # print(Fore.LIGHTYELLOW_EX + f'makeSaveFilenameByIndex: Out of index Range. {fileIndex}' + Style.RESET_ALL )
@@ -1020,19 +1022,19 @@ class CivitaiModels(APIInformation):
             pname = Path(filename)
             filename = pname.stem + "_" + metainfo + pname.suffix
         # add version ID
-        vid = self.getVersionID()
+        vid = version["id"]
         pname = Path(filename)
         filename = pname.stem + "_" + str(vid) + pname.suffix
         return filename_normalization(filename)
 
     def getUrlByIndex(self, fileIndex: int = None, versionIndex: int = None):
         if versionIndex is None:
+            if self.versionIndex is None:
+                # print(Fore.LIGHTYELLOW_EX + f'getUrlByIndex: Select version first. {fileIndex}' + Style.RESET_ALL )
+                return None
             versionIndex = self.versionIndex
         if self.modelIndex is None:
             # print(Fore.LIGHTYELLOW_EX + f'getUrlByIndex: Select model first. {fileIndex}' + Style.RESET_ALL )
-            return None
-        if versionIndex is None:
-            # print(Fore.LIGHTYELLOW_EX + f'getUrlByIndex: Select version first. {fileIndex}' + Style.RESET_ALL )
             return None
         if fileIndex is None:
             # print(Fore.LIGHTYELLOW_EX + f'getUrlByIndex: Require file index.' + Style.RESET_ALL )
@@ -1047,12 +1049,12 @@ class CivitaiModels(APIInformation):
 
     def getHashByIndex(self, fileIndex: int = None, versionIndex: int = None):
         if versionIndex is None:
+            if self.versionIndex is None:
+                # print(Fore.LIGHTYELLOW_EX + f'getHashByIndex: Select version first. {fileIndex}' + Style.RESET_ALL )
+                return None
             versionIndex = self.versionIndex
         if self.modelIndex is None:
             # print(Fore.LIGHTYELLOW_EX + f'getHashByIndex: Select model first. {fileIndex}' + Style.RESET_ALL )
-            return None
-        if versionIndex is None:
-            # print(Fore.LIGHTYELLOW_EX + f'getHashByIndex: Select version first. {fileIndex}' + Style.RESET_ALL )
             return None
         if fileIndex is None:
             # print(Fore.LIGHTYELLOW_EX + f'getHashByIndex: Require file index.' + Style.RESET_ALL )
