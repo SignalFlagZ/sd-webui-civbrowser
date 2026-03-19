@@ -51,6 +51,13 @@ An extension to help download models from CivitAi without leaving WebUI
 
 ## Versions
 
+### v2.12
+
+- Add “precision” to the display to differentiate identical file names.
+  - File selection is done by index number to differentiate files.
+  - The filename for saving checkpoints has changed a lot.
+  - Display that matches PR #86.
+
 ### v2.11
 
 - Add a version ID to the file name so it becomes a unique file name.

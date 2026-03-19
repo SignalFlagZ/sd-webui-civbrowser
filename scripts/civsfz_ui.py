@@ -1296,10 +1296,9 @@ def on_ui_tabs():
         with gr.Accordion(label="Update information", open=False):
             gr.HTML(
                 value=(
-                    "<h3>Changes " + "in v2.11" + "</h3>"
+                    "<h3>Changes " + "in v2.12" + "</h3>"
                     "<ul>"
-                    "<li>Add a version ID to the file name so it becomes a unique file name.</li>"
-                    "<li>Added the ability to save and restore the scroll position of the tab, so switching tabs is now more convenient.</li>"
+                    "<li>Add “precision” to the display to differentiate identical file names.</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )
