@@ -13,7 +13,8 @@ from scripts.civsfz_filemanage import (
     FavoriteCreators,
     BanCreators,
     existence_check,
-    filenameAddVID    
+    filenameAddVID,
+    filename_normalization,
 )
 from scripts.civsfz_color import dictBasemodelColors
 from scripts.civsfz_shared import opts, read_timeout, card_no_preview
@@ -689,7 +690,7 @@ class CivitaiModels(APIInformation):
         hasVersions = []
         for i,ver in enumerate(item['modelVersions']):
             have = False
-            for file in ver['files']:
+            for j, file in enumerate(ver["files"]):
                 folder = generate_model_save_path2(
                     item["type"],
                     item["name"],
@@ -704,11 +705,11 @@ class CivitaiModels(APIInformation):
                 file_name = file['name']
                 path_file = folder / Path(file_name)
                 # print(f"{path_file}")
-
                 if existence_check(folder, file_name):
                     have = True
                     break
-                # file with version ID
+                # modified file name
+                file_name = self.makeSaveFilenameByIndex()
                 if existence_check(folder, filenameAddVID(file_name, ver["id"])):
                     have = True
                     break
@@ -900,6 +901,172 @@ class CivitaiModels(APIInformation):
         self.setModelVersionInfo(modelInfo)
         return modelInfo
 
+    def makeFileChoices(self, versionIndex: int = None) -> tuple[list, str, int]:
+        '''makeFileChoices
+            return tuple( List of model files, primary model file, primary index number)
+        '''
+        if versionIndex is None:
+            versionIndex = self.versionIndex
+        if self.modelIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'makeFileChoices: Select model first. {fileIndex}' + Style.RESET_ALL )
+            return None
+        if versionIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'makeFileChoices: Select version first. {fileIndex}' + Style.RESET_ALL )
+            return None
+        item = self.jsonData["items"][self.modelIndex]
+        version = item["modelVersions"][versionIndex]
+        primary = 0
+        choices = []
+        for i, f in enumerate(version["files"]):
+            if 'primary' in f:
+                if f['primary']:
+                    primary = i
+            # modify choices text
+            choices.append(" | ".join([f["name"]] + [md for md in f["metadata"].values() if md is not None]))
+        return choices, choices[primary], primary
+
+    def getFileSelectIndexByValue(self, value:str):
+        # Return the index number of the selected value from the choices created by makeFileChoices.
+        if value:
+            choices, value, primary = self.makeFileChoices(0)
+            indexes = [i for i, x in enumerate(choices) if x == value]
+            if indexes is None:
+                return None
+            else:
+                return indexes[0]
+        return None
+
+    def valueSelectedFile(self, fileIndex: int = None, versionIndex: int = None):
+        if versionIndex is None:
+            versionIndex = self.versionIndex
+        if self.modelIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'valueSelectedFile: Select model first. {fileIndex}' + Style.RESET_ALL )
+            return
+        if versionIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'valueSelectedFile: Select version first. {fileIndex}' + Style.RESET_ALL )
+            return
+        if fileIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'valueSelectedFile: Require file index.' + Style.RESET_ALL )
+            return None
+        choices, *_ = self.makeFileChoices(fileIndex)
+        if fileIndex<0 or fileIndex > len(choices):
+            # print(Fore.LIGHTYELLOW_EX + f'valueSelectedFile: Out of index Range. {fileIndex}' + Style.RESET_ALL )
+            return None
+        return choices[fileIndex]
+
+    def getFilenameByIndex(self, fileIndex: int = None, versionIndex: int = None):
+        if versionIndex is None:
+            versionIndex = self.versionIndex
+        if self.modelIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'getFilenameByIndex: Select model first. {fileIndex}' + Style.RESET_ALL )
+            return
+        if versionIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'getFilenameByIndex: Select version first. {fileIndex}' + Style.RESET_ALL )
+            return
+        if fileIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'getFilenameByIndex: Require file index.' + Style.RESET_ALL )
+            return None
+        item = self.jsonData["items"][self.modelIndex]
+        version = item["modelVersions"][versionIndex]
+        if fileIndex<0 or fileIndex > len(version["files"]):
+            # print(Fore.LIGHTYELLOW_EX + f'getFilenameByIndex: Out of index Range. {fileIndex}' + Style.RESET_ALL )
+            return None
+        filename = version["files"][fileIndex]["name"]
+        return filename
+
+    def getFileQuantization(self, fileIndex: int = None, versionIndex: int = None):
+        if versionIndex is None:
+            versionIndex = self.versionIndex
+        if self.modelIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'getFileQuantization: Select model first. {fileIndex}' + Style.RESET_ALL )
+            return
+        if versionIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'getFileQuantization: Select version first. {fileIndex}' + Style.RESET_ALL )
+            return
+        if fileIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'getFileQuantization: Require file index.' + Style.RESET_ALL )
+            return None
+        item = self.jsonData["items"][self.modelIndex]
+        version = item["modelVersions"][versionIndex]
+        meta = version["files"][fileIndex]["metadata"]
+        # get fp in metadata
+        # ret = meta.get("fp")
+        return meta
+
+    def makeSaveFilenameByIndex(self, fileIndex: int = None, versionIndex: int = None):
+        # modify save file name
+        if versionIndex is None:
+            versionIndex = self.versionIndex
+        if self.modelIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'makeSaveFilenameByIndex: Select model first. {fileIndex}' + Style.RESET_ALL )
+            return
+        if versionIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'makeSaveFilenameByIndex: Select version first. {fileIndex}' + Style.RESET_ALL )
+            return
+        if fileIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'makeSaveFilenameByIndex: Require file index.' + Style.RESET_ALL )
+            return None
+        item = self.jsonData["items"][self.modelIndex]
+        version = item["modelVersions"][versionIndex]
+        if fileIndex < 0 or fileIndex > len(version["files"]):
+            # print(Fore.LIGHTYELLOW_EX + f'makeSaveFilenameByIndex: Out of index Range. {fileIndex}' + Style.RESET_ALL )
+            return None
+        filename = version["files"][fileIndex]["name"]
+        # add meta data
+        # if self.getSelectedModelType() == "Checkpoint":
+        meta = version["files"][fileIndex]["metadata"]
+        if meta.get("fp"):
+            metainfo = "_".join([f for f in meta.values()])
+            pname = Path(filename)
+            filename = pname.stem + "_" + metainfo + pname.suffix
+        # add version ID
+        vid = self.getVersionID()
+        pname = Path(filename)
+        filename = pname.stem + "_" + str(vid) + pname.suffix
+        return filename_normalization(filename)
+
+    def getUrlByIndex(self, fileIndex: int = None, versionIndex: int = None):
+        if versionIndex is None:
+            versionIndex = self.versionIndex
+        if self.modelIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'getUrlByIndex: Select model first. {fileIndex}' + Style.RESET_ALL )
+            return None
+        if versionIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'getUrlByIndex: Select version first. {fileIndex}' + Style.RESET_ALL )
+            return None
+        if fileIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'getUrlByIndex: Require file index.' + Style.RESET_ALL )
+            return None
+        item = self.jsonData["items"][self.modelIndex]
+        version = item["modelVersions"][versionIndex]
+        if fileIndex<0 or fileIndex > len(version["files"]):
+            # print(Fore.LIGHTYELLOW_EX + f'getUrlByIndex: Out of index Range. {fileIndex}' + Style.RESET_ALL )
+            return None
+        dl_url = version["files"][fileIndex]["downloadUrl"]
+        return dl_url
+
+    def getHashByIndex(self, fileIndex: int = None, versionIndex: int = None):
+        if versionIndex is None:
+            versionIndex = self.versionIndex
+        if self.modelIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'getHashByIndex: Select model first. {fileIndex}' + Style.RESET_ALL )
+            return None
+        if versionIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'getHashByIndex: Select version first. {fileIndex}' + Style.RESET_ALL )
+            return None
+        if fileIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'getHashByIndex: Require file index.' + Style.RESET_ALL )
+            return None
+        item = self.jsonData["items"][self.modelIndex]
+        version = item["modelVersions"][versionIndex]
+        if fileIndex < 0 or fileIndex > len(version["files"]):
+            # print(Fore.LIGHTYELLOW_EX + f'getHashByIndex: Out of index Range. {fileIndex}' + Style.RESET_ALL )
+            return None
+        sha256 = ""
+        if "SHA256" in version["files"][fileIndex]["hashes"]:
+            sha256 = version["files"][fileIndex]["hashes"]["SHA256"]
+        return sha256
+
     def getUrlByName(self, model_filename=None):
         if self.modelIndex is None:
             # print(Fore.LIGHTYELLOW_EX + f'getUrlByName: Select model first. {model_filename}' + Style.RESET_ALL )
@@ -915,6 +1082,7 @@ class CivitaiModels(APIInformation):
             if file['name'] == model_filename:
                 dl_url = file['downloadUrl']
         return dl_url
+
     def getHashByName(self, model_filename=None):
         if self.modelIndex is None:
             # print(Fore.LIGHTYELLOW_EX + f'getUrlByName: Select model first. {model_filename}' + Style.RESET_ALL )

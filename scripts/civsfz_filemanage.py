@@ -262,6 +262,8 @@ def makedirs(folder):
         print_lc(f'Make folder: {folder}')
 
 def existence_check(folder, file):
+    if file is None:
+        return False
     file = filename_normalization(file)
     isExist = False
     if folder != "" and folder is not None:

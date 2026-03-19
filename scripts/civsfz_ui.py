@@ -279,7 +279,7 @@ class Components():
                 with gr.Accordion(label="Download Settings"):
                     with gr.Row():
                         grTxtBaseModel = gr.Textbox(scale=1, label='Base Model', value='', interactive=True, lines=1, visible=False)
-                        grDrpdwnSelectFile = gr.Dropdown(scale=3, label="File select", choices=[], interactive=True, value=None)
+                        grDrpdwnSelectFile = gr.Dropdown(scale=3, label="File select", choices=[], type="index", interactive=True, value=None)
                     with gr.Row(equal_height=False):
                         # grBtnFolder = gr.Button(value="\N{Open file folder}", interactive=True, elem_classes="civsfz-small-buttons")  # 📂
                         grBtnFolder = ui_components.ToolButton(value="\N{Open file folder}",elem_id=f"civsfz_open_save_folder{self.id}", tooltip="Open save folder")  # 📂
@@ -900,23 +900,16 @@ class Components():
                                             )
                     modelInfo = self.Civitai.makeModelInfo2(nsfwLevel=sum(grChkbxgrpLevel))
                     if modelInfo["modelVersions"][0]["files"] == []:
-                        drpdwn =  gr.Dropdown.update(choices=[], value="")
+                        drpdwn =  gr.Dropdown.update(choices=[], value=None)
                         grTxtSaveFilename = gr.Textbox.update(value="")
                     else:
-                        filename = modelInfo["modelVersions"][0]["files"][0]["name"]
-                        for f in modelInfo["modelVersions"][0]["files"]:
-                            if 'primary' in f:
-                                if f['primary']:
-                                    filename = f["name"]
-                                    break
-                        drpdwn = gr.Dropdown.update(
-                            choices=[
-                                f["name"]
-                                for f in modelInfo["modelVersions"][0]["files"]
-                            ],
-                            value=filename,
+                        choices, value, primary = self.Civitai.makeFileChoices(
+                            model_version
                         )
-                        filename = filenameAddVID(filename, modelInfo["modelVersions"][0]["id"])
+                        drpdwn = gr.Dropdown.update(choices=choices, value=value)
+                        filename = self.Civitai.makeSaveFilenameByIndex(
+                            primary, model_version
+                        )
                         grTxtSaveFilename = gr.Textbox.update(value=filename)
                         txtEarlyAccess = self.Civitai.getSelectedVersionEarlyAccessDeadline()
                         grHtmlModelName = gr.HTML.update(
@@ -966,12 +959,14 @@ class Components():
                 ],
             )
 
-            def save_folder_changed(folder, filename):
+            def save_folder_changed(folder, grDrpdwnSelectFile):
                 self.Civitai.setSaveFolder(folder)
+                filename = self.Civitai.getFilenameByIndex(grDrpdwnSelectFile)
                 isExist = None
                 if filename is not None:
                     isExist = file_exist_check(folder, filename)
                 return gr.HTML.update(visible = True if isExist else False)
+
             grTxtSaveFolder.blur(
                 fn=save_folder_changed,
                 inputs={grTxtSaveFolder,grDrpdwnSelectFile},
@@ -983,20 +978,22 @@ class Components():
                 outputs=[])
 
             def updateDlUrl(grDrpdwnSelectFile):
-                filename = grDrpdwnSelectFile
+                filename = ""
                 if self.Civitai.versionIndex is not None:
-                    filename = filenameAddVID(
-                        grDrpdwnSelectFile, self.Civitai.getVersionID()
-                    )
+                    filename = self.Civitai.makeSaveFilenameByIndex(grDrpdwnSelectFile)
                 return (
                     gr.Textbox.update(
-                        value=self.Civitai.getUrlByName(grDrpdwnSelectFile)
+                        value=self.Civitai.getUrlByIndex(grDrpdwnSelectFile)
                     ),
                     gr.Textbox.update(
-                        value=self.Civitai.getHashByName(grDrpdwnSelectFile)
+                        value=self.Civitai.getHashByIndex(grDrpdwnSelectFile)
                     ),
-                    gr.Button.update(interactive=True if grDrpdwnSelectFile else False),
-                    gr.Button.update(interactive=True if grDrpdwnSelectFile else False),
+                    gr.Button.update(
+                        interactive=True if grDrpdwnSelectFile is not None else False
+                    ),
+                    gr.Button.update(
+                        interactive=True if grDrpdwnSelectFile is not None else False
+                    ),
                     gr.Textbox.update(value=""),
                     gr.Textbox.update(value=filename),
                 )
@@ -1039,11 +1036,11 @@ class Components():
 
             def file_exist_check(grTxtSaveFolder, grDrpdwnSelectFile):
                 message = "Have with no ID"
-                isExist = existence_check(grTxtSaveFolder, grDrpdwnSelectFile)
+                isExist = existence_check(
+                    grTxtSaveFolder, self.Civitai.getFilenameByIndex(grDrpdwnSelectFile)
+                )
                 if (self.Civitai.versionIndex is not None) and (not isExist):
-                    isExist = existence_check(grTxtSaveFolder, filenameAddVID(
-                        grDrpdwnSelectFile, self.Civitai.getVersionID()                        
-                    ))
+                    isExist = existence_check(grTxtSaveFolder, self.Civitai.makeSaveFilenameByIndex(grDrpdwnSelectFile))
                     if isExist:
                         message = "You have"
                 return gr.HTML.update(value=message, visible = True if isExist else False)
@@ -1206,7 +1203,12 @@ class Components():
                             grTxtCreator,
                         ) = update_model_info(grRadioVersions["value"], grChkbxgrpLevel)
                         # grTxtDlUrl = gr.Textbox.update(value=self.Civitai.getUrlByName(grDrpdwnSelectFile['value']))
-                        grTxtHash = gr.Textbox.update(value=self.Civitai.getHashByName(grDrpdwnSelectFile['value']))
+                        fileIndex = self.Civitai.getFileSelectIndexByValue(
+                            grDrpdwnSelectFile["value"]
+                        )  # grDrpdwnSelectFile becomes a Update object
+                        grTxtHash = gr.Textbox.update(
+                            value=None if fileIndex is None else self.Civitai.getHashByIndex(fileIndex)
+                        )
                         grTxtVersionInfo = gr.Textbox.update(
                             value=json.dumps(self.Civitai.modelVersionsInfo())
                         )
