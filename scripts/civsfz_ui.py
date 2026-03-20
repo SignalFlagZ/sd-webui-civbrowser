@@ -4,7 +4,6 @@ import json
 import math
 import os
 import re
-from html.parser import HTMLParser
 from datetime import datetime, timedelta, timezone
 from modules import script_callbacks, ui_components
 from colorama import Fore, Back, Style
