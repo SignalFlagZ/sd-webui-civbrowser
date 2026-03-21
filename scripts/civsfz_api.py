@@ -319,6 +319,7 @@ class APIInformation():
             "Kolors",
             "LTXV",
             "LTXV2",
+            "LTXV 2.3",
             "Lumina",
             "Mochi",
             "Nano Banana",

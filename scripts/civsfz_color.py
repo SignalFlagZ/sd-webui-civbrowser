@@ -116,6 +116,7 @@ familyColor: dict = {
             "SVD XT",
             "LTXV",
             "LTXV2",
+            "LTXV 2.3",
             "CogVideoX",
             "HiDream",
             "OpenAI",
