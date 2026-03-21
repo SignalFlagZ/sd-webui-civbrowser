@@ -278,7 +278,7 @@ class Components():
                 with gr.Accordion(label="Download Settings"):
                     with gr.Row():
                         grTxtBaseModel = gr.Textbox(scale=1, label='Base Model', value='', interactive=True, lines=1, visible=False)
-                        grDrpdwnSelectFile = gr.Dropdown(scale=3, label="File select", choices=[], interactive=True, value=None)
+                        grDrpdwnSelectFile = gr.Dropdown(scale=3, label="File select", choices=[], type="index", interactive=True, value=None)
                     with gr.Row(equal_height=False):
                         # grBtnFolder = gr.Button(value="\N{Open file folder}", interactive=True, elem_classes="civsfz-small-buttons")  # 📂
                         grBtnFolder = ui_components.ToolButton(value="\N{Open file folder}",elem_id=f"civsfz_open_save_folder{self.id}", tooltip="Open save folder")  # 📂
@@ -902,10 +902,10 @@ class Components():
                         drpdwn =  gr.Dropdown.update(choices=[], value=None)
                         grTxtSaveFilename = gr.Textbox.update(value="")
                     else:
-                        choices, primary = self.Civitai.makeFileChoices(
+                        choices, value, primary = self.Civitai.makeFileChoices(
                             model_version
                         )
-                        drpdwn = gr.Dropdown.update(choices=choices, value=primary)
+                        drpdwn = gr.Dropdown.update(choices=choices, value=value)
                         filename = self.Civitai.makeSaveFilenameByIndex(
                             primary, model_version
                         )
@@ -1202,8 +1202,9 @@ class Components():
                             grTxtCreator,
                         ) = update_model_info(grRadioVersions["value"], grChkbxgrpLevel)
                         # grTxtDlUrl = gr.Textbox.update(value=self.Civitai.getUrlByName(grDrpdwnSelectFile['value']))
-                        fileIndex = grDrpdwnSelectFile["value"]
-                        # grDrpdwnSelectFile becomes a Update object
+                        fileIndex = self.Civitai.getFileSelectIndexByValue(
+                            grDrpdwnSelectFile["value"]
+                        )  # grDrpdwnSelectFile becomes a Update object
                         grTxtHash = gr.Textbox.update(
                             value=None if fileIndex is None else self.Civitai.getHashByIndex(fileIndex)
                         )
