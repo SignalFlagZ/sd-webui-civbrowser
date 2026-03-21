@@ -922,19 +922,9 @@ class CivitaiModels(APIInformation):
                 if f['primary']:
                     primary = i
             # modify choices text
-            choices.append(" | ".join([f["name"]] + [md for md in f["metadata"].values() if md is not None]))
-        return choices, choices[primary], primary
-
-    def getFileSelectIndexByValue(self, value:str):
-        # Return the index number of the selected value from the choices created by makeFileChoices.
-        if value:
-            choices, value, primary = self.makeFileChoices(0)
-            indexes = [i for i, x in enumerate(choices) if x == value]
-            if indexes is None:
-                return None
-            else:
-                return indexes[0]
-        return None
+            #choices.append(" | ".join([f["name"]] + [md for md in f["metadata"].values() if md is not None]))
+            choices.append((" | ".join([f["name"]] + [md for md in f["metadata"].values() if md is not None]), i))
+        return choices, primary
 
     def valueSelectedFile(self, fileIndex: int = None, versionIndex: int = None):
         if versionIndex is None:
