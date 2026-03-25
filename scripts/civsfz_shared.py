@@ -1,4 +1,4 @@
-VERSION = "v2.12.3"
+VERSION = "v2.12.4"
 
 platform = "A1111"
 forge_version = None
@@ -8,7 +8,8 @@ from html.parser import HTMLParser
 
 import gradio as gr
 # GRADIO_VERSION = gr.__version__
-GR_V440 = True if "4.40" in gr.__version__ else False
+# Forge Neo uses 4.39.0
+GR_V440 = True if gr.__version__.startswith(("4.40", "4.39")) else False
 
 try:
     from modules_forge.forge_version import version as forge_version
