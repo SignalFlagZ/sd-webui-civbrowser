@@ -6,12 +6,49 @@ function civbrowser_start_it_up() {
 	let elem = gradioApp().querySelector('#civsfz_tab-element').firstChild;
 	elem.classList.add("civsfz-sticky-element");
 	elem.classList.add("civsfz-tabbar");
+
 	// Init scroll positions
-	elem = document.querySelectorAll('.civsfz-tab-item');
-	elem.forEach((tab) => {
+	const tabs = gradioApp().querySelectorAll('.civsfz-tab-item');
+	tabs.forEach((tab) => {
 		const id = tab.getAttribute("id");
-		sessionStorage.setItem(id, 0);
+		sessionStorage.setItem(id, 0); // init
+		// Observe whether the tab is displayed.
+		const observer = new MutationObserver((mutationsList) => {
+			for (const mutation of mutationsList) {
+				if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+					// style changed
+					if (window.getComputedStyle(tab).display === 'none') {
+						// Hidden
+					} else {
+						// Visible  display: block
+						// restore scroll position
+						const lastScrollTop = sessionStorage.getItem(id);
+						if (lastScrollTop) {
+							//console.log("set:" + id + " to " + lastScrollTop);
+							window.scroll({ top: lastScrollTop, behavior: 'smooth' });
+						}
+					}
+				}
+			}
+		});
+		// Start of observation
+		observer.observe(tab, { attributes: true }); 
 	});
+
+	// Add scroll event 
+	// save scroll position
+	const handle_scroll = civsfz_throttle((evt) => {
+		const tabs = evt.srcElement.querySelectorAll('.civsfz-tab-item');
+		tabs.forEach((tab) => {
+			const id = tab.getAttribute("id");
+			if (tab.checkVisibility()) {
+				// Visible
+				//console.log(id + ":" + window.scrollY);
+				sessionStorage.setItem(id, window.scrollY);
+			}
+		})
+	}, 66);
+	window.addEventListener("scroll", handle_scroll);
 }
 
 function civsfz_select_model(model_name) {

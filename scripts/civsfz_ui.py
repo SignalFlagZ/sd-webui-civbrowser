@@ -1333,49 +1333,6 @@ def on_ui_tabs():
         with gr.Row():
             gr.HTML(value=f'<div style="text-align:center;">CivBrowser <a href="https://github.com/SignalFlagZ/sd-webui-civbrowser">{ver}</a></div>')
             downloader.uiJsEvent(gr)
-        if GR_V440:
-            save_scroll_js = """
-                async () => {
-            
-                    // restore scroll position
-                    const activeTabContent = document.querySelector('.civsfz-tab-item:not([style*="display: none"])');
-                    const tab_id = activeTabContent.getAttribute("id");
-                    setTimeout(() => {
-                        if (activeTabContent) {
-                            const lastScrollTop = sessionStorage.getItem(tab_id);
-                            if (lastScrollTop) {
-                                //console.log("set:" + tab_id +" to " + lastScrollTop);
-                                window.scroll({ top: lastScrollTop, behavior: 'smooth' });
-                            }
-                        }
-                    },200); // Wait for rendering
-
-                    // Event to save scroll position
-                    const controller = new AbortController();
-                    const handle_scroll = civsfz_throttle(() => {
-                        //console.log(tab_id + ":" + window.scrollY);
-                        sessionStorage.setItem(tab_id, window.scrollY);
-                    }, 200);
-                    document.addEventListener("scroll", handle_scroll, {  passive: true, signal: controller.signal } );
-                    
-                    // observer to remove scroll event
-                    const observer = new MutationObserver((mutationsList) => {
-                        for (const mutation of mutationsList) {
-                            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-                                // style has been changed
-                                if (window.getComputedStyle(activeTabContent).display === 'none') {
-                                    controller.abort(); // Clear Scroll Event
-                                    observer.disconnect();
-                                }
-                            }
-                        }
-                    });
-
-                    // Observation begins
-                    observer.observe(activeTabContent, { attributes: true }); 
-                }
-            """
-            civtabs.select(None, None, None, js=save_scroll_js)
     return [(civitai_interface, "CivBrowser", "civsfz_interface")]
 
 script_callbacks.on_ui_tabs(on_ui_tabs)
