@@ -443,7 +443,7 @@ class APIInformation():
 
 class CivitaiModels(APIInformation):
     '''CivitaiModels: Handle the response of civitai models api v1.'''
-    def __init__(self, url:str=None, json_data:dict=None, content_type:str=None):
+    def __init__(self, url:str=None, json_data:dict=None, content_type:str=None, tabId:str=None):
         super().__init__()
         self.jsonData = json_data
         # self.contentType = content_type
@@ -456,6 +456,7 @@ class CivitaiModels(APIInformation):
         self.requestError = None
         self.saveFolder = None
         self.cardPagination = None
+        self.tabId = tabId # ID for gradio tabs
     def updateJsonData(self, json_data:dict=None, content_type:str=None):
         '''Update json data.'''
         self.jsonData = json_data
@@ -1337,7 +1338,7 @@ class CivitaiModels(APIInformation):
         template = environment.get_template("modelInfo.jinja")
         content = template.render(
             modelInfo=modelInfo, basicInfo=basicInfo, permissions=permissions,
-            samples=samples, js=js)
+            samples=samples, tabId=self.tabId, js=js)
 
         return content
 

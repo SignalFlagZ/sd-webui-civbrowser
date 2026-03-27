@@ -51,6 +51,10 @@ An extension to help download models from CivitAi without leaving WebUI
 
 ## Versions
 
+### v2.13
+
+- Add anchor links to navigate within a tab.
+
 ### v2.12
 
 - Improved JavaScript for restoring scroll position

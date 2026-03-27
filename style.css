@@ -215,15 +215,17 @@
 	top: 3em;
 	z-index: 1;
 }
-[id^="civsfz_model-data"] .civsfz-back-to-top {
+[id^="civsfz_tab_item"] .civsfz-anchor-nav {
 	text-align: right;
 	position: -webkit-sticky; /* Safari */
 	position:sticky;
 	top: 7em;
+	right: 2em;
 	z-index: 2;
 	float: inline-end;
 	pointer-events: none;
 	height: 0em;
+	margin-right: -2em;
 }
 .civsfz-sticky-parent {
 	display: initial;

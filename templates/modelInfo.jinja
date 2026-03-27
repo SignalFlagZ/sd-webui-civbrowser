@@ -3,7 +3,7 @@
 <div style="text-align: right;">
 	<i>Model Info Version: {{ modelInfo["infoVersion"] }}</i>
 </div>
-<div>
+<div id="civsfz-model-description{{tabId}}">
 	<h1>
 		{%- if modelInfo['nsfw'] %}
 			NSFW<br/>
@@ -33,7 +33,7 @@
 		{%- endif %}
 	</details>
 	<div style="clear:both;">
-	<h2>Images</h2>
+	<h2 id="civsfz-sample-images{{tabId}}">Images</h2>
 		<details open="true">
 			<summary>Sample Images</summary>
 			<p>Clicking on the image sends infotext to txt2img. If local, copy to clipboard</p>

@@ -216,18 +216,11 @@ function civsfz_querySelectSetProperty(q, p, c) {
 	});
 }
 
-function civsfz_scroll_to(q) {
+function civsfz_scroll_to(q, offset = -50) {
 	const elem = gradioApp().querySelector(q);
-	if (true) {
-		const offset = -40;
+	if (elem) {
 		const y = elem.getBoundingClientRect().top + window.scrollY + offset;
 		window.scrollTo({ top: y, behavior: 'smooth' });
-	} else {
-		elem.scrollIntoView({
-			behavior: 'smooth',
-			block: 'start',
-			inline: 'nearest'
-		});
 	}
 }
 

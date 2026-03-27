@@ -37,10 +37,10 @@ class Components():
         Components.downloader = downloader
         self.gr_version = gr.__version__
         # print_ly(f"{self.gr_version}")
+        self.id = next(Components.newid)
         self.tab = tab
         # Set the URL for the API endpoint
-        self.Civitai = CivitaiModels()
-        self.id = next(Components.newid)
+        self.Civitai = CivitaiModels(tabId=self.id)
         self.searchtype:list[str] = ["No"] # Remember previous search type
         contentTypes = self.Civitai.getTypeOptions()
         self.APIKey = ""
@@ -52,6 +52,7 @@ class Components():
         def defaultPeriod():
             return "Month"
 
+        grHtmlAnchorNav = self.compAnchorNav()
         with gr.Column() as self.components:
             with gr.Row():
                 with gr.Column(scale=1):
@@ -192,10 +193,6 @@ class Components():
                             grChkbxgrpLevel = gr.CheckboxGroup(label='Browsing Level', choices=list(self.Civitai.nsfwLevel.items()) ,value=opts.civsfz_browsing_level, interactive=True, show_label=False)
 
             with gr.Column(elem_id=f"civsfz_model-data{self.id}"):
-                grHtmlBackToTop = gr.HTML(
-                    elem_classes="civsfz-back-to-top",
-                    value=f"<div onclick='civsfz_scroll_to(\"#civsfz_model-navigation{self.id}\");'><span style='font-size:200%;color:transparent;text-shadow:0 0 0 orange;cursor: pointer;pointer-events: auto;'>&#x1F51D;</span></div>",
-                )  # 🔝
                 with gr.Row():
                     grHtmlModelName = gr.HTML(elem_id=f"civsfz_modellist{self.id}", value=None, visible=True)
                 with gr.Row(elem_classes="civsfz-save-buttons civsfz-sticky-element"):
@@ -1285,6 +1282,32 @@ class Components():
     def getComponents(self):
         return self.components
 
+    def compAnchorNav(self):
+        value = (
+            f"<div onclick='civsfz_scroll_to(\"#civsfz_tab-element\",0);'>"
+            #"<span style='font-size:200%;color:transparent;text-shadow:0 0 0 orange;cursor: pointer;pointer-events: auto;'>🔝</span>"
+            "<span style='font-size:200%;cursor: pointer;pointer-events: auto;'>🔍️</span>"
+            "</div>"
+            f"<div onclick='civsfz_scroll_to(\"#civsfz_model-navigation{self.id}\");'>"
+            "<span style='font-size:200%;cursor: pointer;pointer-events: auto;'>📚</span>"
+            "</div>"
+            f"<div onclick='civsfz_scroll_to(\"#civsfz_model-data{self.id}\");'>"
+            "<span style='font-size:200%;cursor: pointer;pointer-events: auto;'>📥</span>"
+            "</div>"
+            f"<div onclick='civsfz_scroll_to(\"#civsfz-model-description{self.id}\",-100);'>"
+            "<span style='font-size:200%;cursor: pointer;pointer-events: auto;'>🧾</span>"
+            "</div>"
+            f"<div onclick='civsfz_scroll_to(\"#civsfz-sample-images{self.id}\",-100);'>"
+            "<span style='font-size:200%;cursor: pointer;pointer-events: auto;'>🏞️</span>"
+            "</div>"
+        )
+        grHtmlAnchorNav = gr.HTML(
+            elem_classes="civsfz-anchor-nav",
+            value=value,
+        )
+        return grHtmlAnchorNav
+
+
 def on_ui_tabs():
     ver = VERSION
     tabNames = []
@@ -1307,7 +1330,7 @@ def on_ui_tabs():
                 with gr.Tab(
                     label=name,
                     id=f"tab{i}",
-                    elem_id=f"civsfz_tab{i}",
+                    elem_id=f"civsfz_tab_item{i}",
                     elem_classes="civsfz-tab-item",
                 ) as tab:
                     Components(downloader, tab)  # (tab)
