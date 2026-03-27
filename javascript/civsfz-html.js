@@ -35,9 +35,9 @@ function civbrowser_start_it_up() {
 		observer.observe(tab, { attributes: true }); 
 	});
 
-	// Add scroll event 
+	// Add scrollend event 
 	// save scroll position
-	const handle_scroll = civsfz_throttle((evt) => {
+	const handle_scroll = (evt) => {
 		const tabs = evt.srcElement.querySelectorAll('.civsfz-tab-item');
 		tabs.forEach((tab) => {
 			const id = tab.getAttribute("id");
@@ -47,8 +47,8 @@ function civbrowser_start_it_up() {
 				sessionStorage.setItem(id, window.scrollY);
 			}
 		})
-	}, 66);
-	window.addEventListener("scroll", handle_scroll);
+	};
+	window.addEventListener("scrollend", handle_scroll);
 }
 
 function civsfz_select_model(model_name) {
