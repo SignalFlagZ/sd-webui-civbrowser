@@ -17,7 +17,7 @@ from scripts.civsfz_filemanage import (
     filename_normalization,
 )
 from scripts.civsfz_color import dictBasemodelColors
-from scripts.civsfz_shared import opts, read_timeout, card_no_preview
+from scripts.civsfz_shared import GR_V440, opts, read_timeout, card_no_preview
 from jinja2 import Environment, FileSystemLoader
 
 print_ly = lambda  x: print(Fore.LIGHTYELLOW_EX + "CivBrowser: " + x + Style.RESET_ALL )
@@ -924,7 +924,46 @@ class CivitaiModels(APIInformation):
                 if f['primary']:
                     primary = i
             # modify choices text
-            choices.append(" | ".join([f["name"]] + [md for md in f["metadata"].values() if md is not None]))
+            if GR_V440:
+                choices.append(" | ".join([f["name"]] + [md for md in f["metadata"].values() if md is not None]))
+            else:
+                choices.append(
+                    " | ".join(
+                        [f["name"]]
+                        + [md for md in f["metadata"].values() if md is not None]
+                        + [str(version["id"]), str(i)]
+                    )
+                )
+        return choices, choices[primary], primary
+
+    def makeFileChoices_g3(self, versionIndex: int = None) -> tuple[list, str, int]:
+        '''makeFileChoices for gradio 3
+            return tuple( List of model files, primary model file, primary index number)
+        '''
+        if versionIndex is None:
+            if versionIndex is None:
+                # print(Fore.LIGHTYELLOW_EX + f'makeFileChoices: Select version first. {fileIndex}' + Style.RESET_ALL )
+                return None
+            versionIndex = self.versionIndex
+        if self.modelIndex is None:
+            # print(Fore.LIGHTYELLOW_EX + f'makeFileChoices: Select model first. {fileIndex}' + Style.RESET_ALL )
+            return None
+        item = self.jsonData["items"][self.modelIndex]
+        version = item["modelVersions"][versionIndex]
+        primary = 0
+        choices = []
+        for i, f in enumerate(version["files"]):
+            if 'primary' in f:
+                if f['primary']:
+                    primary = i
+            # modify choices text
+            choices.append(
+                " | ".join(
+                    [f["name"]]
+                    + [md for md in f["metadata"].values() if md is not None]
+                    + [str(version["id"]), str(i)]
+                )
+            )
         return choices, choices[primary], primary
 
     def getFileSelectIndexByValue(self, value:str):
