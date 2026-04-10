@@ -57,6 +57,12 @@ def on_ui_settings():
     )
 
     dict_options1 = {
+        "civsfz_api_root_url": shared.OptionInfo(
+            "https://civitai.green",
+            label="API Root URL",
+            component=gr.Textbox,
+            component_args={},
+        ).info("Civitai API root URL"),
         "civsfz_api_key": shared.OptionInfo(
             "",
             label="API-Key",

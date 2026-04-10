@@ -140,11 +140,11 @@ class ModelCardsPagination:
         return
 
 class APIInformation():
-    baseUrl = "https://civitai.com"
-    modelsApi = f"{baseUrl}/api/v1/models"
-    imagesApi = f"{baseUrl}/api/v1/images"
-    versionsAPI = f"{baseUrl}/api/v1/model-versions"
-    byHashAPI = f"{baseUrl}/api/v1/model-versions/by-hash"
+    baseUrl = opts.civsfz_api_root_url if opts.civsfz_api_root_url else "https://civitai.green"
+    modelsApi = urllib.parse.urljoin(baseUrl,"/api/v1/models")
+    imagesApi = urllib.parse.urljoin(baseUrl,"/api/v1/images")
+    versionsAPI = urllib.parse.urljoin(baseUrl,"/api/v1/model-versions")
+    byHashAPI = urllib.parse.urljoin(baseUrl,"/api/v1/model-versions/by-hash")
     typeOptions:list = None
     sortOptions:list = None
     basemodelOptions:list = None
