@@ -278,9 +278,10 @@ def saveImageFiles(folder, versionName, html, content_type, versionInfo):
     img_urls = re.findall(r'src=[\'"]?([^\'" >]+)', html)
     basename = os.path.splitext(versionName)[0]  # remove extension
     basename = filename_normalization(basename)
-    preview_url = versionInfo["modelVersions"][0]["images"][0]["url"]
-    preview_url = urllib.parse.quote(preview_url,  safe=':/=')
+    preview_url = ""
     if 'images' in versionInfo:
+        preview_url = versionInfo["modelVersions"][0]["images"][0]["url"]
+        preview_url = urllib.parse.quote(preview_url,  safe=':/=')
         for img in versionInfo['images']:
             if img['type'] == 'image':
                 preview_url = img['url']
