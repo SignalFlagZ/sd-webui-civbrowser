@@ -169,7 +169,7 @@ def generate_model_save_path2(type, modelName: str = "", baseModel: str = "", ns
     newTreeList = []
     for i, sub in enumerate(subTreeList):
         if sub:
-            subKeys = re.findall("(\{\{(.+?)\}\})", sub)
+            subKeys = re.findall(r"(\{\{(.+?)\}\})", sub)
             newSub = ""
             replaceSub = sub
             for subKey in subKeys:
@@ -178,10 +178,10 @@ def generate_model_save_path2(type, modelName: str = "", baseModel: str = "", ns
                         folder = subfolders[subKey[1]]
                         if folder is not None:
                             replaceSub = re.sub(
-                                "\{\{" + subKey[1] + "\}\}", folder, replaceSub)
+                                r"\{\{" + subKey[1] + r"\}\}", folder, replaceSub)
                         else:
                             replaceSub = re.sub(
-                                "\{\{" + subKey[1] + "\}\}", "", replaceSub)
+                                r"\{\{" + subKey[1] + r"\}\}", "", replaceSub)
                     else:
                         print_ly(f'"{subKey[1]}" is not defined')
                         replaceSub = "ERROR"
