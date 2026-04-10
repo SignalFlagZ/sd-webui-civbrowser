@@ -470,7 +470,9 @@ class Components():
                 description = ""
                 parser = HTML2txt()
                 parser.addText(f'Base Model:"{modelInfo["baseModel"]}"  ')
-                parser.addText(f'Creator:"{modelInfo.get("creator").get("username")}"  ')
+                parser.addText(
+                    f'Creator:"{modelInfo.get("creator").get("username") if "creator" in modelInfo else "No creator information"}"'
+                )
                 parser.addText(f'Model ID:"{modelInfo["id"]}"  ')
                 parser.addText(f'Version ID:"{modelInfo["versionId"]}"\n')
                 parser.addText(f'Tags:"{ ", ".join(modelInfo["tags"])}"\n')
