@@ -140,11 +140,6 @@ class ModelCardsPagination:
         return
 
 class APIInformation():
-    baseUrl = opts.civsfz_api_root_url if opts.civsfz_api_root_url else "https://civitai.green"
-    modelsApi = urllib.parse.urljoin(baseUrl,"/api/v1/models")
-    imagesApi = urllib.parse.urljoin(baseUrl,"/api/v1/images")
-    versionsAPI = urllib.parse.urljoin(baseUrl,"/api/v1/model-versions")
-    byHashAPI = urllib.parse.urljoin(baseUrl,"/api/v1/model-versions/by-hash")
     typeOptions:list = None
     sortOptions:list = None
     basemodelOptions:list = None
@@ -169,22 +164,28 @@ class APIInformation():
     def __init__(self) -> None:
         if APIInformation.typeOptions is None:
             self.getOptions()
-    def setBaseUrl(self,url:str):
-        APIInformation.baseUrl = url
+    #def setBaseUrl(self,url:str):
+    #    APIInformation.baseUrl = url
     def getBaseUrl(self) -> str:
-        return APIInformation.baseUrl
+        baseUrl = (
+            str(opts.civsfz_api_root_url)
+            if opts.civsfz_api_root_url
+            else "https://civitai.green"
+        )
+        return baseUrl
     def getModelsApiUrl(self, id=None):
-        url = APIInformation.modelsApi
+        url = urllib.parse.urljoin(self.getBaseUrl(), "/api/v1/models")
         url += f'/{id}' if id is not None else ""
         return url
     def getImagesApiUrl(self):
-        return APIInformation.imagesApi
+        imagesApi = urllib.parse.urljoin(self.getBaseUrl(), "/api/v1/images")
+        return imagesApi
     def getVersionsApiUrl(self, id=None):
-        url = APIInformation.versionsAPI
+        url = urllib.parse.urljoin(self.getBaseUrl(), "/api/v1/model-versions")
         url += f'/{id}' if id is not None else ""
         return url
     def getVersionsByHashUrl(self, hash=None):
-        url = APIInformation.byHashAPI
+        url = urllib.parse.urljoin(self.getBaseUrl(), "/api/v1/model-versions/by-hash")
         url += f'/{hash}' if id is not None else ""
         return url
     def getTypeOptions(self) -> list:
@@ -448,7 +449,7 @@ class CivitaiModels(APIInformation):
         self.jsonData = json_data
         # self.contentType = content_type
         self.showNsfw = False
-        self.baseUrl = APIInformation.baseUrl if url is None else url
+        # self.baseUrl = APIInformation.getBaseUrl() if url is None else url
         self.modelIndex = None
         self.versionsInfo = None    # for radio button and file exist check
         self.versionIndex = None
@@ -1350,6 +1351,7 @@ class CivitaiModels(APIInformation):
             strVNsfw=self.strNsfwLevel(modelInfo["modelVersions"][0]["nsfwLevel"]),
             fileIndex=fileIndex,
             dictBasemodelColor=dictBasemodelColor,
+            civitaiRoot=self.getBaseUrl(),
         )
 
         permissions = self.permissionsHtml(self.allows2permissions())

@@ -7,7 +7,7 @@
 		<tr>
 			<th {{ tdStyle1 }}>ID</th>
 			<td {{ tdStyle1 }}>{{ copy }}<span>
-				<a href="https://civitai.com/models/{{ modelInfo['id'] }}?modelVersionId={{ modelInfo['versionId'] }}" target="_blank">{{ modelInfo["id"] }}
+				<a href="{{ civitaiRoot }}/models/{{ modelInfo['id'] }}?modelVersionId={{ modelInfo['versionId'] }}" target="_blank">{{ modelInfo["id"] }}
 				</a>
 			</span></td>
 		</tr>
@@ -16,7 +16,7 @@
 			{%- if 'creator' in modelInfo -%}
 				<td {{ tdStyle1 }}>{{ copy }}
 					<span>
-						<a href="https://civitai.com/user/{{ modelInfo['creator']['username'] }}" target="_blank">{{ modelInfo['creator']['username']|e }}</a>
+						<a href="{{ civitaiRoot }}/user/{{ modelInfo['creator']['username'] }}" target="_blank">{{ modelInfo['creator']['username']|e }}</a>
 					</span>
 				</td>
 			{%- else -%}
@@ -39,7 +39,7 @@
 		<caption style="text-align: left">Version attributes</caption>
 		<tr>
 			<th {{ tdStyle1 }}>ID</th>
-			<td {{ tdStyle1 }}>{{ copy }}<span><a href="https://civitai.com/models/{{ modelInfo['id'] }}?modelVersionId={{ modelInfo['versionId'] }}" target="_blank">{{ modelInfo["versionId"] }}</a></span></td>
+			<td {{ tdStyle1 }}>{{ copy }}<span><a href="{{ civitaiRoot }}/models/{{ modelInfo['id'] }}?modelVersionId={{ modelInfo['versionId'] }}" target="_blank">{{ modelInfo["versionId"] }}</a></span></td>
 		</tr>
 		<tr>
 			<th {{ tdStyle1 }}>Name</th>

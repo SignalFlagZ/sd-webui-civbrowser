@@ -60,9 +60,11 @@ def on_ui_settings():
         "civsfz_api_root_url": shared.OptionInfo(
             "https://civitai.green",
             label="API Root URL",
-            component=gr.Textbox,
-            component_args={},
-        ).info("Civitai API root URL"),
+            component=gr.Radio,
+            component_args={
+                "choices": ["https://civitai.green", "https://civitai.red"]
+            },
+        ),
         "civsfz_api_key": shared.OptionInfo(
             "",
             label="API-Key",
