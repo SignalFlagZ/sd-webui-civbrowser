@@ -1334,9 +1334,9 @@ def on_ui_tabs():
         with gr.Accordion(label="Update information", open=False):
             gr.HTML(
                 value=(
-                    "<h3>Changes " + "in v2.12" + "</h3>"
+                    "<h3>Changes " + "in v2.14" + "</h3>"
                     "<ul>"
-                    "<li>Add “precision” to the display to differentiate identical file names.</li>"
+                    "<li>Changed the default URL to <i>civitai.green</i>.</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )

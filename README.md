@@ -51,6 +51,12 @@ An extension to help download models from CivitAi without leaving WebUI
 
 ## Versions
 
+### v2.14
+
+- Changed the default URL to `civitai.green`.
+  - You can change the URL in Settings.
+- Error handling when some model information is missing.
+
 ### v2.13
 
 - Add anchor links to navigate within a tab.
