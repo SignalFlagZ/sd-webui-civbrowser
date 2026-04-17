@@ -167,11 +167,7 @@ class APIInformation():
     #def setBaseUrl(self,url:str):
     #    APIInformation.baseUrl = url
     def getBaseUrl(self) -> str:
-        baseUrl = (
-            str(opts.civsfz_api_root_url)
-            if opts.civsfz_api_root_url
-            else "https://civitai.green"
-        )
+        baseUrl = getattr(opts, "civsfz_api_root_url", "https://civitai.com")
         return baseUrl
     def getModelsApiUrl(self, id=None):
         url = urllib.parse.urljoin(self.getBaseUrl(), "/api/v1/models")

@@ -58,11 +58,11 @@ def on_ui_settings():
 
     dict_options1 = {
         "civsfz_api_root_url": shared.OptionInfo(
-            "https://civitai.green",
+            "https://civitai.com",
             label="API Root URL",
             component=gr.Radio,
             component_args={
-                "choices": ["https://civitai.green", "https://civitai.red"]
+                "choices": ["https://civitai.com", "https://civitai.red"]
             },
         ),
         "civsfz_api_key": shared.OptionInfo(
