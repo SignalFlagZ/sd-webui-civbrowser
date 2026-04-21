@@ -124,6 +124,7 @@ familyColor: dict = {
             "Seedance",
             "Kling",
             "Vidu Q1",
+            "Ernie",
         ],
         "color": hex_color_hsl_to_rgb(330, 90, 45),
     },
