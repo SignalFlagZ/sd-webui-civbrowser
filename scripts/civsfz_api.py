@@ -298,6 +298,7 @@ class APIInformation():
             "AuraFlow",
             "Chroma",
             "CogVideoX",
+            "Ernie",
             "Flux.1 S",
             "Flux.1 D",
             "Flux.1 Krea",
