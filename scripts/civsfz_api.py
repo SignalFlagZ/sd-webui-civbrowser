@@ -665,7 +665,7 @@ class CivitaiModels(APIInformation):
 
     def getModelVersionsInfo(self) -> list:
         info = []
-        if self.modelIndex is None:
+        if self.modelIndex is None or len(self.jsonData["items"][self.modelIndex]["modelVersions"]) == 0:
             pass
             # print_ly("Select item first.")
         else:

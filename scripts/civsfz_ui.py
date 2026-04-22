@@ -943,6 +943,7 @@ class Components():
                         gr.Textbox.update(value=None),
                         gr.Textbox.update(value=None),
                         gr.HTML.update(value=None),
+                        gr.Textbox.update(value=None),
                     )
             grRadioVersions.change(
                 fn=update_model_info,
@@ -1181,12 +1182,21 @@ class Components():
             def updateVersionsByModelID(model_ID=None):
                 if model_ID is not None:
                     self.Civitai.selectModelByID(model_ID)
-                    if self.Civitai.getSelectedModelIndex() is not None:
+                    list = []
+                    v = None
+                    if (
+                        self.Civitai.getSelectedModelIndex() is not None
+                        and self.Civitai.getModelVersionsList()
+                    ):
                         list = self.Civitai.getModelVersionsList()
+                        v = 0
                         self.Civitai.selectVersionByIndex(0)
+                        
                         # print(Fore.LIGHTYELLOW_EX + f'{dict=}' + Style.RESET_ALL)
+                    else:
+                        pass
                     # return gr.Dropdown.update(choices=[k for k, v in dict.items()], value=f'{next(iter(dict.keys()), None)}')
-                    return gr.Radio.update(choices=list, value=0)
+                    return gr.Radio.update(choices=list, value=v)
                 else:
                     return gr.Radio.update(choices=[],value = None)
             def eventTextUpdated(grTxtJsEvent, grChkbxgrpLevel):
