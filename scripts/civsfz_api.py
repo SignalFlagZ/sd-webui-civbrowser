@@ -923,7 +923,16 @@ class CivitaiModels(APIInformation):
                     primary = i
             # modify choices text
             if GR_V440:
-                choices.append(" | ".join([f["name"]] + [md for md in f["metadata"].values() if md is not None]))
+                choices.append(
+                    " | ".join(
+                        [f["name"]]
+                        + [
+                            md
+                            for md in f["metadata"].values()
+                            if isinstance(md, str)
+                        ]
+                    )
+                )
             else:
                 choices.append(
                     " | ".join(
@@ -1057,7 +1066,7 @@ class CivitaiModels(APIInformation):
         # if self.getSelectedModelType() == "Checkpoint":
         meta = version["files"][fileIndex]["metadata"]
         if meta.get("fp"):
-            metainfo = "_".join([f for f in meta.values()])
+            metainfo = "_".join([f for f in meta.values() if isinstance(f, str)])
             pname = Path(filename)
             filename = pname.stem + "_" + metainfo + pname.suffix
         # add version ID
