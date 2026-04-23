@@ -747,7 +747,10 @@ class Components():
                                 }
                             } if self.Civitai.getRequestError() is None else None
                 else:
-                    response = self.Civitai.requestApi(query=query, timeout=read_timeout())
+                    if self.Civitai.getRequestError() is None:
+                        response = self.Civitai.requestApi(query=query, timeout=read_timeout())
+                    else:
+                        response = None
                 err = self.Civitai.getRequestError()
                 if err is not None:
                     gr.Warning(str(err))
