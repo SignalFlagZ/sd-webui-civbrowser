@@ -937,7 +937,7 @@ class CivitaiModels(APIInformation):
                 choices.append(
                     " | ".join(
                         [f["name"]]
-                        + [md for md in f["metadata"].values() if md is not None]
+                        + [md for md in f["metadata"].values() if isinstance(md, str)]
                         + [str(version["id"]), str(i)]
                     )
                 )
@@ -967,7 +967,7 @@ class CivitaiModels(APIInformation):
             choices.append(
                 " | ".join(
                     [f["name"]]
-                    + [md for md in f["metadata"].values() if md is not None]
+                    + [md for md in f["metadata"].values() if isinstance(md, str)]
                     + [str(version["id"]), str(i)]
                 )
             )
