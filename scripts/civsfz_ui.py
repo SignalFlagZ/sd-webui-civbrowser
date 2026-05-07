@@ -1194,7 +1194,7 @@ class Components():
                         list = self.Civitai.getModelVersionsList()
                         v = 0
                         self.Civitai.selectVersionByIndex(0)
-                        
+
                         # print(Fore.LIGHTYELLOW_EX + f'{dict=}' + Style.RESET_ALL)
                     else:
                         pass
@@ -1314,7 +1314,7 @@ class Components():
     def compAnchorNav(self):
         value = (
             f"<div onclick='civsfz_scroll_to(\"#civsfz_tab-element\",0);'>"
-            #"<span style='font-size:200%;color:transparent;text-shadow:0 0 0 orange;cursor: pointer;pointer-events: auto;'>🔝</span>"
+            # "<span style='font-size:200%;color:transparent;text-shadow:0 0 0 orange;cursor: pointer;pointer-events: auto;'>🔝</span>"
             "<span style='font-size:200%;cursor: pointer;pointer-events: auto;'>🔍️</span>"
             "</div>"
             f"<div onclick='civsfz_scroll_to(\"#civsfz_model-navigation{self.id}\");'>"
@@ -1328,6 +1328,9 @@ class Components():
             "</div>"
             f"<div onclick='civsfz_scroll_to(\"#civsfz-sample-images{self.id}\",-100);'>"
             "<span style='font-size:200%;cursor: pointer;pointer-events: auto;'>🏞️</span>"
+            "</div>"
+            f"<div style='transform:rotate(-90deg);' onclick='civsfz_scroll_to(\"#civsfz-version\",-100);'>"
+            "<span style='font-size:200%;color:transparent;text-shadow:0 0 0 orange;cursor: pointer;pointer-events: auto;'>🔚</span>"
             "</div>"
         )
         grHtmlAnchorNav = gr.HTML(
@@ -1383,7 +1386,7 @@ def on_ui_tabs():
                     else:
                         grHtmlDlQueue = downloader.uiDlList(gr, every=1.0)
         with gr.Row():
-            gr.HTML(value=f'<div style="text-align:center;">CivBrowser <a href="https://github.com/SignalFlagZ/sd-webui-civbrowser">{ver}</a></div>')
+            gr.HTML(elem_id="civsfz-version", value=f'<div style="text-align:center;">CivBrowser <a href="https://github.com/SignalFlagZ/sd-webui-civbrowser">{ver}</a></div>')
             downloader.uiJsEvent(gr)
     return [(civitai_interface, "CivBrowser", "civsfz_interface")]
 
