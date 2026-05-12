@@ -17,7 +17,13 @@ from scripts.civsfz_filemanage import (
     filename_normalization,
 )
 from scripts.civsfz_color import dictBasemodelColors
-from scripts.civsfz_shared import GR_V440, opts, read_timeout, card_no_preview
+from scripts.civsfz_shared import (
+    GR_V440,
+    opts,
+    read_timeout,
+    card_no_preview,
+    get_proxies,
+)
 from jinja2 import Environment, FileSystemLoader
 
 print_ly = lambda  x: print(Fore.LIGHTYELLOW_EX + "CivBrowser: " + x + Style.RESET_ALL )
@@ -33,13 +39,14 @@ environment = Environment(
 
 class Browser:
     session = None
-    
+
     def __init__(self):
         if Browser.session is None:
             Browser.session = requests.Session()
+        Browser.session.proxies = get_proxies()
         Browser.session.headers.update(
             {'User-Agent': r'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0'})
-        #self.setAPIKey("")
+        # self.setAPIKey("")
     def __enter__(self):
         return Browser.session
     def __exit__(self):
@@ -164,7 +171,7 @@ class APIInformation():
     def __init__(self) -> None:
         if APIInformation.typeOptions is None:
             self.getOptions()
-    #def setBaseUrl(self,url:str):
+    # def setBaseUrl(self,url:str):
     #    APIInformation.baseUrl = url
     def getBaseUrl(self) -> str:
         baseUrl = getattr(opts, "civsfz_api_root_url", "https://civitai.com")
@@ -221,6 +228,10 @@ class APIInformation():
             )
             # print_lc(f'Page cache: {response.headers["CF-Cache-Status"]}')
             response.raise_for_status()
+        except requests.exceptions.ProxyError as e:
+            #print(f"{(e)}")
+            data = ""
+            print_ly("Proxy Error.")
         except requests.exceptions.RequestException as e:
             # print(f"{(response.status_code)=}")
             if response.status_code == 400: # Bad Request
@@ -1477,6 +1488,10 @@ class CivitaiModels(APIInformation):
             # print_lc(f'{response.url=}')
             # print_lc(f'Page cache: {response.headers["CF-Cache-Status"]}')
             response.raise_for_status()
+        except requests.exceptions.ProxyError as e:
+            print_ly("Proxy Error.")
+            data = self.jsonData  # No update data
+            self.requestError = e
         except requests.exceptions.RequestException as e:
             # print(Fore.LIGHTYELLOW_EX + "Request error: " , e)
             # print(Style.RESET_ALL)

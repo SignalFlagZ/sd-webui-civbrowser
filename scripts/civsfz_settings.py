@@ -61,10 +61,14 @@ def on_ui_settings():
             "https://civitai.com",
             label="API Root URL",
             component=gr.Radio,
-            component_args={
-                "choices": ["https://civitai.com", "https://civitai.red"]
-            },
+            component_args={"choices": ["https://civitai.com", "https://civitai.red"]},
         ),
+        "civsfz_proxy": shared.OptionInfo(
+            "",
+            label="Proxy",
+            component=gr.Textbox,
+            component_args={},
+        ).info("http://user:password@host:port"),
         "civsfz_api_key": shared.OptionInfo(
             "",
             label="API-Key",

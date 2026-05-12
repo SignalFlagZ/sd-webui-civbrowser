@@ -11,7 +11,7 @@ from pathlib import Path
 from threading import Thread, local
 from time import sleep
 from tqdm import tqdm
-from scripts.civsfz_shared import opts, calculate_sha256, read_timeout
+from scripts.civsfz_shared import opts, calculate_sha256, read_timeout, get_proxies
 from scripts.civsfz_filemanage import (
     makedirs,
     removeFile,
@@ -151,6 +151,7 @@ class Downloader:
 
     def download(self) -> None:
         session = self.get_session()
+        session.proxies = get_proxies()
         result = "" # Success or Error
         while len(Downloader._dlQ) > 0:
             q = Downloader._dlQ.popleft()
@@ -254,7 +255,9 @@ class Downloader:
                                 )
                                 result = "Invalid API key or Early Access"
                                 break
-
+                except requests.exceptions.ProxyError as e:
+                    print_ly("Proxy Error.")
+                    result = "Proxy Error"
                 except requests.exceptions.Timeout as e:
                     print_ly(f"{file_name_display}:{e}")
                     result = "Timeout"

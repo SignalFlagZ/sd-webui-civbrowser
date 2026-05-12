@@ -1,11 +1,11 @@
-VERSION = "v2.14.6"
+VERSION = "v2.15.0"
 
 platform = "A1111"
 forge_version = None
 card_no_preview = "./file=html/card-no-preview.png"  # Neo uses jpg
 
 from html.parser import HTMLParser
-
+import urllib.parse
 import gradio as gr
 # GRADIO_VERSION = gr.__version__
 # Forge Neo uses 4.39.0
@@ -61,6 +61,26 @@ try:
 except ImportError:
     from modules.hashes import calculate_sha256 as calculate_sha256
 
+# Proxy
+def get_proxies() -> dict:
+    proxies = {}
+    if getattr(opts, "civsfz_proxy", None) is not None:
+        try:
+            url = urllib.parse.urlparse(opts.civsfz_proxy)
+        except ValueError:
+            # Invalid URL
+            # print(f"CivBrowser: Proxy URL is invalid. '{opts.civsfz_proxy}'")
+            print(f"CivBrowser: Proxy URL is invalid.")
+        else:
+            parsed_list = list(url)
+            url = urllib.parse.urlunparse(parsed_list)
+            #print(f"Proxy {url=}")
+            proxies = {
+                "http": url,
+                "https": url,
+            }
+    # print(f"CivBrowser: The proxy URL is '{opts.civsfz_proxy}'")
+    return proxies
 
 def read_timeout():
     return 15, getattr(opts, "civsfz_request_timeout", 30)

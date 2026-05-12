@@ -10,7 +10,7 @@ import subprocess as sp
 from collections import deque
 from modules import  sd_models
 from colorama import Fore, Back, Style
-from scripts.civsfz_shared import cmd_opts, opts, read_timeout
+from scripts.civsfz_shared import cmd_opts, opts, read_timeout, get_proxies
 from modules.paths import models_path
 try:
     from send2trash import send2trash
@@ -288,6 +288,7 @@ def saveImageFiles(folder, versionName, html, content_type, versionInfo):
                 preview_url = urllib.parse.quote(preview_url,  safe=':/=')
                 break
     with requests.Session() as session:
+        session.proxies = get_proxies()
         HTML = html
         for i, img_url in enumerate(img_urls):
             isVideo = False
@@ -327,6 +328,8 @@ def saveImageFiles(folder, versionName, html, content_type, versionInfo):
                                         os.path.join(folder, filenamethumb))
                         print_n(f"Save {filename}")
                     # with urllib.request.urlretrieve(img_url, os.path.join(model_folder, filename)) as dl:
+                except requests.exceptions.ProxyError as e:
+                    print_ly("Proxy Error.")
                 except requests.exceptions.Timeout as e:
                     print_ly(f'Error: {e}')
                     print_ly(f'URL: {img_url}')
