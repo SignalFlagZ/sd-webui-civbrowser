@@ -223,26 +223,30 @@ class APIInformation():
         try:
             # with requests.Session() as request:
             browser = Browser()
+            response = None
             response = browser.session.get(
                 url, params=query, timeout=read_timeout()
             )
             # print_lc(f'Page cache: {response.headers["CF-Cache-Status"]}')
             response.raise_for_status()
         except requests.exceptions.ProxyError as e:
-            #print(f"{(e)}")
+            # print(f"{(e)}")
             data = ""
             print_ly("Proxy Error.")
         except requests.exceptions.RequestException as e:
             # print(f"{(response.status_code)=}")
-            if response.status_code == 400: # Bad Request
-                # expected under normal conditions
-                response.encoding = "utf-8"
-                data = (
-                json.loads(response.text)
-            )
+            data = ""
+            if response is not None:
+                if response.status_code == 400: # Bad Request
+                    # expected under normal conditions
+                    response.encoding = "utf-8"
+                    data = (
+                    json.loads(response.text)
+                )
+                else:
+                    print_ly("Civitai is down.")
             else:
-                data = ""
-                print_ly("Civitai server may be down or under maintenance.")
+                print_ly("Unable to connect to Civitai.")
         else:
             data = ""
         # Check the status code of the response
