@@ -1,4 +1,4 @@
-VERSION = "v2.15.2"
+VERSION = "v2.15.3"
 
 platform = "A1111"
 forge_version = None
@@ -64,44 +64,45 @@ except ImportError:
 
 # Proxy
 def get_proxies() -> tuple[dict, HTTPProxyAuth]:
-    proxies = {}
+    proxies = None
+    proxy_auth = None
     uname = None
     upassword = None
     if getattr(opts, "civsfz_proxy", None) is not None:
-        try:
-            parsed = urlparse(opts.civsfz_proxy)
-        except ValueError:
-            # Invalid URL
-            # print(f"CivBrowser: Proxy URL is invalid. '{opts.civsfz_proxy}'")
-            print(f"CivBrowser: Proxy URL is invalid.")
-        else:
-            netloc = parsed.netloc
-            new_netloc = netloc
-            if '@' in netloc:
-                # Get user_name and password
-                auth, host = netloc.split('@', 1)
-                new_netloc = f"{host}"
-                if ':' in auth:
-                    uname, upassword = auth.split(':', 1)
-                else:
-                    uname = auth
-            # remove auth
-            parsed_list = [
-                parsed.scheme,
-                new_netloc,
-                parsed.path,
-                parsed.params,
-                parsed.query,
-                parsed.fragment
-            ]
-            url = urlunparse(parsed_list)
-            # print(f"Proxy {url=}")
-            proxies = {
-                "http": url,
-                "https": url,
-            }
-            proxy_auth = HTTPProxyAuth(uname, upassword)
-
+        if opts.civsfz_proxy:
+            try:
+                parsed = urlparse(opts.civsfz_proxy)
+            except ValueError:
+                # Invalid URL
+                # print(f"CivBrowser: Proxy URL is invalid. '{opts.civsfz_proxy}'")
+                print(f"CivBrowser: Proxy URL is invalid.")
+            else:
+                netloc = parsed.netloc
+                new_netloc = netloc
+                if '@' in netloc:
+                    # Get user_name and password
+                    auth, host = netloc.split('@', 1)
+                    new_netloc = f"{host}"
+                    if ':' in auth:
+                        uname, upassword = auth.split(':', 1)
+                    else:
+                        uname = auth
+                # remove auth
+                parsed_list = [
+                    parsed.scheme,
+                    new_netloc,
+                    parsed.path,
+                    parsed.params,
+                    parsed.query,
+                    parsed.fragment
+                ]
+                url = urlunparse(parsed_list)
+                # print(f"Proxy {url=}")
+                proxies = {
+                    "http": url,
+                    "https": url,
+                }
+                proxy_auth = HTTPProxyAuth(uname, upassword)
     # print(f"CivBrowser: The proxy URL is '{opts.civsfz_proxy}'")
     return proxies, proxy_auth
 
