@@ -288,7 +288,7 @@ def saveImageFiles(folder, versionName, html, content_type, versionInfo):
                 preview_url = urllib.parse.quote(preview_url,  safe=':/=')
                 break
     with requests.Session() as session:
-        session.proxies = get_proxies()
+        session.proxies, session.auth = get_proxies()
         HTML = html
         for i, img_url in enumerate(img_urls):
             isVideo = False

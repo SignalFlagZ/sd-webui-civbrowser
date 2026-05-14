@@ -151,7 +151,7 @@ class Downloader:
 
     def download(self) -> None:
         session = self.get_session()
-        session.proxies = get_proxies()
+        session.proxies, session.auth = get_proxies()
         result = "" # Success or Error
         while len(Downloader._dlQ) > 0:
             q = Downloader._dlQ.popleft()

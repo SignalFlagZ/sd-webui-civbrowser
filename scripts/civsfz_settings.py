@@ -67,8 +67,10 @@ def on_ui_settings():
             "",
             label="Proxy",
             component=gr.Textbox,
-            component_args={},
-        ).info("http://user:password@host:port"),
+            component_args={"placeholder": "http://user:password@host:port"},
+        ).info(
+            "Please note that authentication credentials are stored within the config.json file."
+        ),
         "civsfz_api_key": shared.OptionInfo(
             "",
             label="API-Key",

@@ -1,11 +1,12 @@
-VERSION = "v2.15.1"
+VERSION = "v2.15.2"
 
 platform = "A1111"
 forge_version = None
 card_no_preview = "./file=html/card-no-preview.png"  # Neo uses jpg
 
 from html.parser import HTMLParser
-import urllib.parse
+from urllib.parse import urlparse, urlunparse
+from requests.auth import HTTPProxyAuth
 import gradio as gr
 # GRADIO_VERSION = gr.__version__
 # Forge Neo uses 4.39.0
@@ -62,25 +63,47 @@ except ImportError:
     from modules.hashes import calculate_sha256 as calculate_sha256
 
 # Proxy
-def get_proxies() -> dict:
+def get_proxies() -> tuple[dict, HTTPProxyAuth]:
     proxies = {}
+    uname = None
+    upassword = None
     if getattr(opts, "civsfz_proxy", None) is not None:
         try:
-            url = urllib.parse.urlparse(opts.civsfz_proxy)
+            parsed = urlparse(opts.civsfz_proxy)
         except ValueError:
             # Invalid URL
             # print(f"CivBrowser: Proxy URL is invalid. '{opts.civsfz_proxy}'")
             print(f"CivBrowser: Proxy URL is invalid.")
         else:
-            parsed_list = list(url)
-            url = urllib.parse.urlunparse(parsed_list)
-            #print(f"Proxy {url=}")
+            netloc = parsed.netloc
+            new_netloc = netloc
+            if '@' in netloc:
+                # Get user_name and password
+                auth, host = netloc.split('@', 1)
+                new_netloc = f"{host}"
+                if ':' in auth:
+                    uname, upassword = auth.split(':', 1)
+                else:
+                    uname = auth
+            # remove auth
+            parsed_list = [
+                parsed.scheme,
+                new_netloc,
+                parsed.path,
+                parsed.params,
+                parsed.query,
+                parsed.fragment
+            ]
+            url = urlunparse(parsed_list)
+            # print(f"Proxy {url=}")
             proxies = {
                 "http": url,
                 "https": url,
             }
+            proxy_auth = HTTPProxyAuth(uname, upassword)
+
     # print(f"CivBrowser: The proxy URL is '{opts.civsfz_proxy}'")
-    return proxies
+    return proxies, proxy_auth
 
 def read_timeout():
     return 15, getattr(opts, "civsfz_request_timeout", 30)

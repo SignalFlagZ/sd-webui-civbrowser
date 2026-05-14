@@ -43,7 +43,7 @@ class Browser:
     def __init__(self):
         if Browser.session is None:
             Browser.session = requests.Session()
-        Browser.session.proxies = get_proxies()
+        Browser.session.proxies, Browser.session.auth = get_proxies()
         Browser.session.headers.update(
             {'User-Agent': r'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0'})
         # self.setAPIKey("")
@@ -223,26 +223,26 @@ class APIInformation():
         try:
             # with requests.Session() as request:
             browser = Browser()
-            response = None
             response = browser.session.get(
                 url, params=query, timeout=read_timeout()
             )
             # print_lc(f'Page cache: {response.headers["CF-Cache-Status"]}')
             response.raise_for_status()
         except requests.exceptions.ProxyError as e:
-            # print(f"{(e)}")
+            print(f"Proxy Error. {(e)}")
             data = ""
-            print_ly("Proxy Error.")
         except requests.exceptions.RequestException as e:
             # print(f"{(response.status_code)=}")
             data = ""
-            if response is not None:
+            if e.response is not None:
                 if response.status_code == 400: # Bad Request
                     # expected under normal conditions
                     response.encoding = "utf-8"
                     data = (
                     json.loads(response.text)
-                )
+                    )
+                elif response.status_code == 407:
+                    print_ly("Proxy authentication failed.")
                 else:
                     print_ly("Civitai is down.")
             else:
