@@ -175,7 +175,15 @@ class Downloader:
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0'
             }
+            
             applyAPI = False  # True if API key is added
+
+            # Attach authorization to the download request. Some files return 403
+            # unless the bearer token is sent on the first request.
+            if api_key:
+                headers.update({"Authorization": f"Bearer {api_key}"})
+                applyAPI = True
+            
             mode = "wb"  # Open file mode
             if os.path.exists(file_name):
                 print_lc("Overwrite")
