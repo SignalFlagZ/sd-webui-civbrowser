@@ -56,6 +56,7 @@ An extension to help download models from CivitAi without leaving WebUI
 
 ### v2.15
 
+- Add HTTP error handling during download (experimental)
 - Added proxy support! You can configure it in Settings. It's not fully debugged yet, though, so please let me know how it works for you!
 - The proxy server is specified in `Settings` > `CivBrowser` > `Proxy`. If no value is provided, the `HTTP_PROXY` and `HTTPS_PROXY` environment variables are used instead.
 

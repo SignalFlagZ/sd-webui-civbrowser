@@ -255,6 +255,30 @@ class Downloader:
                                 )
                                 result = "Invalid API key or Early Access"
                                 break
+                except requests.exceptions.HTTPError as e:
+                    # print_ly(f"HTTP Error: {e}")
+                    code = response.status_code
+                    print_ly(f"HTTP Error: {code}")
+                    if code in (401, 403):
+                        if not applyAPI:
+                            print_lc("May need API key")
+                            if len(api_key) == 32:
+                                headers.update(
+                                    {"Authorization": f"Bearer {api_key}"})
+                                applyAPI = True
+                                print_lc(f"{file_name_display}:Apply API key")
+                            else:
+                                exitDownloading = True
+                                result = f"HTTP Error {code}"
+                        else:
+                            exitDownloading = True
+                            result = f"HTTP Error {code}"
+                    elif code in (429,):
+                        print_ly(f"Sleep 30 sec.")
+                        sleep(30)
+                    else:
+                        exitDownloading = True
+                        result = f"HTTP Error {code}"
                 except requests.exceptions.ProxyError as e:
                     print_ly("Proxy Error.")
                     result = "Proxy Error"
