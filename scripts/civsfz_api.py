@@ -402,6 +402,8 @@ class APIInformation():
             "Seedance",
             "ACE Audio",
             "PolyGen",
+            "Tripo",
+            "Hunyuan3D",
         ]
         try:
             # APIInformation.basemodelOptions = data['error']['issues'][0]['unionErrors'][0]['issues'][0]['options']
