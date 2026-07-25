@@ -377,6 +377,7 @@ class APIInformation():
             "SDXL Hyper",
             "SDXL Turbo",
             "SDXL Distilled",
+            "Reve",
             "Seedream",
             "SVD",
             "SVD XT",
