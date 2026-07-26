@@ -1350,9 +1350,9 @@ def on_ui_tabs():
         with gr.Accordion(label="Update information", open=False):
             gr.HTML(
                 value=(
-                    "<h3>Changes " + "in v2.15" + "</h3>"
+                    "<h3>Changes " + "in v2.16" + "</h3>"
                     "<ul>"
-                    "<li>Added proxy support! You can configure it in Settings. It's not fully debugged yet, though, so please let me know how it works for you!</li>"
+                    "<li>Fixed an issue where sample image metadata would not appear.</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )

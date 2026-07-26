@@ -54,6 +54,12 @@ An extension to help download models from CivitAi without leaving WebUI
 
 ## Versions
 
+### v2.16
+
+- Fixed an issue where sample image metadata would not appear.
+  - Fetch sample image metadata from version ID API
+- Verify query param updates by enums API
+
 ### v2.15
 
 - Add HTTP error handling during download (experimental)

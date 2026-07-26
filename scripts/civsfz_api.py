@@ -1033,7 +1033,7 @@ class CivitaiModels(APIInformation):
                 if not self.requestError:
                     item["modelVersions"][versionIndex] = version | version_data
                     version = item["modelVersions"][versionIndex]
-                    print_lc(f"Fetch image metadata by version ID")
+                    # print_lc(f"Fetch image metadata by version ID")
 
         modelInfo = {"infoVersion": "2.5"}
         for key, value in item.items():
@@ -1489,7 +1489,9 @@ class CivitaiModels(APIInformation):
         for pic in modelInfo["modelVersions"][0]["images"]:
             if self.matchLevel(pic['nsfwLevel'], nsfwLevel):
                 nsfw = pic['nsfwLevel'] > 1 and not self.showNsfw
-                infotext = self.meta2infotext(pic['meta']) if pic['meta'] is not None else ""
+                infotext = ""
+                if 'meta' in pic:
+                    infotext = self.meta2infotext(pic['meta']) if pic['meta'] is not None else ""
                 metaHtml = self.meta2html(pic['meta']) if pic['meta'] is not None else ""
                 template = environment.get_template("sampleImage.jinja")
                 samples += template.render(
