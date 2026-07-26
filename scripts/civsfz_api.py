@@ -167,7 +167,218 @@ class APIInformation():
                  "XXX": 16,
                  #"Blocked":  32,
                  "Banned":  256,
-                 } 
+                 }
+    api_enums = {
+            "ModelType": [
+                "Checkpoint",
+                "TextualInversion",
+                "Hypernetwork",
+                "AestheticGradient",
+                "LORA",
+                "LoCon",
+                "DoRA",
+                "Controlnet",
+                "Upscaler",
+                "MotionModule",
+                "VAE",
+                "TextEncoder",
+                "UNet",
+                "CLIPVision",
+                "Poses",
+                "Wildcards",
+                "Workflows",
+                "Detection",
+                "VisionLanguage",
+                "CLIP",
+                "LLM",
+                "Other",
+            ],
+            "ModelFileType": [
+                "Model",
+                "Text Encoder",
+                "Vision Encoder",
+                "Pruned Model",
+                "Negative",
+                "Training Data",
+                "VAE",
+                "Config",
+                "Archive",
+                "UNet",
+                "Diffusion Model",
+                "CLIPVision",
+                "ControlNet",
+                "Workflow",
+                "Upscaler",
+                "Enhancement LoRA",
+                "Other",
+            ],
+            "ActiveBaseModel": [
+                "Anima",
+                "AuraFlow",
+                "Chroma",
+                "CogVideoX",
+                "Ernie",
+                "Flux.1 S",
+                "Flux.1 D",
+                "Flux.1 Krea",
+                "Flux.1 Kontext",
+                "Flux.2 D",
+                "Flux.2 Klein 9B",
+                "Flux.2 Klein 9B-base",
+                "Flux.2 Klein 4B",
+                "Flux.2 Klein 4B-base",
+                "Grok",
+                "HappyHorse",
+                "HiDream",
+                "HiDream-O1",
+                "Hunyuan 1",
+                "Hunyuan Video",
+                "Ideogram 4.0",
+                "Boogu",
+                "Illustrious",
+                "Kolors",
+                "Krea 2",
+                "LTXV",
+                "LTXV2",
+                "LTXV 2.3",
+                "Lens",
+                "Lumina",
+                "MAI",
+                "Mochi",
+                "NoobAI",
+                "Upscaler",
+                "Other",
+                "PixArt a",
+                "PixArt E",
+                "Pony",
+                "Pony V7",
+                "Qwen",
+                "Qwen 2",
+                "SD 1.4",
+                "SD 1.5",
+                "SD 1.5 LCM",
+                "SD 1.5 Hyper",
+                "SD 2.0",
+                "SD 2.1",
+                "SDXL 1.0",
+                "SDXL Lightning",
+                "SDXL Hyper",
+                "Reve",
+                "Wan Video 1.3B t2v",
+                "Wan Video 14B t2v",
+                "Wan Video 14B i2v 480p",
+                "Wan Video 14B i2v 720p",
+                "Wan Video 2.2 TI2V-5B",
+                "Wan Video 2.2 I2V-A14B",
+                "Wan Video 2.2 T2V-A14B",
+                "Wan Video 2.5 T2V",
+                "Wan Video 2.5 I2V",
+                "Wan Image 2.7",
+                "Wan Video 2.7",
+                "ZImageTurbo",
+                "ZImageBase",
+                "ACE Audio",
+            ],
+            "BaseModel": [
+                "Anima",
+                "AuraFlow",
+                "Chroma",
+                "CogVideoX",
+                "Ernie",
+                "Flux.1 S",
+                "Flux.1 D",
+                "Flux.1 Krea",
+                "Flux.1 Kontext",
+                "Flux.2 D",
+                "Flux.2 Klein 9B",
+                "Flux.2 Klein 9B-base",
+                "Flux.2 Klein 4B",
+                "Flux.2 Klein 4B-base",
+                "Grok",
+                "HappyHorse",
+                "HiDream",
+                "HiDream-O1",
+                "Hunyuan 1",
+                "Hunyuan Video",
+                "Ideogram 4.0",
+                "Boogu",
+                "Illustrious",
+                "Imagen4",
+                "Kolors",
+                "Krea 2",
+                "LTXV",
+                "LTXV2",
+                "LTXV 2.3",
+                "Lens",
+                "Lumina",
+                "MAI",
+                "Mochi",
+                "Nano Banana",
+                "NoobAI",
+                "ODOR",
+                "OpenAI",
+                "Upscaler",
+                "Other",
+                "PixArt a",
+                "PixArt E",
+                "Playground v2",
+                "Pony",
+                "Pony V7",
+                "Qwen",
+                "Qwen 2",
+                "Stable Cascade",
+                "SD 1.4",
+                "SD 1.5",
+                "SD 1.5 LCM",
+                "SD 1.5 Hyper",
+                "SD 2.0",
+                "SD 2.0 768",
+                "SD 2.1",
+                "SD 2.1 768",
+                "SD 2.1 Unclip",
+                "SD 3",
+                "SD 3.5",
+                "SD 3.5 Large",
+                "SD 3.5 Large Turbo",
+                "SD 3.5 Medium",
+                "SDXL 0.9",
+                "SDXL 1.0",
+                "SDXL 1.0 LCM",
+                "SDXL Lightning",
+                "SDXL Hyper",
+                "SDXL Turbo",
+                "SDXL Distilled",
+                "Reve",
+                "Seedream",
+                "SVD",
+                "SVD XT",
+                "Sora 2",
+                "Veo 3",
+                "Wan Video",
+                "Wan Video 1.3B t2v",
+                "Wan Video 14B t2v",
+                "Wan Video 14B i2v 480p",
+                "Wan Video 14B i2v 720p",
+                "Wan Video 2.2 TI2V-5B",
+                "Wan Video 2.2 I2V-A14B",
+                "Wan Video 2.2 T2V-A14B",
+                "Wan Video 2.5 T2V",
+                "Wan Video 2.5 I2V",
+                "Wan Image 2.7",
+                "Wan Video 2.7",
+                "ZImageTurbo",
+                "ZImageBase",
+                "Vidu Q1",
+                "Hailuo by MiniMax",
+                "Kling",
+                "Seedance",
+                "ACE Audio",
+                "PolyGen",
+                "Tripo",
+                "Hunyuan3D",
+            ],
+            "BaseModelType": ["Standard", "Inpainting", "Refiner", "Pix2Pix"],
+        }
     def __init__(self) -> None:
         if APIInformation.typeOptions is None:
             self.getOptions()
@@ -191,6 +402,9 @@ class APIInformation():
         url = urllib.parse.urljoin(self.getBaseUrl(), "/api/v1/model-versions/by-hash")
         url += f'/{hash}' if id is not None else ""
         return url
+    def getEnumsApiUrl(self):
+        enumApi = urllib.parse.urljoin(self.getBaseUrl(), "/api/v1/enums")
+        return enumApi
     def getTypeOptions(self) -> list:
         # global typeOptions, sortOptions, basemodelOptions
         return APIInformation.typeOptions
@@ -255,34 +469,44 @@ class APIInformation():
         #  exit()
         return data
 
-    def getOptions(self):
-        '''Get choices from Civitai'''
-        url = self.getModelsApiUrl()
-        query = { 'types': ""}
-        data = self.requestApiOptions(url, query)
-        types = [
-                  "Checkpoint",
-                  "TextualInversion",
-                  "Hypernetwork",
-                  "AestheticGradient",
-                  "LORA",
-                  "LoCon",
-                  "DoRA",
-                  "Controlnet",
-                  "Upscaler",
-                  "MotionModule",
-                  "VAE",
-                  "Poses",
-                  "Wildcards",
-                  "Workflows",
-                  "Detection",
-                  "Other"
-                ]
+    def simple_requestApiOptions(self, url=None, query=None):
+        if url is None:
+            url = self.getModelsApiUrl()
+        if query is not None:
+            query = urllib.parse.urlencode(
+                query, doseq=True, quote_via=urllib.parse.quote)
+        # print_lc(f'{query=}')
+
+        # Make a GET request to the API
+        data = ""
         try:
-            # types = data['error']['issues'][0]['unionErrors'][0]['issues'][0]['options']
-            res = json.loads(data['error']['message'])
-            newList = res[0]["errors"][0][0]["values"]
-            # print_lc(f"{res[0]['errors'][0][0]['values']=}")
+            # with requests.Session() as request:
+            browser = Browser()
+            response = browser.session.get(
+                url, params=query, timeout=read_timeout()
+            )
+            response.raise_for_status()
+        except requests.exceptions.ProxyError as e:
+            print_ly(f"Proxy Error. {(e)}")
+        except requests.exceptions.RequestException as e:
+            print_ly(f"{response.status_code=}")
+        else:
+            response.encoding = "utf-8"
+            data = (
+                        json.loads(response.text)
+                    )
+        return data
+
+    def getOptions(self):
+        '''Get choices from Enums API'''
+        fallback_enums = APIInformation.api_enums
+
+        print_lc("Verify query parameter updates.")
+        url = self.getEnumsApiUrl()
+        data = self.simple_requestApiOptions(url)
+        types = fallback_enums["ModelType"]
+        try:
+            newList = data["ModelType"]
             diff = set(types) ^ set(newList)
             if len(diff) != 0:
                 print_lc(f"Type options have been updated.\n{diff=}")
@@ -290,137 +514,34 @@ class APIInformation():
         except:
             print_ly(f'ERROR: Get types')
         else:
-            # print_lc(f'Set types')
             pass
-        priorityTypes = [
-            "Checkpoint",
-            "TextualInversion",
-            "LORA",
-            "LoCon",
-            "DoRA"
-        ]
+            # print_lc(f'Set types')
+            # APIInformation.api_enums = data #Update after update basemodels
+        priorityTypes = ["Checkpoint", "TextualInversion", "LORA", "LoCon", "DoRA"]
         dictPriority = {
-            priorityTypes[i]: priorityTypes[i] for i in range(0, len(priorityTypes))}
-        dict_types = dictPriority | {types[i]: types[i]
-                                        for i in range(0, len(types))}
-        APIInformation.typeOptions = [dictPriority.get(
-            key, key) for key, value in dict_types.items()]
-
-        query = {'baseModels': ""}
-        data = self.requestApiOptions(url, query)
-        APIInformation.basemodelOptions = [
-            "Anima",
-            "AuraFlow",
-            "Chroma",
-            "CogVideoX",
-            "Ernie",
-            "Flux.1 S",
-            "Flux.1 D",
-            "Flux.1 Krea",
-            "Flux.1 Kontext",
-            "Flux.2 D",
-            "Flux.2 Klein 9B",
-            "Flux.2 Klein 9B-base",
-            "Flux.2 Klein 4B",
-            "Flux.2 Klein 4B-base",
-            "Grok",
-            "HappyHorse",
-            "HiDream",
-            "HiDream-O1",
-            "Hunyuan 1",
-            "Hunyuan Video",
-            "Ideogram 4.0",
-            "Boogu",
-            "Illustrious",
-            "Imagen4",
-            "Kolors",
-            "Krea 2",
-            "LTXV",
-            "LTXV2",
-            "LTXV 2.3",
-            "Lens",
-            "Lumina",
-            "MAI",
-            "Mochi",
-            "Nano Banana",
-            "NoobAI",
-            "ODOR",
-            "OpenAI",
-            "Upscaler",
-            "Other",
-            "PixArt a",
-            "PixArt E",
-            "Playground v2",
-            "Pony",
-            "Pony V7",
-            "Qwen",
-            "Qwen 2",
-            "Stable Cascade",
-            "SD 1.4",
-            "SD 1.5",
-            "SD 1.5 LCM",
-            "SD 1.5 Hyper",
-            "SD 2.0",
-            "SD 2.0 768",
-            "SD 2.1",
-            "SD 2.1 768",
-            "SD 2.1 Unclip",
-            "SD 3",
-            "SD 3.5",
-            "SD 3.5 Large",
-            "SD 3.5 Large Turbo",
-            "SD 3.5 Medium",
-            "SDXL 0.9",
-            "SDXL 1.0",
-            "SDXL 1.0 LCM",
-            "SDXL Lightning",
-            "SDXL Hyper",
-            "SDXL Turbo",
-            "SDXL Distilled",
-            "Reve",
-            "Seedream",
-            "SVD",
-            "SVD XT",
-            "Sora 2",
-            "Veo 3",
-            "Wan Video",
-            "Wan Video 1.3B t2v",
-            "Wan Video 14B t2v",
-            "Wan Video 14B i2v 480p",
-            "Wan Video 14B i2v 720p",
-            "Wan Video 2.2 TI2V-5B",
-            "Wan Video 2.2 I2V-A14B",
-            "Wan Video 2.2 T2V-A14B",
-            "Wan Video 2.5 T2V",
-            "Wan Video 2.5 I2V",
-            "Wan Image 2.7",
-            "Wan Video 2.7",
-            "ZImageTurbo",
-            "ZImageBase",
-            "Vidu Q1",
-            "Hailuo by MiniMax",
-            "Kling",
-            "Seedance",
-            "ACE Audio",
-            "PolyGen",
-            "Tripo",
-            "Hunyuan3D",
+            priorityTypes[i]: priorityTypes[i] for i in range(0, len(priorityTypes))
+        }
+        dict_types = dictPriority | {types[i]: types[i] for i in range(0, len(types))}
+        APIInformation.typeOptions = [
+            dictPriority.get(key, key) for key, value in dict_types.items()
         ]
+
+        basemodels = APIInformation.api_enums["ActiveBaseModel"]
         try:
-            # APIInformation.basemodelOptions = data['error']['issues'][0]['unionErrors'][0]['issues'][0]['options']
-            res = json.loads(data['error']['message'])
-            # print_lc(f"{res[0]['errors'][0][0]['values']=}")
-            newList = res[0]["errors"][0][0]["values"]
-            diff = set(APIInformation.basemodelOptions) ^ set(newList)
+            newList = data["ActiveBaseModel"]
+            diff = set(basemodels) ^ set(newList)
             if len(diff) != 0:
                 print_lc(f"Base model options have been updated.\n{diff=}")
             APIInformation.basemodelOptions = newList
+            APIInformation.api_enums = data
         except:
             print_ly(f'ERROR: Get base models')
+            APIInformation.basemodelOptions = basemodels
         else:
-            # print_lc(f'Set base models')
             pass
+            # print_lc(f'Set base models')
 
+        url = self.getModelsApiUrl()
         query = {'sort': ""}
         data = self.requestApiOptions(url, query)
         APIInformation.sortOptions = [
