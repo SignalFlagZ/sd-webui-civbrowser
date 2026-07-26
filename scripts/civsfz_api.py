@@ -1,10 +1,10 @@
 import re
 import datetime
-from dateutil import tz
 import json
+import requests
 import urllib.parse
 from pathlib import Path
-import requests
+from dateutil import tz
 # from requests_cache import CachedSession
 from colorama import Fore, Back, Style
 from scripts.civsfz_filemanage import (
@@ -1022,8 +1022,20 @@ class CivitaiModels(APIInformation):
         modelIndex = self.modelIndex if modelIndex is None else modelIndex
         versionIndex = self.versionIndex if versionIndex is None else versionIndex
         item = self.jsonData["items"][modelIndex]
+
+        # Fetch image metadata from the Model Version API
         version = item["modelVersions"][versionIndex]
-        modelInfo = {"infoVersion": "2.4"}
+        if len(version["images"]) > 0:
+            if not 'meta' in version["images"][0]:
+                url = self.getVersionsApiUrl(version["id"])
+                self.requestError = None
+                version_data = self.requestApi(url)
+                if not self.requestError:
+                    item["modelVersions"][versionIndex] = version | version_data
+                    version = item["modelVersions"][versionIndex]
+                    print_lc(f"Fetch image metadata by version ID")
+
+        modelInfo = {"infoVersion": "2.5"}
         for key, value in item.items():
             if key not in ("modelVersions"):
                 modelInfo[key] = value
@@ -1048,7 +1060,7 @@ class CivitaiModels(APIInformation):
             version["downloadUrl"] if "downloadUrl" in version else None
         )
         # self.addMetaVID(version["id"], modelInfo)
-        self.addMetaIID(version["id"], modelInfo)
+        # self.addMetaIID(version["id"], modelInfo)
         html = self.modelInfoHtml(modelInfo, nsfwLevel)
         modelInfo["html"] = html
         modelInfo["html0"] = self.modelInfoHtml(modelInfo, 0)
