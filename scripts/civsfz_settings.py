@@ -121,11 +121,11 @@ def on_ui_settings():
             component=gr.Slider,
             component_args={"minimum": 1, "maximum": 2.4, "step": 0.1},
         ),
-        "civsfz_treat_x_as_nsfw": shared.OptionInfo(
-            True,
-            label='If the first image is of type "X", treat the model as nsfw',
-            component=gr.Checkbox,
-        ),
+        #"civsfz_treat_x_as_nsfw": shared.OptionInfo(
+        #    True,
+        #    label='If the first image is of type "X", treat the model as nsfw',
+        #    component=gr.Checkbox,
+        #),
         "civsfz_treat_slash_as_folder_separator": shared.OptionInfo(
             False,
             label=r'Treat "/" as folder separator. If you change this, some models may not be able to confirm the existence of the file.',

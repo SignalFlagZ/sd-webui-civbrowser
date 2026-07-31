@@ -724,16 +724,18 @@ class CivitaiModels(APIInformation):
         versionIndex = self.versionIndex if versionIndex is None else versionIndex
         versionIndex = 0 if versionIndex is None else versionIndex
         ret = self.jsonData['items'][modelIndex]['nsfw']
-        if opts.civsfz_treat_x_as_nsfw:
-            try:
-                picNsfw = self.jsonData['items'][modelIndex]['modelVersions'][versionIndex]['images'][0]['nsfwLevel']
-            except Exception as e:
-                # print_ly(f'{e}')
-                pass
-            else:
-                # print_lc(f'{picNsfw}')
-                if picNsfw > 1:
-                    ret = True
+
+        # nsfwLevel mismatch for images between models and model-versions APIs.
+        #if opts.civsfz_treat_x_as_nsfw:
+        #    try:
+        #        picNsfw = self.jsonData['items'][modelIndex]['modelVersions']#[versionIndex]['images'][0]['nsfwLevel']
+        #    except Exception as e:
+        #        # print_ly(f'{e}')
+        #        pass
+        #    else:
+        #        # print_lc(f'{picNsfw}')
+        #        if picNsfw > 1:
+        #            ret = True
         return ret
     def getIndexByModelName(self, name:str) -> int:
         retIndex = None
