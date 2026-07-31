@@ -56,6 +56,7 @@ An extension to help download models from CivitAi without leaving WebUI
 
 ### v2.16
 
+- Remove 'If the first image is of type "X", treat the model as nsfw' setting
 - Fixed an issue where sample image metadata would not appear.
   - Fetch sample image metadata from version ID API
 - Verify query param updates by enums API
