@@ -1,5 +1,11 @@
 {# Permissions #}
-{%- set chrCheck = '&#x2705;' %} {# ✅ #}
+{% macro green_text(text) -%}
+	<span style=color:green>{{ text }}</span><br />
+{%- endmacro %}
+{% macro red_text(text) -%}
+	<span style=color:crimson>{{ text }}</span><br />
+
+{%- endmacro %}{%- set chrCheck = '&#x2705;' %} {# ✅ #}
 {%- set chrCross = '&#x274C;' %} {# ❌ #}
 <div>
 	<p><strong>Check the source license yourself.</strong></p>
@@ -14,13 +20,12 @@
 	</p>
 </div>
 <div>
-	<p><span style=color:crimson>
-		{%- if not allowNoCredit %} Creator credit required<br/> {% endif %}
-		{%- if not canSellImages %} No selling generated content<br/> {% endif %}
-		{%- if not canRentCivit %} No Civitai generation<br/> {% endif %}
-		{%- if not canRent %} No generation services<br/> {% endif %}
-		{%- if not canSell %} No selling models<br /> {% endif %}
-		{%- if not allowDerivatives %} No sharing merges<br /> {% endif %}
-		{%- if not allowDifferentLicense %} Same permissions required<br /> {% endif %}
-	</span></p>
+	<p>
+		{{ green_text('Commercial use allowed') if canSellImages or canSell else red_text('No commercial use') }}
+		{{ green_text('Generation services allowed') if canRentCivit or canRent else red_text('No generation services') }}
+		{{ green_text('No credit required') if allowNoCredit else red_text('Creator credit required') }}
+		{{ green_text('Merges allowed') if allowDerivatives else red_text('No merges allowed') }}
+		{{ green_text('Different permissions allowed on merges') if allowDifferentLicense else red_text('Same permissions required on merges') }}
+		{# {{ red_text('No NSFW generation') if sfwOnly else green_text('NSFW generation allowed') }} #}
+	</p>
 </div>

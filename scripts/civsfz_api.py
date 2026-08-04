@@ -728,7 +728,7 @@ class CivitaiModels(APIInformation):
         ret = self.jsonData['items'][modelIndex]['nsfw']
 
         # nsfwLevel mismatch for images between models and model-versions APIs.
-        #if opts.civsfz_treat_x_as_nsfw:
+        # if opts.civsfz_treat_x_as_nsfw:
         #    try:
         #        picNsfw = self.jsonData['items'][modelIndex]['modelVersions']#[versionIndex]['images'][0]['nsfwLevel']
         #    except Exception as e:
@@ -791,6 +791,7 @@ class CivitaiModels(APIInformation):
                 allowNoCredit = item['allowNoCredit']
                 allowDerivatives = item['allowDerivatives']
                 allowDifferentLicense = item['allowDifferentLicense']
+                sfwOnly = item["sfwOnly"]
 
                 canSellImages = canSellImagesPermissions & allowCommercialUse
                 canRentCivit = canRentCivitPermissions & allowCommercialUse
