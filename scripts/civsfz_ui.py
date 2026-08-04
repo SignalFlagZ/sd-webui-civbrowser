@@ -1350,9 +1350,10 @@ def on_ui_tabs():
         with gr.Accordion(label="Update information", open=False):
             gr.HTML(
                 value=(
-                    "<h3>Changes " + "in v2.16" + "</h3>"
+                    "<h3>Changes " + "in v2.17" + "</h3>"
                     "<ul>"
-                    "<li>Fixed an issue where sample image metadata would not appear.</li>"
+                    "<li>Handle change in allowCommercialUse data type in API response (now a list).</li>"
+                    "<li>Update model permission display to match Civitai.</li>"
                     "</ul>"
                     "<div>For more information, please click <a href='https://github.com/SignalFlagZ/sd-webui-civbrowser'>here(CivBrowser|GitHub)]'</a></div>"
                 )
