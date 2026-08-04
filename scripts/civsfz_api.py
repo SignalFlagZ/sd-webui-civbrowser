@@ -784,9 +784,9 @@ class CivitaiModels(APIInformation):
                 item = self.jsonData['items'][self.modelIndex]
                 allowCommercialUse = set(
                     item["allowCommercialUse"]
-                    .replace("{", "")
-                    .replace("}", "")
-                    .split(",")
+                    # .replace("{", "")
+                    # .replace("}", "")
+                    # .split(",")
                 )
                 allowNoCredit = item['allowNoCredit']
                 allowDerivatives = item['allowDerivatives']
