@@ -1007,7 +1007,7 @@ class Components():
                 )
 
             def checkEarlyAccess(grTxtEarlyAccess):
-                return gr.Textbox.update(value="" if grTxtEarlyAccess == "" else "Early Access")
+                #return gr.Textbox.update(value="" if grTxtEarlyAccess == "" else "Early Access")
                 msg = ""
                 if grTxtEarlyAccess != "":
                     dtPub = self.Civitai.getPublishedDatetime()

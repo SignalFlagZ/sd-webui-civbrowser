@@ -58,6 +58,7 @@ An extension to help download models from CivitAi without leaving WebUI
 
 - Handle change in allowCommercialUse data type in API response (now a list).
 - Update model permission display to match Civitai.
+- Fix Early Access model recognition and add remaining time display.
 
 ### v2.16
 
