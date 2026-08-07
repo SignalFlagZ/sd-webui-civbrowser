@@ -98,11 +98,11 @@ def type_path(type: str) -> Path:
         default = cmd_opts.lora_dir  # "models/Lora"
         folder = os.path.relpath(default, base)
     elif type == "LoCon":
-        #if "lyco_dir" in cmd_opts:
+        # if "lyco_dir" in cmd_opts:
         #    default = f"{cmd_opts.lyco_dir}"
-        #elif "lyco_dir_backcompat" in cmd_opts:  # A1111 V1.5.1
+        # elif "lyco_dir_backcompat" in cmd_opts:  # A1111 V1.5.1
         #    default = f"{cmd_opts.lyco_dir_backcompat}"
-        #else:
+        # else:
         default = os.path.join(models_path, "Lora/_LyCORIS")
         folder = os.path.relpath(default, base)
     elif type == "DoRA":
@@ -116,20 +116,8 @@ def type_path(type: str) -> Path:
         folder = os.path.relpath(default, base)
     elif type == "Controlnet":
         folder = "ControlNet"
-    elif type == "Poses":
-        folder = "OtherModels/Poses"
-    elif type == "Upscaler":
-        folder = "OtherModels/Upscaler"
-    elif type == "MotionModule":
-        folder = "OtherModels/MotionModule"
-    elif type == "Wildcards":
-        folder = "OtherModels/Wildcards"
-    elif type == "Workflows":
-        folder = "OtherModels/Workflows"
-    elif type == "Detection":
-        folder = "OtherModels/Detection"
-    elif type == "Other":
-        folder = "OtherModels/Other"
+    else:
+        folder = f"OtherModels/{type}"
 
     optFolder = folderSetting.get(type, "")
     if optFolder == "":
