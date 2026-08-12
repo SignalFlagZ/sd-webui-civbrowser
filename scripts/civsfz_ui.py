@@ -93,25 +93,32 @@ class Components():
             #    )
             with gr.Row():
                 grChkbxgrpSearch = gr.CheckboxGroup(
-                    scale=3,
-                    label="Search (Keyword:Spaces as OR-search, double‑quotes as a phrase)",
+                    scale=4,
+                    label="Search",
                     choices=self.Civitai.getSearchTypes(),
                     value=self.searchtype,
                     interactive=True,
                     elem_id=f"civsfz_search_type{self.id}",
                     tooltip="Keyword, username and tag can be searched simultaneously",
                 )
+                grchkbxEA = gr.Checkbox(
+                    scale=1,
+                    label="Early Access",
+                    value=False,
+                    elem_id=f"civsfz_search_ea{self.id}",
+                    tooltip="Search for Early Access models",
+                )
                 grchkbxfav = gr.Checkbox(
                     scale=1,
-                    label="Liked on Civitai",
+                    label="Favorites",
                     value=False,
                     elem_id=f"civsfz_search_liked{self.id}",
-                    tooltip="Search for models liked on civitai",
+                    tooltip="Search for favorites models",
                 )
             with gr.Row():
                 grDrpdwnKeyword = gr.Dropdown(
                     scale=0,
-                    label="Keyword",
+                    label="Keyword (Spaces as OR-search, double‑quotes as a phrase)",
                     choices=HistoryKwd.getAsChoices("Keyword"),
                     type="value",
                     visible=False,
@@ -696,6 +703,7 @@ class Components():
                 grDrpdwnTag,
                 grDrpdwnID,
                 grchkbxfav,
+                grchkbxEA,
             ):
                 if grDrpdwnID is not None: grDrpdwnID = str.strip(grDrpdwnID) # Remove spaces
                 response = None
@@ -713,6 +721,7 @@ class Components():
                     grDrpdwnTag,
                     grDrpdwnID,
                     grchkbxfav,
+                    grchkbxEA,
                 )
                 # print_lc(f"{query=}")
                 if query == "":
@@ -851,6 +860,7 @@ class Components():
                     grDrpdwnTag,
                     grDrpdwnID,
                     grchkbxfav,
+                    grchkbxEA,
                 ],
                 outputs=[
                     grHtmlModelName,
@@ -1007,7 +1017,7 @@ class Components():
                 )
 
             def checkEarlyAccess(grTxtEarlyAccess):
-                #return gr.Textbox.update(value="" if grTxtEarlyAccess == "" else "Early Access")
+                # return gr.Textbox.update(value="" if grTxtEarlyAccess == "" else "Early Access")
                 msg = ""
                 if grTxtEarlyAccess != "":
                     dtPub = self.Civitai.getPublishedDatetime()

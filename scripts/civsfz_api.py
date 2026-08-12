@@ -919,7 +919,7 @@ class CivitaiModels(APIInformation):
     def getSelectedVersionEarlyAccessDeadline(self):
         if 'earlyAccessDeadline' in self.jsonData['items'][self.modelIndex]['modelVersions'][self.versionIndex]:
             return self.jsonData['items'][self.modelIndex]['modelVersions'][self.versionIndex]['earlyAccessDeadline']
-        #if self.jsonData['items'][self.modelIndex]['modelVersions'][self.versionIndex]['availability'] == "EarlyAccess":
+        # if self.jsonData['items'][self.modelIndex]['modelVersions'][self.versionIndex]['availability'] == "EarlyAccess":
         #    return "EA"
         else:
             return ""
@@ -1577,7 +1577,8 @@ class CivitaiModels(APIInformation):
             grDrpdwnUserName="",
             grDrpdwnTag="",
             grDrpdwnID="",
-            grchkbxfav=""
+            grchkbxfav=False,
+            grchkbxEA=False,
         ):
         if grDrpdwnID is not None:
             grDrpdwnID = str.strip(grDrpdwnID)
@@ -1614,6 +1615,8 @@ class CivitaiModels(APIInformation):
                 query |= {'baseModels': base_models }
             if grchkbxfav:
                 query |= {"favorites": grchkbxfav}
+            if grchkbxEA:
+                query |= {"earlyAccess": grchkbxEA}
         return query
 
     def updateQuery(self, url:str , addQuery:dict) -> str:
