@@ -1,11 +1,10 @@
 __pycache__/
 .vscode/
-test.py
+develop/
+flagged/
 search_history.json
 api_cache.sqlite
 conditions_history.json
 keyword_history.json
-standalone.py
 favoriteUsers.txt
 bannedUsers.txt
-get_List.py
