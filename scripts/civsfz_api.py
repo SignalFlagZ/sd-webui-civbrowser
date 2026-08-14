@@ -817,7 +817,10 @@ class CivitaiModels(APIInformation):
     def getModelVersionsList(self) -> list:
         '''Return modelVersions list. Select item before.'''
         self.getModelVersionsInfo()
-        return [(item["name"], i) for i, item in enumerate(self.versionsInfo)]
+        return [
+            (item["name"] + "⚡️" if item["earlyAccess"] else item["name"], i)
+            for i, item in enumerate(self.versionsInfo)
+        ]
         # versionNames = []
         # if self.modelIndex is None:
         #     print_ly('Select item first.')
@@ -843,6 +846,7 @@ class CivitaiModels(APIInformation):
                 {
                     "name": l1["name"],
                     "base_model": l1["baseModel"],
+                    "earlyAccess": "earlyAccessDeadline" in l1,
                     "have": l2,
                 }
                 for l1,l2 in zip(item["modelVersions"], hasVersions)

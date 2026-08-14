@@ -4,7 +4,7 @@
 	--civsfz-shadow-color-alreadyhave: hsl(180, 80%, 50%, 0.8);
 	--civsfz-shadow-color-alreadyhad: hsl(180, 60%, 30%, 0.8);
 	--civsfz-background-color-figcaption: hsl(225, 15%, 30% , 0.8);
-	--civsfz-background-color-early-access-in: hsl(225, 80%, 40%, 0.8);
+	--civsfz-background-color-early-access-in: hsl(240, 100%, 25%);
 	--civsfz-hover-scale: 1.5;
 	--civsfz-card-width: 8;
 	--civsfz-card-height: 12;
@@ -166,6 +166,8 @@
 	right: 0em;
 	word-break: break-word;
 	font-size: smaller;
+	color: transparent;
+	text-shadow: 0 0 0 #ffeb3b;
 	background-color: var(--civsfz-background-color-early-access-in);
 }
 .civsfz-modelcard:hover .civsfz-early-access-in {

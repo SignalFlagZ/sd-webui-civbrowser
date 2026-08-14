@@ -23,13 +23,13 @@
 			{{ card['name'] }}
 			<span class="civsfz-tooltiptext">{{ card['creator'] }}</span>
 		</figcaption>
+		{%- if card['ea'] == 'in' %}
+		<div class="civsfz-early-access-in">⚡️</div>
+		{%- elif card['ea'] == 'out' %}
+		<div class="civsfz-early-access-out">⚡️</div>
+		{%- endif %}
 		<div class="civsfz-modeltype">{{ card['type'] }}</div>
 		<div class="civsfz-basemodel" style="background-color:{{ dictBasemodelColor[card['baseModel']]|trim }}C0;">{{ card['baseModel'] }}</div>
-		{%- if card['ea'] == 'in' %}
-			<div class="civsfz-early-access-in">EA</div>
-		{%- elif card['ea'] == 'out' %}
-			<div class="civsfz-early-access-out">EA</div>	
-		{%- endif %}
 		{%- if card['favorite'] %}
 			<div class="civsfz-creator-flag">⭐️</div>
 		{%- endif %}
