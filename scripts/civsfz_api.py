@@ -1507,9 +1507,10 @@ class CivitaiModels(APIInformation):
             if self.matchLevel(pic['nsfwLevel'], nsfwLevel):
                 nsfw = pic['nsfwLevel'] > 1 and not self.showNsfw
                 infotext = ""
+                metaHtml = ""
                 if 'meta' in pic:
                     infotext = self.meta2infotext(pic['meta']) if pic['meta'] is not None else ""
-                metaHtml = self.meta2html(pic['meta']) if pic['meta'] is not None else ""
+                    metaHtml = self.meta2html(pic['meta']) if pic['meta'] is not None else ""
                 template = environment.get_template("sampleImage.jinja")
                 samples += template.render(
                     pic=pic,
