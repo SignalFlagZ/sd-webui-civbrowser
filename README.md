@@ -60,7 +60,8 @@ An extension to help download models from CivitAi without leaving WebUI
 - Update model permission display to match Civitai.
 - Fix Early Access model recognition and add remaining time display.
 - Added search options for Early Access models.
-- Make Early Access version more prominent
+- Make Early Access version more prominent.
+- Add a jump button for txt2img to the anchor navigation.
 
 ### v2.16
 

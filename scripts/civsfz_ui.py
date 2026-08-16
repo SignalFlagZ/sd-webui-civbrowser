@@ -1323,6 +1323,10 @@ class Components():
 
     def compAnchorNav(self):
         value = (
+            f"<div onclick='document.querySelector(\"#Download-Status-button\").click();document.querySelector(\"#tab_txt2img-button\").click();'>"
+            "<span style='font-size:200%;cursor: pointer;pointer-events: auto;position: relative;'>🖼️</span>"
+            "<span style='font-size:200%;cursor: pointer;pointer-events: auto;position: absolute;top: -9px;right: 0px;color: aquamarine;text-shadow:3px 3px black;'>𝑻</span>"
+            "</div>"
             f"<div onclick='civsfz_scroll_to(\"#civsfz_tab-element\",0);'>"
             # "<span style='font-size:200%;color:transparent;text-shadow:0 0 0 orange;cursor: pointer;pointer-events: auto;'>🔝</span>"
             "<span style='font-size:200%;cursor: pointer;pointer-events: auto;'>🔍️</span>"
@@ -1380,7 +1384,7 @@ def on_ui_tabs():
             with gr.Tab(
                 label="Download Status",
                 id=f"Download Status",
-                elem_id=f"Download Status",
+                elem_id=f"Download-Status",
                 elem_classes="civsfz-tab-item",
             ):
                 with gr.Column():

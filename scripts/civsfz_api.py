@@ -1496,7 +1496,7 @@ class CivitaiModels(APIInformation):
         tmpList:list = []
         for key, value in infotextDict.items():
             if not key in ('Prompt','Negative prompt'):
-                tmpList.append("{}:{}".format(key,value))
+                tmpList.append(r"{}:{}".format(key,value))
         infotext += ",".join(tmpList)
         return infotext
 

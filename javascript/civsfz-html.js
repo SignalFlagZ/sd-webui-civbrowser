@@ -123,10 +123,17 @@ function civsfz_trigger_key_down(element, key) {
 
 function civsfz_send2txt2img(text, send = true) {
 	//console.log(text)
-	text = decodeURI(text);
+	try {
+		text = decodeURI(text);
+	} catch (e) {
+		//
+	}
 	if (send) {
 		let response = confirm("Send to txt2img?");
 		if (response) {
+			// for keep scroll position
+			document.querySelector('#Download-Status-button').click();
+
 			let prompt = gradioApp().querySelector('#txt2img_prompt textarea');
 			let paste = gradioApp().querySelector('#paste');
 			if (paste == null) {
