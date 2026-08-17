@@ -69,7 +69,7 @@ function civbrowser_start_it_up() {
 			const id = tab.getAttribute("id");
 			if (tab.checkVisibility()) {
 				// Visible
-				console.log(id + ":" + window.scrollY);
+				// console.log(id + ":" + window.scrollY);
 				sessionStorage.setItem(id, window.scrollY);
 			}
 		})
