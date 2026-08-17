@@ -1323,7 +1323,7 @@ class Components():
 
     def compAnchorNav(self):
         value = (
-            f"<div onclick='document.querySelector(\"#Download-Status-button\").click();document.querySelector(\"#tab_txt2img-button\").click();'>"
+            f"<div onclick='civsfz_click_and_scroll(\"#tab_txt2img-button\");'>"
             "<span style='font-size:200%;cursor: pointer;pointer-events: auto;position: relative;'>🖼️</span>"
             "<span style='font-size:200%;cursor: pointer;pointer-events: auto;position: absolute;top: -9px;right: 0px;color: aquamarine;text-shadow:3px 3px black;'>𝑻</span>"
             "</div>"

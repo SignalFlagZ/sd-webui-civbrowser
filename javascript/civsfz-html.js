@@ -7,13 +7,14 @@ function civbrowser_start_it_up() {
 	elem.classList.add("civsfz-sticky-element");
 	elem.classList.add("civsfz-tabbar");
 
-	// Init scroll positions
+	// Observe scroll positions
 	const tabs = gradioApp().querySelectorAll('.civsfz-tab-item');
 	tabs.forEach((tab) => {
 		const id = tab.getAttribute("id");
 		sessionStorage.setItem(id, 0); // init
 		// Observe whether the tab is displayed.
-		const observer = new MutationObserver((mutationsList) => {
+
+		const observer_tab = new MutationObserver((mutationsList) => {
 			for (const mutation of mutationsList) {
 				if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
 					// style changed
@@ -23,17 +24,42 @@ function civbrowser_start_it_up() {
 						// Visible  display: block
 						// restore scroll position
 						const lastScrollTop = sessionStorage.getItem(id);
-						if (lastScrollTop) {
-							//console.log("set:" + id + " to " + lastScrollTop);
-							window.scroll({ top: lastScrollTop, behavior: 'smooth' });
+						if (lastScrollTop != null) {
+							window.scrollTo({ top: parseInt(lastScrollTop), behavior: 'smooth' });
 						}
 					}
 				}
 			}
 		});
 		// Start of observation
-		observer.observe(tab, { attributes: true }); 
+		observer_tab.observe(tab, { attributes: true }); 
 	});
+
+	// Observe civbrowser tab
+	const civtab = gradioApp().querySelector('#tab_civsfz_interface');
+	const observer_civtab = new MutationObserver((mutationsList) => {
+
+		for (const mutation of mutationsList) {
+			if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+				// style changed
+				if (window.getComputedStyle(civtab).display === 'none') {
+					// Hidden
+				} else {
+					tabs.forEach((tab) => {
+						if (window.getComputedStyle(tab).display === 'block') {
+							const id = tab.getAttribute("id");
+							const lastScrollTop = sessionStorage.getItem(id);
+							if (lastScrollTop != null) {
+								window.scrollTo({ top: parseInt(lastScrollTop), behavior: 'smooth' });
+							}
+						}
+					})
+				}
+			}
+		}
+	});
+	// Start of observation
+	observer_civtab.observe(civtab, { attributes: true }); 
 
 	// Add scrollend event 
 	// save scroll position
@@ -43,12 +69,23 @@ function civbrowser_start_it_up() {
 			const id = tab.getAttribute("id");
 			if (tab.checkVisibility()) {
 				// Visible
-				//console.log(id + ":" + window.scrollY);
+				console.log(id + ":" + window.scrollY);
 				sessionStorage.setItem(id, window.scrollY);
 			}
 		})
 	};
 	window.addEventListener("scrollend", handle_scroll);
+}
+
+// click & scroll
+function civsfz_click_and_scroll(selector, scrollSelector = "#tabs") {
+	const elem = gradioApp().querySelector(selector);
+	if (elem) {
+		elem.click();
+	}
+	setTimeout(() => {
+		civsfz_scroll_to(scrollSelector);
+	}, 200);
 }
 
 function civsfz_select_model(model_name) {
@@ -131,18 +168,15 @@ function civsfz_send2txt2img(text, send = true) {
 	if (send) {
 		let response = confirm("Send to txt2img?");
 		if (response) {
-			// for keep scroll position
-			document.querySelector('#Download-Status-button').click();
-
 			let prompt = gradioApp().querySelector('#txt2img_prompt textarea');
-			let paste = gradioApp().querySelector('#paste');
-			if (paste == null) {
+			let paste = '#paste';
+			if (gradioApp().querySelector(paste) == null) {
 				//SD.Next
-				paste = gradioApp().querySelector('#txt2img_paste');
+				paste = '#txt2img_paste';
 			}
 			prompt.value = text;
 			civsfz_trigger_event(prompt, 'input');
-			civsfz_trigger_event(paste, 'click');
+			civsfz_click_and_scroll(paste);
 			//trigger_key_down(prompt, 'Escape');
 		}
 	} else {
