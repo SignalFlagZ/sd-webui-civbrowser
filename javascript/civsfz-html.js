@@ -32,7 +32,7 @@ function civbrowser_start_it_up() {
 			}
 		});
 		// Start of observation
-		observer_tab.observe(tab, { attributes: true }); 
+		observer_tab.observe(tab, { attributes: true, attributeFilter: ['style'] }); 
 	});
 
 	// Observe civbrowser tab
@@ -59,17 +59,17 @@ function civbrowser_start_it_up() {
 		}
 	});
 	// Start of observation
-	observer_civtab.observe(civtab, { attributes: true }); 
+	observer_civtab.observe(civtab, { attributes: true, attributeFilter: ['style'] }); 
 
 	// Add scrollend event 
 	// save scroll position
 	const handle_scroll = (evt) => {
 		const tabs = evt.srcElement.querySelectorAll('.civsfz-tab-item');
 		tabs.forEach((tab) => {
-			const id = tab.getAttribute("id");
 			if (tab.checkVisibility()) {
 				// Visible
 				// console.log(id + ":" + window.scrollY);
+				const id = tab.getAttribute("id");
 				sessionStorage.setItem(id, window.scrollY);
 			}
 		})
