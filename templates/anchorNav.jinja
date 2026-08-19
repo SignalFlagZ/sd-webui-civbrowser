@@ -1,0 +1,25 @@
+{%- set Style1 = 'font-size:200%;cursor: pointer;pointer-events: auto;' %}
+<div onclick='civsfz_click_and_scroll("#tab_txt2img-button");'>
+	<span style='{{ Style1 }}position: relative;'>🖼️</span>
+	<span
+		style='{{ Style1 }}position: absolute;top: -9px;right: 0px;color: aquamarine;text-shadow:3px 3px black;'>𝑻</span>
+</div>
+<div onclick='civsfz_scroll_to("#civsfz_tab-element",0);'>
+	<span style='{{ Style1 }}'>🔍️</span>
+</div>
+<div onclick='civsfz_scroll_to("#civsfz_model-navigation{{ id }}");'>
+	<span style='{{ Style1 }}'>📚</span>
+</div>
+<div onclick='civsfz_scroll_to("#civsfz_model-data{{id}}");'>
+	<span style='{{ Style1 }}'>📥</span>
+</div>
+<div onclick='civsfz_scroll_to("#civsfz-model-description{{id}}",-100);'>
+	<span style='{{ Style1 }}'>🧾</span>
+</div>
+<div onclick='civsfz_scroll_to("#civsfz-sample-images{{id}}",-100);'>
+	<span style='{{ Style1 }}'>🏞️</span>
+</div>
+<div style='transform:rotate(-90deg);' onclick='civsfz_scroll_to("#civsfz-version",-100);'>
+	<span
+		style='{{ Style1 }}color:transparent;text-shadow:0 0 0 orange;'>🔚</span>
+</div>

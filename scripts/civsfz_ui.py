@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 from modules import script_callbacks, ui_components
 from colorama import Fore, Back, Style
 from scripts.civsfz_shared import VERSION, GR_V440, cmd_opts, opts, read_timeout, HTML2txt
-from scripts.civsfz_api import CivitaiModels
+from scripts.civsfz_api import CivitaiModels, environment
 from scripts.civsfz_filemanage import (
     open_folder,
     HistoryS,
@@ -1322,34 +1322,13 @@ class Components():
         return self.components
 
     def compAnchorNav(self):
-        value = (
-            f"<div onclick='civsfz_click_and_scroll(\"#tab_txt2img-button\");'>"
-            "<span style='font-size:200%;cursor: pointer;pointer-events: auto;position: relative;'>🖼️</span>"
-            "<span style='font-size:200%;cursor: pointer;pointer-events: auto;position: absolute;top: -9px;right: 0px;color: aquamarine;text-shadow:3px 3px black;'>𝑻</span>"
-            "</div>"
-            f"<div onclick='civsfz_scroll_to(\"#civsfz_tab-element\",0);'>"
-            # "<span style='font-size:200%;color:transparent;text-shadow:0 0 0 orange;cursor: pointer;pointer-events: auto;'>🔝</span>"
-            "<span style='font-size:200%;cursor: pointer;pointer-events: auto;'>🔍️</span>"
-            "</div>"
-            f"<div onclick='civsfz_scroll_to(\"#civsfz_model-navigation{self.id}\");'>"
-            "<span style='font-size:200%;cursor: pointer;pointer-events: auto;'>📚</span>"
-            "</div>"
-            f"<div onclick='civsfz_scroll_to(\"#civsfz_model-data{self.id}\");'>"
-            "<span style='font-size:200%;cursor: pointer;pointer-events: auto;'>📥</span>"
-            "</div>"
-            f"<div onclick='civsfz_scroll_to(\"#civsfz-model-description{self.id}\",-100);'>"
-            "<span style='font-size:200%;cursor: pointer;pointer-events: auto;'>🧾</span>"
-            "</div>"
-            f"<div onclick='civsfz_scroll_to(\"#civsfz-sample-images{self.id}\",-100);'>"
-            "<span style='font-size:200%;cursor: pointer;pointer-events: auto;'>🏞️</span>"
-            "</div>"
-            f"<div style='transform:rotate(-90deg);' onclick='civsfz_scroll_to(\"#civsfz-version\",-100);'>"
-            "<span style='font-size:200%;color:transparent;text-shadow:0 0 0 orange;cursor: pointer;pointer-events: auto;'>🔚</span>"
-            "</div>"
+        template = environment.get_template("anchorNav.jinja")
+        html = template.render(
+            id = self.id,
         )
         grHtmlAnchorNav = gr.HTML(
             elem_classes="civsfz-anchor-nav",
-            value=value,
+            value=html,
         )
         return grHtmlAnchorNav
 
