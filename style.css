@@ -221,6 +221,7 @@
 	text-align: right;
 	position: -webkit-sticky; /* Safari */
 	position:sticky;
+	caret-color: transparent;
 	top: 7em;
 	right: 2em;
 	z-index: 2;
