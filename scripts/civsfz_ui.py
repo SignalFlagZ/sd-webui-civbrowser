@@ -161,7 +161,7 @@ class Components():
                 with gr.Row(elem_id=f"civsfz_apicontrol{self.id}", elem_classes="civsfz-navigation-buttons civsfz-sticky-element"):
                     with gr.Column(scale=3):
                         grBtnGetListAPI = gr.Button(
-                            value="GET cards",
+                            value="GET cards",variant="primary",
                             elem_id=f"civsfz_get_cards{self.id}",
                             tooltip="Get model list and display as model cards",
                         )
@@ -207,7 +207,7 @@ class Components():
                         with gr.Row():
                             # grBtnSaveText = gr.Button(value="Save trained tags",interactive=False, min_width=80)
                             grBtnSaveImages = gr.Button(
-                                value="Save model infos",
+                                value="Save model infos",variant="primary",
                                 elem_id=f"civsfz_save_images{self.id}",
                                 tooltip="Save model information. Model file is not saved.",
                                 interactive=False,
@@ -215,6 +215,7 @@ class Components():
                             )
                             grBtnDownloadModel = gr.Button(
                                 value="Download model",
+                                variant="primary",
                                 elem_id=f"civsfz_downloadbutton{self.id}",
                                 tooltip="Save model file",
                                 interactive=False,
