@@ -1048,6 +1048,11 @@ class CivitaiModels(APIInformation):
                 self.requestError = None
                 version_data = self.requestApi(url)
                 if not self.requestError:
+                    # versionApi doesn't return enough metadata
+                    # Override metainfo key to keep metadata for quantType
+                    for i, fileinfo in enumerate(version_data["files"]):
+                        if "metadata" in version["files"][i]:
+                            fileinfo["metadata"] = version["files"][i]["metadata"]
                     item["modelVersions"][versionIndex] = version | version_data
                     version = item["modelVersions"][versionIndex]
                     # print_lc(f"Fetch image metadata by version ID")
@@ -1248,7 +1253,9 @@ class CivitaiModels(APIInformation):
         # add meta data
         # if self.getSelectedModelType() == "Checkpoint":
         meta = version["files"][fileIndex]["metadata"]
-        if meta.get("fp"):
+        # print_lc(f"{meta=}")
+        # if meta.get("fp"):
+        if True:
             metainfo = "_".join([f for f in meta.values() if isinstance(f, str)])
             pname = Path(filename)
             filename = pname.stem + "_" + metainfo + pname.suffix
