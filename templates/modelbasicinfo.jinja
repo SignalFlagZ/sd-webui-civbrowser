@@ -47,7 +47,7 @@
 		</tr>
 		<tr>
 			<th {{ tdStyle1 }}>Size</th>
-			<td {{ tdStyle1 }}>{{ (modelInfo["modelVersions"][0]["files"][fileIndex]["sizeKB"] * 1024) |filesizeformat|e }}</td>
+			<td {{ tdStyle1 }}>{{ (modelInfo["modelVersions"][0]["files"][fileIndex]["sizeKB"] * 1024) |filesizeformat(binary=True)|e }}</td>
 		</tr>
 		{# <tr>
 			<th {{ tdStyle1 }}>Hash</th>

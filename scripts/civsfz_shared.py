@@ -109,6 +109,24 @@ def get_proxies() -> tuple[dict, HTTPProxyAuth]:
 def read_timeout():
     return 15, getattr(opts, "civsfz_request_timeout", 30)
 
+
+def format_bytes(size_bytes):
+    if not isinstance(size_bytes, (float, int)):
+        return ""
+    if size_bytes < 0:
+        return ""
+    units = ["B", "KB", "MB", "GB", "TB"]
+    unit_index = 0
+    power = 2**10
+    size = float(size_bytes)
+
+    while size >= power and unit_index < len(units) - 1:
+        size /= power
+        unit_index += 1
+
+    return f"{size:.1f} {units[unit_index]}"
+
+
 class HTML2txt(HTMLParser):
     text = ""
     prevEndTag = ""
