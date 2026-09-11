@@ -1132,8 +1132,8 @@ class CivitaiModels(APIInformation):
                     " | ".join(
                         [f["name"]]
                         + [md for md in f["metadata"].values() if isinstance(md, str)]
+                        + [format_bytes(f["sizeKB"] * 1024)]
                         + [str(version["id"]), str(i)]
-                        + [format_bytes(f["sizeKB"]*1024)]
                     )
                 )
         return choices, choices[primary], primary
