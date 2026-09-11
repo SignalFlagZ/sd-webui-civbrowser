@@ -1326,6 +1326,7 @@ class Components():
         template = environment.get_template("anchorNav.jinja")
         html = template.render(
             id = self.id,
+            gr_v440 = GR_V440,
         )
         grHtmlAnchorNav = gr.HTML(
             elem_classes="civsfz-anchor-nav",
