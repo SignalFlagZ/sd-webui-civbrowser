@@ -230,6 +230,9 @@ class APIInformation():
             "Flux.2 Klein 4B",
             "Flux.2 Klein 4B-base",
             "Flux.3",
+            "Flux.3 Klein",
+            "Flux.3 Klein-base",
+            "MOSS Image",
             "Flux 3 Video",
             "Grok",
             "HappyHorse",
@@ -242,6 +245,7 @@ class APIInformation():
             "Illustrious",
             "Kolors",
             "Krea 2",
+            "Krea 2 Turbo",
             "LTXV",
             "LTXV2",
             "LTXV 2.3",
@@ -310,6 +314,9 @@ class APIInformation():
             "Flux.2 Klein 4B",
             "Flux.2 Klein 4B-base",
             "Flux.3",
+            "Flux.3 Klein",
+            "Flux.3 Klein-base",
+            "MOSS Image",
             "Flux 3 Video",
             "Grok",
             "HappyHorse",
@@ -324,6 +331,8 @@ class APIInformation():
             "Imagen4",
             "Kolors",
             "Krea 2",
+            "Krea 2 Turbo",
+            "Krea 3",
             "LTXV",
             "LTXV2",
             "LTXV 2.3",
@@ -410,7 +419,7 @@ class APIInformation():
         ],
         "BaseModelType": ["Standard", "Inpainting", "Refiner", "Pix2Pix"],
     }
-    
+
     def __init__(self) -> None:
         if APIInformation.typeOptions is None:
             self.getOptions()
@@ -586,6 +595,7 @@ class APIInformation():
             "Newest",
             "Oldest",
             "Recently Added",
+            "Hot",
         ]
         try:
             # APIInformation.sortOptions = data['error']['issues'][0]['options']
