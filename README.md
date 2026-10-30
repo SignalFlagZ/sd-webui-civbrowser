@@ -2,6 +2,11 @@
 
 An extension to help download models from CivitAi without leaving WebUI
 
+## eMudhra Security Incident Response
+This extension connects to the internet using the **requests** library, which relies on **certifi**. Please update to a Python version that addresses the eMudhra issue before use.
+
+Further Reading: [Python Insider Blog](https://blog.python.org/2026/10/python-3152-31410-31318-31216-31118/)
+
 ## Modifications
 
 <https://github.com/SignalFlagZ/sd-civitai-browser/assets/23202768/56f34586-94ea-40a9-b826-30ff20bf7bb3>
